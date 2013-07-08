@@ -12,6 +12,7 @@
     <meta name="msapplication-TileImage" content="/npmap/windows-8-tile.png">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
     <link href="libs/bootstrap/css/bootstrap.css" rel="stylesheet" media="screen">
+    <link href="libs/bootstrap-editable/css/bootstrap-editable.css" rel="stylesheet" media="screen">
     <link href="css/base.css" rel="stylesheet" media="screen">
     <link rel="alternate" type="application/atom+xml" href="/npmap/blog/atom.xml" title="NPMap blog posts">
     <link rel="shortcut icon" href="/npmap/favicon.ico">
@@ -32,10 +33,10 @@
       </ol>
       <div id="metadata">
         <span>
-          <h1 id="metadata-title">Untitled Map</h1>
-          <p id="metadata-description">Add a description to help others find your map.</p>
+          <h1 class="title"><a href="#" id="map-title" data-placement="right" data-title="Enter a title for the map" data-type="text">Untitled Map</a></h1>
+          <p class="description"><a href="#" id="map-description" data-placement="right" data-title="Enter a description of the map" data-type="textarea">Add a description to help others find your map.</a></p>
         </span>
-        <button class="preview">Preview Map</button>
+        <button class="secondary">Preview Map</button>
       </div>
     </header>
     <section>
@@ -46,7 +47,7 @@
         </div>
         <div class="content">
           <div>
-            <p style="color: #464646;font-size: 13px;margin-top: 0;">Add one or more layers to add context to the map.</p>
+            <p style="color: #464646;font-size: 13px;margin-top: 0;">Add one or more layers to the map.</p>
             <button class="action" data-toggle="modal" data-target="#modal-addDataLayer">&#9656;<span style="margin-left:15px;">Add Data Layer</span></button>
           </div>
           <ul id="layers">
@@ -149,7 +150,7 @@
       </div>
       <div class="modal-footer">
         <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
-        <button class="btn btn-primary" onclick="NPMap.builder.addLayer();return false;">Add Layer</button>
+        <button class="primary" onclick="NPMap.builder.addLayer();return false;">Add Layer</button>
       </div>
     </div>
     <!-- End Bootstrap components -->
@@ -157,12 +158,20 @@
   <script src="libs/json2.min.js"></script>
   <script src="http://code.jquery.com/jquery.js"></script>
   <script src="libs/bootstrap/js/bootstrap.min.js"></script>
+  <script src="libs/bootstrap-editable/js/bootstrap-editable.min.js"></script>
   <script>
     var NPMap = {};
 
     NPMap.builder = (function() {
-      $('#modal-addDataLayer').on('shown', function() {
-        $('#layerName').focus();
+      $(document).ready(function() {
+        $('#map-description').editable();
+        $('#map-title').editable();
+        $('#modal-addDataLayer').on('hidden', function() {
+          // TODO: Clear all invalid fields.
+        });
+        $('#modal-addDataLayer').on('shown', function() {
+          $('#layerName').focus();
+        });
       });
 
       return {
