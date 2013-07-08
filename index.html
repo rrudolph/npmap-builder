@@ -74,10 +74,10 @@
     <div id="modal-addDataLayer" class="modal hide">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-        <h3>Add Data Layer&nbsp;<img src="img/help.png" style="cursor: pointer;"></h3>
+        <h3>Add Data Layer&nbsp;<img src="img/help.png" style="cursor: pointer;" rel="tooltip" title="You can add ArcGIS Server, CartoDB, GeoJSON, KML, and MapBox Hosting layers by URL. Support for shapefile and GPX uploads is coming soon." data-placement="bottom"></h3>
       </div>
       <div class="modal-body" style="padding:0;">
-        <p style="margin-bottom:0;padding:15px;">You can start by adding a URL or uploading a file. Click on the help icon to see all of the supported data types.</p>
+        <p style="margin-bottom:0;padding:15px;">You can start by adding a URL or uploading a file. Hover over the help icon to see a list of the supported data types.</p>
         <ul class="nav nav-tabs" style="margin-bottom:0;padding-bottom:0;padding-left:15px;">
           <li class="active" style="text-align:center;width:80px;"><a href="#url" data-toggle="tab">URL</a></li>
           <li style="text-align:center;width:80px;"><a href="#upload" data-toggle="tab">Upload</a></li>
@@ -172,6 +172,7 @@
         $('#modal-addDataLayer').on('shown', function() {
           $('#layerName').focus();
         });
+        $('[rel=tooltip]').tooltip();
       });
 
       return {
