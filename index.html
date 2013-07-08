@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Builder | NPMap</title>
+    <meta name="apple-mobile-web-app-title" content="NPMap Builder">
+    <meta name="application-name" content="NPMap Builder">
+    <meta name="author" content="The NPMap Team">
+    <meta name="description" content="The NPMap builder makes it easy to build and deploy beautiful maps for the web.">
+    <meta name="keywords" content="National Park Service, map, digital, web, mobile, NPMap, national park">
+    <meta name="msapplication-TileColor" content="#222222">
+    <meta name="msapplication-TileImage" content="/npmap/windows-8-tile.png">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+    <link href="libs/bootstrap/css/bootstrap.css" rel="stylesheet" media="screen">
+    <link href="css/base.css" rel="stylesheet" media="screen">
+    <link rel="alternate" type="application/atom+xml" href="/npmap/blog/atom.xml" title="NPMap blog posts">
+    <link rel="shortcut icon" href="/npmap/favicon.ico">
+    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/npmap/apple-touch-icon-144x144-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="/npmap/apple-touch-icon-114x114-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="/npmap/apple-touch-icon-72x72-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" href="/npmap/apple-touch-icon-57x57-precomposed.png">
+  </head>
+  <body>
+    <header>
+      <span id="logo">
+        <img src="img/builder-logo.png">
+      </span>
+      <ol id="steps">
+        <li class="active">Add & Customize Data</li>
+        <li style="margin-left:30px;">Additional Tools & Settings</li>
+        <li style="margin-left:30px;">Export Embed Code</li>
+      </ol>
+      <div id="metadata">
+        <span>
+          <h1 id="metadata-title">Untitled Map</h1>
+          <p id="metadata-description">Add a description to help others find your map.</p>
+        </span>
+        <button class="preview">Preview Map</button>
+      </div>
+    </header>
+    <section>
+      <div id="customize">
+        <div class="header">
+          <img src="img/step-1.jpg" style="float:left;">
+          <span style="padding-left:5px;">Add & Customize Data</span>
+        </div>
+        <div class="content">
+          <div>
+            <p style="color: #464646;font-size: 13px;margin-top: 0;">Add one or more layers to add context to the map.</p>
+            <button class="action" data-toggle="modal" data-target="#modal-addDataLayer">&#9656;<span style="margin-left:15px;">Add Data Layer</span></button>
+          </div>
+          <ul id="layers">
+          </ul>
+        </div>
+        <div class="footer">
+          <button class="primary" style="margin-top: 28px;">Next: <span style="font-weight: normal;"> Additional Tools</span></button>
+        </div>
+      </div>
+      <div id="map">
+        <iframe></iframe>
+      </div>
+    </section>
+    <footer>
+      <ul>
+        <li class="home-link"><a href="http://www.nps.gov">Home</a></li>
+        <li><a href="http://www.nps.gov/faqs.htm">Frequently Asked Questions</a></li>
+        <li><a href="http://www.nps.gov/aboutus/website-policies.htm">Website Policies</a></li>
+        <li><a href="http://www.nps.gov/contacts.htm">Contact Us</a></li>
+      </ul>
+      <span class="tag-line ir">Experience Your America</span>
+    </footer>
+    <!-- Start Bootstrap components -->
+    <div id="modal-addDataLayer" class="modal hide">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h3>Add Data Layer&nbsp;<img src="img/help.png" style="cursor: pointer;"></h3>
+      </div>
+      <div class="modal-body" style="padding:0;">
+        <p style="margin-bottom:0;padding:15px;">You can start by adding a URL or uploading a file. Click on the help icon to see all of the supported data types.</p>
+        <ul class="nav nav-tabs" style="margin-bottom:0;padding-bottom:0;padding-left:15px;">
+          <li class="active" style="text-align:center;width:80px;"><a href="#url" data-toggle="tab">URL</a></li>
+          <li style="text-align:center;width:80px;"><a href="#upload" data-toggle="tab">Upload</a></li>
+        </ul>
+        <div class="tab-content" style="padding:15px;">
+          <div id="url" class="tab-pane active">
+            <form>
+              <div class="control-group">
+                <label class="control-label" for="layerName">Name:</label>
+                <div class="controls">
+                  <input id="layerName" type="text" style="width: 90%;"></input>
+                </div>
+              </div>
+              <div class="control-group">
+                <label class="control-label" for="layerType">Type:</label>
+                <div class="controls">
+                  <select name="layerType" onchange="NPMap.builder._handlers._layerTypeOnChange(this.value);return false;">
+                    <option value="ArcGisServerRest">ArcGIS Server</option>
+                    <option value="CartoDb">CartoDB</option>
+                    <option value="Kml">KML</option>
+                    <option value="GeoJson">GeoJSON</option>
+                    <option value="TileStream">MapBox Hosting</option>
+                  </select>
+                </div>
+              </div>
+              <div id="ArcGisServerRest" style="display: block;">
+                <div class="control-group">
+                  <label class="control-label" for="ArcGisServerRest-url">URL:</label>
+                  <div class="controls">
+                    <input id="ArcGisServerRest-url" type="text" style="width: 90%;"></input>
+                  </div>
+                </div>
+              </div>
+              <div id="CartoDb" style="display: none;">
+                <div class="control-group">
+                  <label class="control-label" for="CartoDb-url">URL:</label>
+                  <div class="controls">
+                    <input id="CartoDb-url" type="text" style="width: 90%;"></input>
+                  </div>
+                </div>
+              </div>
+              <div id="Kml" style="display: none;">
+                <div class="control-group">
+                  <label class="control-label" for="Kml-url">URL:</label>
+                  <div class="controls">
+                    <input id="Kml-url" type="text" style="width: 90%;"></input>
+                  </div>
+                </div>
+              </div>
+              <div id="GeoJson" style="display: none;">
+                <div class="control-group">
+                  <label class="control-label" for="GeoJson-url">URL:</label>
+                  <div class="controls">
+                    <input id="GeoJson-url" type="text" style="width: 90%;"></input>
+                  </div>
+                </div>
+              </div>
+              <div id="TileStream" style="display: none;">
+                <div class="control-group">
+                  <label class="control-label" for="TileStream-url">URL:</label>
+                  <div class="controls">
+                    <input id="TileStream-url" type="text" style="width: 90%;"></input>
+                  </div>
+                </div>
+              </div>
+            </form>
+          </div>
+          <div id="upload" class="tab-pane"></div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+        <button class="btn btn-primary" onclick="NPMap.builder.addLayer();return false;">Add Layer</button>
+      </div>
+    </div>
+    <!-- End Bootstrap components -->
+  </body>
+  <script src="libs/json2.min.js"></script>
+  <script src="http://code.jquery.com/jquery.js"></script>
+  <script src="libs/bootstrap/js/bootstrap.min.js"></script>
+  <script>
+    var NPMap = {};
+
+    NPMap.builder = (function() {
+      $('#modal-addDataLayer').on('shown', function() {
+        $('#layerName').focus();
+      });
+
+      return {
+        _handlers: {
+          /**
+           *
+           */
+          _layerTypeOnChange: function(value) {
+            var divs = $('#url div');
+
+            $.each(divs, function(i, div) {
+              if (div.id === value) {
+                div.style.display = 'block';
+              } else {
+                div.style.display = 'none';
+              }
+            });
+          }
+        },
+        /**
+         *
+         */
+        addLayer: function() {
+          var $layerName = $('#layerName'),
+              config,
+              errors = [],
+              name = $layerName.val();
+
+          if (!name) {
+            errors.push($layerName);
+          }
+
+          if (typeof NPMap.config.layers === 'undefined') {
+            NPMap.config.layers = [];
+          }
+
+          if ($('#ArcGisServerRest').is(':visible')) {
+            var $url = $('#ArcGisServerRest-url'),
+                url = $url.val();
+
+            if (!url) {
+              errors.push($url);
+            }
+
+            config = {
+              "type": "ArcGisServerRest",
+              "url": url
+            };
+          } else if ($('#CartoDb').is(':visible')) {
+
+          } else if ($('#Kml').is(':visible')) {
+
+          } else if ($('#GeoJson').is(':visible')) {
+
+          } else if ($('#TileStream').is(':visible')) {
+
+          }
+
+          if (errors.length) {
+            $.each(errors, function(i, $el) {
+              $el.parent().parent().addClass('error');
+            });
+          } else {
+            var $layers = $('#layers');
+
+            config.name = name;
+            NPMap.config.layers.push(config);
+            this.updateMap();
+            $('#modal-addDataLayer').modal('hide');
+
+            if (!$layers.is(':visible')) {
+              $layers.prev().hide();
+              $('#customize .content').css({
+                padding: 0
+              });
+              $layers.show();
+            }
+
+            $layers.append($('<li><div style="background-color:#EFECE2;font-size:15px;font-weight:bold;padding:45px 0;position:absolute;text-align:center;width:35px;">A</div><div style="left:35px;height:74px;padding:18px 15px;position:absolute;right:0;"><span style="color:#44433A;display:block;font-size:13px;font-weight:bold;">' + name + '</span><span style="bottom:18px;display:block;height:20px;position:absolute;width:201px;"><img src="img/edit-layer.png" style="cursor:pointer;float:left;"><img src="img/delete-layer.png" style="cursor:pointer;float:right;margin-top:3px;"></span></div></li>'));
+          }
+        },
+        /**
+         *
+         */
+        updateMap: function() {
+          $('iframe').attr('src', 'iframe.html?c=' + encodeURIComponent(JSON.stringify(NPMap.config)))
+        }
+      };
+    })();
+    NPMap.config = {
+      "api": "leaflet",
+      "div": "map"
+    };
+
+    NPMap.builder.updateMap();
+  </script>
+</html>
