@@ -59,6 +59,9 @@
           </div>
           <ul id="layers">
           </ul>
+          <button style="background-color:#f5f1e8;border-bottom:solid 1px #b5b39c;border-left:none;border-right:none;border-top:solid 1px #b5b39c;color:#5e7630;font-size:15px;font-weight:bold;margin-left:-18px;padding:15px 10px;text-align:left;width:266px;">
+            + Add another layer
+          </button>
         </div>
         <div class="footer">
           <button class="btn btn-primary" style="margin-top: 28px;"><span style="font-weight:bold;">Next:</span>  Additional Tools</button>
@@ -106,9 +109,15 @@
                 </div>
               </div>
               <div class="control-group">
-                <label class="control-label" for="layerName">Description (optional)</label>
+                <label class="control-label" for="layerDescription">Description (optional)</label>
                 <div class="controls">
                   <textarea id="layerDescription" rows="3" style="resize:vertical;width:90%;"></textarea>
+                </div>
+              </div>
+              <div class="control-group">
+                <label class="control-label" for="layerAttribution">Attribution (optional)</label>
+                <div class="controls">
+                  <input id="layerAttribution" type="text" style="width:90%;"></input>
                 </div>
               </div>
               <div class="control-group">
@@ -123,7 +132,7 @@
                   </select>
                 </div>
               </div>
-              <div id="ArcGisServerRest" style="display: block;">
+              <div id="ArcGisServerRest" style="display:block;">
                 <div class="control-group">
                   <label class="control-label" for="ArcGisServerRest-url">URL (required)</label>
                   <div class="controls">
@@ -137,35 +146,41 @@
                   </div>
                 </div>
               </div>
-              <div id="CartoDb" style="display: none;">
+              <div id="CartoDb" style="display:none;">
                 <div class="control-group">
-                  <label class="control-label" for="CartoDb-url">URL (required)</label>
+                  <label class="control-label" for="CartoDb-user">User Name (required)</label>
                   <div class="controls">
-                    <input id="CartoDb-url" type="text" style="width:90%;" required></input>
+                    <input id="CartoDb-user" type="text" style="width:90%;" required></input>
+                  </div>
+                </div>
+                <div class="control-group">
+                  <label class="control-label" for="CartoDb-table">Table Name (required)</label>
+                  <div class="controls">
+                    <input id="CartoDb-table" type="text" style="width:90%;" required></input>
                   </div>
                 </div>
               </div>
-              <div id="Kml" style="display: none;">
-                <div class="control-group">
-                  <label class="control-label" for="Kml-url" required>URL (required)</label>
-                  <div class="controls">
-                    <input id="Kml-url" type="text" style="width:90%;"></input>
-                  </div>
-                </div>
-              </div>
-              <div id="GeoJson" style="display: none;">
+              <div id="GeoJson" style="display:none;">
                 <div class="control-group">
                   <label class="control-label" for="GeoJson-url">URL (required)</label>
                   <div class="controls">
-                    <input id="GeoJson-url" type="text" style="width:90%;" required></input>
+                    <input id="GeoJson-url" type="text" placeholder="Must end with '.geojson' or '.json'..." style="width:90%;" required></input>
                   </div>
                 </div>
               </div>
-              <div id="TileStream" style="display: none;">
+              <div id="Kml" style="display:none;">
                 <div class="control-group">
-                  <label class="control-label" for="TileStream-url">URL (required)</label>
+                  <label class="control-label" for="Kml-url">URL (required)</label>
                   <div class="controls">
-                    <input id="TileStream-url" type="text" style="width:90%;" required></input>
+                    <input id="Kml-url" type="text" placeholder="Must end with '.kml'..." style="width:90%;" required></input>
+                  </div>
+                </div>
+              </div>
+              <div id="TileStream" style="display:none;">
+                <div class="control-group">
+                  <label class="control-label" for="TileStream-id">ID (required)</label>
+                  <div class="controls">
+                    <input id="TileStream-id" type="text" placeholder="Must look something like this: 'nps.Air_Atlas_Monitors'..." style="width:90%;" required></input>
                   </div>
                 </div>
               </div>
@@ -187,7 +202,7 @@
         <form>
           <div class="control-group">
             <div class="controls">
-              <textarea id="code" rows="18" style="width: 98%;"></textarea>
+              <textarea id="code" style="height:362px;max-height:362px;min-height:362px;resize:none;width:98%;"></textarea>
             </div>
           </div>
         </form>

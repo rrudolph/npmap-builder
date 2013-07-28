@@ -56,12 +56,16 @@ NPMap.builder = (function() {
      *
      */
     addLayer: function() {
-      var $layerName = $('#layerName'),
+      var $layerAttribution = $('#layerAttribution'),
+          $layerDescription = $('#layerDescription'),
+          $layerName = $('#layerName'),
           config,
           errors = [],
-          name = $layerName.val();
+          layerAttribution = $layerAttribution.val(),
+          layerDescription = $layerDescription.val(),
+          layerName = $layerName.val();
 
-      if (!name) {
+      if (!layerName) {
         errors.push($layerName);
       }
 
@@ -70,25 +74,82 @@ NPMap.builder = (function() {
       }
 
       if ($('#ArcGisServerRest').is(':visible')) {
-        var $url = $('#ArcGisServerRest-url'),
-            url = $url.val();
+        (function() {
+          var $url = $('#ArcGisServerRest-url'),
+              url = $url.val();
 
-        if (!url) {
-          errors.push($url);
-        }
+          if (!url) {
+            errors.push($url);
+          }
 
-        config = {
-          "type": "ArcGisServerRest",
-          "url": url
-        };
+          config = {
+            "type": "ArcGisServerRest",
+            "url": url
+          };
+        })();
       } else if ($('#CartoDb').is(':visible')) {
+        (function() {
+          var $table = $('#CartoDb-table'),
+              table = $table.val(),
+              $user = $('#CartoDb-user'),
+              user = $user.val();
 
+          if (!table) {
+            errors.push($table);
+          }
+
+          if (!user) {
+            errors.push($user);
+          }
+
+          config = {
+            "table": table,
+            "type": "CartoDb",
+            "user": user
+          };
+        })();
       } else if ($('#Kml').is(':visible')) {
+        (function() {
+          var $url = $('#Kml-url'),
+              url = $url.val();
 
+          if (!url) {
+            errors.push($url);
+          }
+
+          config = {
+            "type": "Kml",
+            "url": url
+          };
+        })();
       } else if ($('#GeoJson').is(':visible')) {
+        (function() {
+          var $url = $('#GeoJson-url'),
+              url = $url.val();
 
+          if (!url) {
+            errors.push($url);
+          }
+
+          config = {
+            "type": "GeoJson",
+            "url": url
+          };
+        })();
       } else if ($('#TileStream').is(':visible')) {
+        (function() {
+          var $id = $('#TileStream-id'),
+              id = $id.val();
 
+          if (!id) {
+            errors.push($id);
+          }
+
+          config = {
+            "id": id,
+            "type": "TileStream"
+          };
+        })();
       }
 
       if (errors.length) {
@@ -98,7 +159,10 @@ NPMap.builder = (function() {
       } else {
         var $layers = $('#layers');
 
-        config.name = name;
+        config.attribution = layerAttribution || null,
+        config.description = layerDescription || null,
+        config.name = layerName;
+
         NPMap.config.layers.push(config);
         this.updateMap();
         $('#modal-addDataLayer').modal('hide');
@@ -111,7 +175,7 @@ NPMap.builder = (function() {
           $layers.show();
         }
 
-        $layers.append($('<li><div style="background-color:#EFECE2;font-size:15px;font-weight:bold;padding:45px 0;position:absolute;text-align:center;width:35px;">A</div><div style="left:35px;height:74px;padding:18px 15px;position:absolute;right:0;"><span style="color:#44433A;display:block;font-size:13px;font-weight:bold;">' + name + '</span><span style="bottom:18px;display:block;height:20px;position:absolute;width:201px;"><img src="img/edit-layer.png" style="cursor:pointer;float:left;"><img src="img/delete-layer.png" style="cursor:pointer;float:right;margin-top:3px;"></span></div></li>'));
+        $layers.append($('<li><div style="background-color:#EFECE2;font-size:15px;font-weight:bold;padding:45px 0;position:absolute;text-align:center;width:35px;">A</div><div style="left:35px;height:74px;padding:18px 15px;position:absolute;right:0;"><span style="color:#44433A;display:block;font-size:13px;font-weight:bold;">' + layerName + '</span><span style="bottom:18px;display:block;height:20px;position:absolute;width:201px;"><img src="img/edit-layer.png" style="cursor:pointer;float:left;"><img src="img/delete-layer.png" style="cursor:pointer;float:right;margin-top:3px;"></span></div></li>'));
       }
     },
     /**
