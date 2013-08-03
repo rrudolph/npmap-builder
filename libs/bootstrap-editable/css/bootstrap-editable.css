@@ -23,7 +23,7 @@
 }
 
 .editable-buttons.editable-buttons-bottom {
-   display: block; 
+   display: block;
    margin-top: 7px;
    margin-left: 0;
 }
@@ -35,7 +35,7 @@
     white-space: normal; /* reset white-space decalred in parent*/
    /* display-inline emulation for IE7*/
    zoom: 1; 
-   *display: inline;   
+   *display: inline;
 }
 
 .editable-buttons .editable-cancel {
@@ -117,6 +117,7 @@
 
 /* IOS-style clear button for text inputs */
 .editable-clear-x {
+   /*
    background: url('../img/clear.png') center center no-repeat;
    display: block;
    width: 13px;    
@@ -128,7 +129,7 @@
    top: 50%;
    right: 6px;
    margin-top: -6px;
-   
+   */
 }
 
 .editable-clear-x:hover {
