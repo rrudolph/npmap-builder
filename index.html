@@ -11,9 +11,10 @@
     <meta name="msapplication-TileColor" content="#222222">
     <meta name="msapplication-TileImage" content="http://www.nps.gov/npmap/windows-8-tile.png">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-    <link href="http://localhost:1930/assets/css/bootstrap.min.css" rel="stylesheet">
-    <link href="http://localhost:1930/assets/css/bootstrap-responsive.min.css" rel="stylesheet">
+    <link href="http://localhost:9001/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="libs/bootstrap-editable/css/bootstrap-editable.css" rel="stylesheet">
+    <link href="libs/bootstrap-slider/css/bootstrap-slider.css" rel="stylesheet">
+    <link href="libs/typeahead/typeahead.min.css" rel="stylesheet">
     <link href="css/base.css" rel="stylesheet" media="screen">
     <link rel="alternate" type="application/atom+xml" href="http://www.nps.gov/npmap/blog/atom.xml" title="NPMap blog posts">
     <link rel="shortcut icon" href="http://www.nps.gov/npmap/favicon.ico">
@@ -31,9 +32,9 @@
         <img src="img/builder-logo.png">
       </span>
       <ol id="steps">
-        <li class="active">Add & Customize Data</li>
-        <li style="margin-left:30px;">Additional Tools & Settings</li>
-        <li style="margin-left:30px;">Export Embed Code</li>
+        <li class="active"><button>1. Add & Customize Data</button></li>
+        <li style="margin-left:30px;"><button>2. Additional Tools & Settings</button></li>
+        <li style="margin-left:30px;"><button>3. Export Embed Code</button></li>
       </ol>
       <div id="metadata">
         <span>
@@ -41,21 +42,21 @@
           <p class="description"><a href="#" data-placement="right" data-title="Enter a description of the map" data-type="textarea">Add a description to help others find your map.</a></p>
         </span>
         <span>
-          <button id="preview" class="btn btn-secondary">Preview Map</button>
-          <button id="config" class="btn btn-secondary" data-toggle="modal" data-target="#modal-viewConfig">View Config</button>
+          <!--<button id="saveMap" class="btn btn-secondary">Save Map</button>-->
+          <button id="button-viewConfig" class="btn btn-default" data-toggle="modal" data-target="#modal-viewConfig">View Config</button>
         </span>
       </div>
     </header>
     <section>
-      <div id="customize">
+      <div class="step">
         <div class="header">
           <img src="img/step-1.jpg" style="float:left;">
           <span style="padding-left:5px;">Add & Customize Data</span>
         </div>
         <div class="content">
           <div>
-            <p style="color: #464646;font-size: 13px;margin-top: 0;">Add one or more layers to the map.</p>
-            <button class="btn btn-subtle" data-toggle="modal" data-target="#modal-addLayer">&#9656;<span style="margin-left:15px;">Add Data Layer</span></button>
+            <p style="font-size:13px;margin-top:0;">Add data to your map from a variety of sources.</p>
+            <button id="button-addLayer" class="btn btn-subtle">&#9656;<span style="margin-left:15px;">Add Data Layer</span></button>
           </div>
           <ul id="layers">
           </ul>
@@ -64,8 +65,24 @@
           </button>
         </div>
         <div class="footer">
-          <button class="btn btn-primary" style="margin-top: 28px;"><span style="font-weight:bold;">Next:</span>  Additional Tools</button>
+          <button class="btn btn-primary">Next: <span>Additional Tools</span></button>
         </div>
+      </div>
+      <div class="step" style="display:none;">
+        <div class="header">
+          <img src="img/step-2.jpg" style="float:left;">
+          <span style="padding-left:5px;">Additional Tools & Settings</span>
+        </div>
+        <div class="content">
+          <div>
+            <p style="font-size:13px;margin-top:0;">Customize the look-and-feel of the map, then add additional functionality.</p>
+          </div>
+        </div>
+        <div class="footer">
+          <button class="btn btn-primary">Next: <span>Export Embed Code</span></button>
+        </div>
+      </div>
+      <div class="step" style="display:none;">
       </div>
       <div id="map">
         <iframe></iframe>
@@ -81,119 +98,7 @@
       <span class="tag-line ir">Experience Your America</span>
     </footer>
     <!-- Start Bootstrap components -->
-    <div id="modal-addLayer" class="modal hide">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-        <h3>Add Data Layer&nbsp;<img src="img/help.png" style="cursor: pointer;" rel="tooltip" title="You can add ArcGIS Server, CartoDB, GeoJSON, KML, and MapBox Hosting layers manually or by searching the NPS Data Store. Support for shapefile and GPX uploads is coming soon." data-placement="bottom"></h3>
-      </div>
-      <div class="modal-body" style="padding:0;">
-        <p style="margin-bottom:0;padding:15px;">You can start by adding a layer manually, uploading a file, or searching the NPS Data Store for data to add. Hover over the help icon to see a list of the data types that are currently supported.</p>
-        <ul class="nav nav-tabs" style="margin-bottom:0;padding-bottom:0;padding-left:15px;">
-          <li class="active" style="width:85px;"><a href="#manual" data-toggle="tab">Manual</a></li>
-          <li style="width:85px;"><a href="#search" data-toggle="tab">Search</a></li>
-          <li style="width:85px;"><a href="#upload" data-toggle="tab">Upload</a></li>
-        </ul>
-        <div class="tab-content" style="max-height:250px;">
-          <div id="manual" class="tab-pane active">
-            <form>
-              <div class="control-group">
-                <label class="control-label" for="layerName">Name (required)</label>
-                <div class="controls">
-                  <input id="layerName" type="text" style="width:90%;" required></input>
-                </div>
-              </div>
-              <div class="control-group">
-                <label class="control-label" for="layerDescription">Description (optional)</label>
-                <div class="controls">
-                  <textarea id="layerDescription" rows="3" style="resize:vertical;width:90%;"></textarea>
-                </div>
-              </div>
-              <div class="control-group">
-                <label class="control-label" for="layerAttribution">Attribution (optional)</label>
-                <div class="controls">
-                  <input id="layerAttribution" type="text" style="width:90%;"></input>
-                </div>
-              </div>
-              <div class="control-group">
-                <label class="control-label" for="layerType">Type (required)</label>
-                <div class="controls">
-                  <select name="layerType" onchange="NPMap.builder._handlers.layerTypeOnChange(this.value);return false;" required>
-                    <option value="ArcGisServerRest">ArcGIS Server</option>
-                    <option value="CartoDb">CartoDB</option>
-                    <option value="Kml">KML</option>
-                    <option value="GeoJson">GeoJSON</option>
-                    <option value="TileStream">MapBox Hosting</option>
-                  </select>
-                </div>
-              </div>
-              <div id="ArcGisServerRest" style="display:block;">
-                <div class="control-group">
-                  <label class="control-label" for="ArcGisServerRest-url">URL (required)</label>
-                  <div class="controls">
-                    <input id="ArcGisServerRest-url" type="text" placeholder="Must end with 'MapServer'..." style="width:90%;" required></input>
-                  </div>
-                </div>
-                <div class="control-group">
-                  <label class="control-label" for="ArcGisServerRest-layers">Layers (required)</label>
-                  <div class="controls">
-                    <input id="ArcGisServerRest-layers" type="text" required></input>
-                  </div>
-                </div>
-              </div>
-              <div id="CartoDb" style="display:none;">
-                <div class="control-group">
-                  <label class="control-label" for="CartoDb-user">User Name (required)</label>
-                  <div class="controls">
-                    <input id="CartoDb-user" type="text" style="width:90%;" required></input>
-                  </div>
-                </div>
-                <div class="control-group">
-                  <label class="control-label" for="CartoDb-table">Table Name (required)</label>
-                  <div class="controls">
-                    <input id="CartoDb-table" type="text" style="width:90%;" required></input>
-                  </div>
-                </div>
-              </div>
-              <div id="GeoJson" style="display:none;">
-                <div class="control-group">
-                  <label class="control-label" for="GeoJson-url">URL (required)</label>
-                  <div class="controls">
-                    <input id="GeoJson-url" type="text" placeholder="Must end with '.geojson' or '.json'..." style="width:90%;" required></input>
-                  </div>
-                </div>
-              </div>
-              <div id="Kml" style="display:none;">
-                <div class="control-group">
-                  <label class="control-label" for="Kml-url">URL (required)</label>
-                  <div class="controls">
-                    <input id="Kml-url" type="text" placeholder="Must end with '.kml'..." style="width:90%;" required></input>
-                  </div>
-                </div>
-              </div>
-              <div id="TileStream" style="display:none;">
-                <div class="control-group">
-                  <label class="control-label" for="TileStream-id">ID (required)</label>
-                  <div class="controls">
-                    <input id="TileStream-id" type="text" placeholder="Must look something like this: 'nps.Air_Atlas_Monitors'..." style="width:90%;" required></input>
-                  </div>
-                </div>
-              </div>
-            </form>
-          </div>
-          <div id="search" class="tab-pane">
-            <p>Support for adding data from the NPS Data Store is coming soon.</p>
-          </div>
-          <div id="upload" class="tab-pane">
-            <p>Support for uploading data is coming soon.</p>
-          </div>
-        </div>
-      </div>
-      <div class="modal-footer">
-        <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
-        <button class="btn btn-primary" onclick="NPMap.builder.addLayer();return false;">Add Layer</button>
-      </div>
-    </div>
-    <div id="modal-confirm" class="modal hide">
+    <div id="modal-confirm" class="modal fade">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
         <h3></h3>
@@ -205,29 +110,13 @@
         <button class="btn btn-primary">Yes</button>
       </div>
     </div>
-    <div id="modal-viewConfig" class="modal hide">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-        <h3>View Config&nbsp;<img src="img/help.png" style="cursor: pointer;" rel="tooltip" title="You can copy and paste the code below into a blank document and save it with a .html extension to run it for yourself." data-placement="bottom"></h3>
-      </div>
-      <div class="modal-body">
-        <form>
-          <div class="control-group">
-            <div class="controls">
-              <textarea id="code" style="height:362px;max-height:362px;min-height:362px;resize:none;width:98%;"></textarea>
-            </div>
-          </div>
-        </form>
-      </div>
-      <div class="modal-footer">
-        <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
-      </div>
-    </div>
     <!-- End Bootstrap components -->
   </body>
   <script src="libs/json2.min.js"></script>
   <script src="http://code.jquery.com/jquery.js"></script>
-  <script src="http://www.nps.gov/npmap/bootstrap/js/bootstrap.min.js"></script>
+  <script src="http://localhost:9001/dist/js/bootstrap.min.js"></script>
   <script src="libs/bootstrap-editable/js/bootstrap-editable.min.js"></script>
+  <script src="libs/bootstrap-slider/js/bootstrap-slider.min.js"></script>
+  <script src="libs/typeahead/typeahead.min.js"></script>
   <script src="js/app.js"></script>
 </html>

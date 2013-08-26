@@ -1,0 +1,97 @@
+<div id="modal-addLayer" class="modal fade" role="dialog" aria-describedby="modal-addLayer-description" aria-labelledby="modal-addLayer-title">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 id="modal-addLayer-title" class="modal-title">Add Data Layer&nbsp;<img src="img/help.png" rel="tooltip" title="You can add ArcGIS Server, CartoDB, GeoJSON, KML, and MapBox Hosting layers. The NPMap Map Services catalog includes results from ArcGIS Server (from the National Park Service ArcGIS Online group and public-facing National Park Service ArcGIS Server instances), CartoDB, GitHub, and MapBox Hosting accounts." data-placement="bottom"></h4>
+      </div>
+      <div class="modal-body">
+        <p id="modal-addLayer-description" style="margin-bottom:0;padding:15px;">You can add a layer to your map either by typing in the layer metadata or searching the NPMap Catalog for data to add. Hover over the help icon above for more information.</p>
+        <ul class="nav nav-tabs">
+          <li class="active"><a href="#manual" data-toggle="tab">Manual</a></li>
+          <li><a href="#search" data-toggle="tab">Search</a></li>
+        </ul>
+        <div class="tab-content">
+          <div id="manual" class="tab-pane active">
+            <form role="form">
+              <div class="form-group">
+                <label for="modal-addLayer-layerName">Name (required)</label>
+                <input id="modal-addLayer-layerName" type="text" class="form-control" required></input>
+              </div>
+              <div class="form-group">
+                <label for="layerDescription">Description (optional)</label>
+                <textarea id="layerDescription" rows="3"  class="form-control" style="resize:vertical;"></textarea>
+              </div>
+              <div class="form-group">
+                <label for="layerAttribution">Attribution (optional)</label>
+                <input id="layerAttribution" type="text" class="form-control"></input>
+              </div>
+              <div class="form-group">
+                <label for="layerType">Type (required)</label>
+                <select name="layerType" onchange="NPMap.builder._handlers.layerTypeOnChange(this.value);return false;" class="form-control" required>
+                  <option value="ArcGisServerRest">ArcGIS Server</option>
+                  <option value="CartoDb">CartoDB</option>
+                  <option value="Kml">KML</option>
+                  <option value="GeoJson">GeoJSON</option>
+                  <option value="TileStream">MapBox Hosting</option>
+                </select>
+              </div>
+              <div id="ArcGisServerRest" style="display:block;">
+                <div class="form-group">
+                  <label for="modal-addLayer-arcGisServerRest-url">URL (required)</label>
+                  <input id="modal-addLayer-arcGisServerRest-url" type="text" placeholder="Must end with 'FeatureServer' or 'MapServer'..." class="form-control" required></input>
+                </div>
+                <div class="form-group">
+                  <label for="modal-addLayer-arcGisServerRest-opacity">Opacity (required)</label>
+                  <input id="modal-addLayer-arcGisServerRest-opacity" type="text" data-slider-max="100" data-slider-min="0" data-slider-value="0" class="form-control" required></input>
+                </div>
+                <div class="form-group">
+                  <label for="modal-addLayer-arcGisServerRest-layers">Layers (required)</label>
+                  <select id="modal-addLayer-arcGisServerRest-layers" multiple="multiple" class="form-control" required></select>
+                </div>
+              </div>
+              <div id="CartoDb" style="display:none;">
+                <div class="form-group">
+                  <label for="CartoDb-user">User Name (required)</label>
+                  <input id="CartoDb-user" type="text" class="form-control" required></input>
+                </div>
+                <div class="form-group">
+                  <label for="CartoDb-table">Table Name (required)</label>
+                  <input id="CartoDb-table" type="text" class="form-control" required></input>
+                </div>
+              </div>
+              <div id="GeoJson" style="display:none;">
+                <div class="form-group">
+                  <label for="GeoJson-url">URL (required)</label>
+                  <input id="GeoJson-url" type="text" placeholder="Must end with '.geojson' or '.json'..." class="form-control" required></input>
+                </div>
+              </div>
+              <div id="Kml" style="display:none;">
+                <div class="form-group">
+                  <label for="Kml-url">URL (required)</label>
+                  <input id="Kml-url" type="text" placeholder="Must end with '.kml'..." class="form-control" required></input>
+                </div>
+              </div>
+              <div id="TileStream" style="display:none;">
+                <div class="form-group">
+                  <label for="TileStream-id">ID (required)</label>
+                  <input id="TileStream-id" type="text" placeholder="Must look something like this: 'nps.Air_Atlas_Monitors'..." class="form-control" required></input>
+                </div>
+              </div>
+            </form>
+          </div>
+          <div id="search" class="tab-pane">
+            <form role="form">
+              <label for="modal-addLayer-search">Start typing below to search for a layer.</label>
+              <input id="modal-addLayer-search" type="text" class="form-control"></input>
+            </form>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer" style="margin-top:0;">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Add Layer</button>
+      </div>
+    </div>
+  </div>
+</div>
