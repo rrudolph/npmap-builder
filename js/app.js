@@ -5,8 +5,20 @@ NPMap.builder = (function() {
       $modalAddLayer,
       $modalConfirm,
       $modalViewConfig,
-      abcs = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'];
+      abcs = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'],
+      stepLis;
 
+  /**
+   *
+   */
+  function goToStep(from, to) {
+    var $stepSection = $('section .step');
+
+    $($stepSection[from]).hide();
+    $($stepSection[to]).show();
+    $(stepLis[from]).removeClass('active');
+    $(stepLis[to]).addClass('active');
+  }
   /**
    *
    */
@@ -50,12 +62,29 @@ NPMap.builder = (function() {
     // Setup base UI
     $buttonAddAnotherLayer = $('#button-addAnotherLayer');
     $modalConfirm = $('#modal-confirm');
+    stepLis = $('#steps li');
 
+    $.each(stepLis, function(i, li) {
+      $(li.childNodes[0]).on('click', function() {
+        var currentIndex = -1;
+
+        for (var j = 0; j < stepLis.length; j++) {
+          if ($(stepLis[j]).hasClass('active')) {
+            currentIndex = j;
+            break;
+          }
+        }
+
+        if (currentIndex !== i) {
+          goToStep(currentIndex, i);
+        }
+      });
+    });
     $($('section .step .btn-primary')[0]).on('click', function() {
-      $($('section .step')[0]).hide();
-      $($('section .step')[1]).show();
-      $($('#steps li')[0]).removeClass('active');
-      $($('#steps li')[1]).addClass('active');
+      goToStep(0, 1);
+    });
+    $($('section .step .btn-primary')[1]).on('click', function() {
+      goToStep(1, 2);
     });
     $('#metadata .description a').editable();
     $('#metadata .title a').editable();
@@ -63,17 +92,6 @@ NPMap.builder = (function() {
   });
 
   return {
-    _ui: {
-      modalAddLayer: {
-        handlers: {
-
-        },
-        init: function() {
-
-        }
-      }
-    },
-
     _handlers: {
       /**
        *
@@ -136,6 +154,10 @@ NPMap.builder = (function() {
      *
      */
     showConfirm: function(button, content, title, callback) {
+      
+
+
+
       $($modalConfirm.find('.btn-primary')[0]).html(button).on('click', function() {
         $modalConfirm.modal('hide');
         callback();
