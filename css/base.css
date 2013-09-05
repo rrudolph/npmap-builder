@@ -215,6 +215,7 @@ iframe {
     -webkit-border-radius: 7px / 3px;
             border-radius: 7px / 3px;
     background-color: #44433b;
+    cursor: default;
     color: #fff;
   }
 /* End components */
