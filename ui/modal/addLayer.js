@@ -57,12 +57,21 @@ NPMap.builder.ui.modal.addLayer = (function() {
         limit: 10,
         prefetch: 'data/tilestream-search.json',
         valueKey: 'n'
-      }]);
+      }]),
+      abcs = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'];
+
+  function setHeight() {
+    $('#modal-addLayer .tab-content').css({
+      height: $(document).height() - 289
+    });
+  }
 
   $('#modal-addLayer .btn-primary').click(function() {
     NPMap.builder.ui.modal.addLayer._click();
   });
   $('[rel=tooltip]').tooltip();
+  setHeight();
+  $(window).resize(setHeight);
 
   return {
     _click: function() {
@@ -114,7 +123,7 @@ NPMap.builder.ui.modal.addLayer = (function() {
           config = {
             "layers": layers,
             "opacity": opacity,
-            "type": "ArcGisServerRest",
+            "type": "arcgisserver",
             "url": url
           };
         })();
@@ -138,7 +147,7 @@ NPMap.builder.ui.modal.addLayer = (function() {
 
           config = {
             "table": table,
-            "type": "CartoDb",
+            "type": "cartodb",
             "user": user
           };
         })();
@@ -154,7 +163,7 @@ NPMap.builder.ui.modal.addLayer = (function() {
           }
 
           config = {
-            "type": "Kml",
+            "type": "kml",
             "url": url
           };
         })();
@@ -170,7 +179,7 @@ NPMap.builder.ui.modal.addLayer = (function() {
           }
 
           config = {
-            "type": "GeoJson",
+            "type": "geojson",
             "url": url
           };
         })();
@@ -187,7 +196,7 @@ NPMap.builder.ui.modal.addLayer = (function() {
 
           config = {
             "id": id,
-            "type": "TileStream"
+            "type": "mapbox"
           };
         })();
       }
@@ -204,7 +213,7 @@ NPMap.builder.ui.modal.addLayer = (function() {
         config.name = layerName;
 
         NPMap.config.layers.push(config);
-        this.updateMap();
+        NPMap.builder.updateMap();
         $('#modal-addLayer').modal('hide');
 
         if (!$layers.is(':visible')) {
@@ -219,8 +228,8 @@ NPMap.builder.ui.modal.addLayer = (function() {
         $.each(fields, function(i, field) {
           $(field).val('');
         });
-        $layers.append($('<li><div style="background-color:#EFECE2;cursor:move;font-size:15px;font-weight:bold;padding:45px 0;position:absolute;text-align:center;width:35px;">' + abcs[$layers.children().length] + '</div><div style="left:35px;height:74px;padding:18px 15px;position:absolute;right:0;"><span style="color:#44433A;display:block;font-size:13px;font-weight:bold;">' + layerName + '</span><span style="bottom:18px;display:block;height:20px;position:absolute;width:201px;"><img src="img/edit-layer.png" style="cursor:pointer;float:left;"><button style="background-color:transparent;border:none;float:right;" onclick="NPMap.builder._handlers.layerRemoveOnClick(this);"><img src="img/remove-layer.png" style="cursor:pointer;float:right;margin-top:3px;"></button></span></div></li>'));
-        this._refreshLayersUl();
+        $layers.append($('<li><div class="letter">' + abcs[$layers.children().length] + '</div><div class="details"><span>' + layerName + '</span><span><img src="img/edit-layer.png" style="cursor:pointer;float:left;"><button style="background-color:transparent;border:none;float:right;" onclick="NPMap.builder._handlers.layerRemoveOnClick(this);"><img src="img/remove-layer.png" style="cursor:pointer;float:right;margin-top:3px;"></button></span></div></li>'));
+        NPMap.builder._refreshLayersUl();
       }
     }
   };

@@ -117,22 +117,6 @@ iframe {
     .step .footer .btn-primary span {
       font-weight: normal;
     }
-#layers {
-  color: #454545;
-  display: none;
-  list-style-type: none;
-  margin: 0;
-  padding: 0;
-  width: 100%;
-}
-#layers li {
-  border-bottom: solid 1px rgb(181, 179, 156);
-  display: block;
-  height: 110px;
-}
-#layers li:last-child {
-  border-bottom: none;
-}
 #logo {
   float: left;
   padding-left: 20px;
@@ -242,11 +226,10 @@ iframe {
   display: none;
   font-size: 15px;
   font-weight: bold;
+  margin: -16px -28px;
   padding: 15px 10px;
   text-align: left;
-  text-shadow: 0 1px 0 rgba(0,0,0,.2);
   width: 266px;
-  .box-shadow(~"1px 2px 1px rgba(0,0,0,.1)");
 }
 #button-addAnotherLayer:hover, #button-addAnotherLayer:focus {
   background-color: #f5f1e8;
@@ -256,8 +239,6 @@ iframe {
   background-image: linear-gradient(bottom,rgba(237,233,218,1) 0%, rgba(226,217,196,1) 100%);
   background-position: 0 0;
   color: #5e7630;
-  text-shadow: none;
-  .box-shadow(~"0 2px 1px rgba(0,0,0,.17), inset 0 1px 0 rgba(255,255,255,.1), inset 0 0 0 1px rgba(255,255,255,.15)");
 }
 #button-addLayer {
   text-align: left;

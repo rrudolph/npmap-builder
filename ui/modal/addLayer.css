@@ -1,5 +1,54 @@
-.modal-addLayer-search-type {
-  font-size: 18px;
-  margin: 5px 0;
-  padding-left: 10px;
+#layers {
+  color: #454545;
+  display: none;
+  list-style-type: none;
+  margin: -16px -28px;
+  padding: 0;
+  width: 100%;
 }
+#layers li {
+  border-bottom: solid 1px rgb(181, 179, 156);
+  display: block;
+  height: 135px;
+}
+#layers li:last-child {
+  border-bottom: none;
+}
+#layers li .letter {
+  background-color: #efece2;
+  cursor: move;
+  font-size: 15px;
+  font-weight: bold;
+  padding: 41px 0;
+  position: absolute;
+  text-align: center;
+  width: 35px;
+}
+#layers li .details {
+  left: 35px;
+  height: 103px;
+  padding: 18px 15px;
+  position: absolute;
+  right: 0;
+}
+  #layers li .details span:first-child {
+    color: #44433a;
+    display: block;
+    font-size: 13px;
+    font-weight: bold;
+  }
+  #layers li .details span:last-child {
+    bottom: 18px;
+    display: block;
+    height: 20px;
+    position: absolute;
+    width: 201px;
+  }
+#modal-addLayer .tab-content {
+  overflow: auto;
+}
+  #modal-addLayer .tab-content .modal-addLayer-search-type {
+    font-size: 18px;
+    margin: 5px 0;
+    padding-left: 10px;
+  }

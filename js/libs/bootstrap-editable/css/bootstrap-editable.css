@@ -1,0 +1,140 @@
+/* !
+ * X-editable - v1.5.0 
+ * In-place editing with Twitter Bootstrap, jQuery UI or pure jQuery
+ * http://github.com/vitalets/x-editable
+ * Copyright (c) 2013 Vitaliy Potapov; Licensed MIT
+   ================================================== */
+.editableform {
+  margin-bottom: 0
+}
+    .editableform .editable-date {
+      float: left;
+      margin: 0; padding: 0
+    }
+    .editableform .control-group {
+      margin-bottom: 0;
+      white-space: nowrap;
+      line-height: 20px;
+    }
+.editable-buttons {
+  display: inline-block;
+  margin-left: 7px;
+  vertical-align: top;
+  zoom: 1;
+  *display: inline;
+}
+    .editable-buttons button.ui-button-icon-only {
+      width: 30px; height: 24px
+    }
+    .editable-buttons .editable-cancel {
+      margin-left: 7px
+    }
+.editable-buttons.editable-buttons-bottom {
+  display: block;
+  margin-top: 7px; margin-left: 0
+}
+.editable-input {
+  display: inline-block;
+  width: auto;
+  vertical-align: top;
+  white-space: normal;
+  zoom: 1;
+  *display: inline;
+}
+.editableform-loading {
+  min-width: 25px; width: auto; height: 25px;
+  background: url('../img/loading.gif') center center no-repeat
+}
+.editable-inline .editableform-loading {
+  background-position: left 5px
+}
+.editable-error-block {
+  width: auto; max-width: 300px;
+  margin: 5px 0 0 0;
+  white-space: normal
+}
+.editable-error-block.ui-state-error {
+  padding: 3px
+}
+.editable-error {
+  color: red
+}
+.editable-inline .add-on .icon-th {
+  margin-top: 3px; margin-left: 1px
+}
+.editable-checklist label {
+  white-space: nowrap
+}
+/
+.editable-wysihtml5 {
+  width: 566px; height: 250px
+}
+.editable-checklist label input[type="checkbox"], .editable-checklist label span {
+  margin: 0;
+  vertical-align: middle
+}
+.editable-clear {
+  font-size: 0.9em;
+  text-align: right; text-decoration: none;
+  clear: both
+}
+.editable-clear-x {
+  position: absolute; display: block;
+  top: 50%; right: 6px;
+  width: 13px; height: 13px;
+  margin-top: -6px;
+  /*background: url('../img/clear.png') center center no-repeat;*/
+  opacity: 0.6;
+  z-index: 100;
+}
+.editable-clear-x:hover {
+  opacity: 1
+}
+.editable-pre-wrapped {
+  white-space: pre-wrap
+}
+.editable-container.editable-popup {
+  max-width: none !important
+}
+.editable-container.popover {
+  width: auto
+}
+.editable-container.editable-inline {
+  display: inline-block;
+  width: auto;
+  vertical-align: middle;
+  zoom: 1;
+  *display: inline;
+}
+.editable-container.ui-widget {
+  font-size: inherit;
+  z-index: 9990
+}
+.editable-click, a.editable-click, a.editable-click:hover {
+  border-bottom: dashed 1px #0088cc;
+  text-decoration: none
+}
+.editable-click.editable-disabled, a.editable-click.editable-disabled, a.editable-click.editable-disabled:hover {
+  color: #585858;
+  border-bottom: none;
+  cursor: default
+}
+.editable-unsaved {
+  font-weight: bold
+}
+.editable-empty, .editable-empty:hover, .editable-empty:focus {
+  color: #DD1144;
+  font-style: italic;
+  text-decoration: none
+}
+.editable-bg-transition {
+  -webkit-transition: background-color 1400ms ease-out;
+  -moz-transition: background-color 1400ms ease-out;
+  -o-transition: background-color 1400ms ease-out;
+  -ms-transition: background-color 1400ms ease-out;
+  transition: background-color 1400ms ease-out;
+}
+.form-horizontal .editable {
+  display: inline-block;
+  padding-top: 5px
+}

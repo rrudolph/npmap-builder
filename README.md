@@ -4,13 +4,13 @@
 
 # NPMap Builder
 
-The NPMap Builder is a graphical interface that can be used to build maps with the [NPMap JavaScript library](https://github.com/nationalparkservice/npmap). The builder is intended to be a quick start for building and deploying maps to the web. It is not intended to cover every use case - and it never will. This means that those who want to add advanced functionality or customizations to their map will still need to utilize the NPMap libarary's [API](http://www.nps.gov/npmap/support/library/api/).
+The NPMap Builder is a graphical interface that can be used to build maps with the [NPMap.js library](https://github.com/nationalparkservice/npmap.js). The builder is intended to be a quick start for building and deploying maps to the web. It is not intended to cover every use case - and it never will. Those who want to add advanced functionality or customizations to their map will need to use the [API](https://github.com/nationalparkservice/npmap.js/blob/master/API.md).
 
-That being said, output from the builder should provide a good starting point for all maps - even those that require additional customizations.
+That said, output from the builder should provide a good base starting point for all maps - even those that require additional customizations.
 
 # Status
 
-This project is very much a work-in-progress. Consider the code pre-alpha and the feature set incomplete.
+The NPMap Builder is a work-in-progress. Consider the code pre-alpha and the feature set incomplete.
 
 # License
 
