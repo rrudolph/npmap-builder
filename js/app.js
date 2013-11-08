@@ -57,6 +57,9 @@ NPMap.builder = (function() {
         });
       }
     });
+    $('#button-saveMap').on('click', function() {
+
+    });
 
     // Setup base UI
     $buttonAddAnotherLayer = $('#button-addAnotherLayer');

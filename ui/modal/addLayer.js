@@ -1,64 +1,66 @@
+/* globals $, NPMap */
+
 $('head').append($('<link rel="stylesheet" type="text/css">').attr('href', 'ui/modal/addLayer.css'));
 
 NPMap.builder.ui = NPMap.builder.ui || {};
 NPMap.builder.ui.modal = NPMap.builder.ui.modal || {};
 NPMap.builder.ui.modal.addLayer = (function() {
   var $arcGisServerRestlayers = $('#modal-addLayer-arcGisServerRest-layers'),
-      $arcGisServerRestOpacity = $('#modal-addLayer-arcGisServerRest-opacity').slider(),
-      $arcGisServerRestUrl = $('#modal-addLayer-arcGisServerRest-url').bind('change paste keyup', function() {
-        var value = $(this).val();
+    $arcGisServerRestOpacity = $('#modal-addLayer-arcGisServerRest-opacity').slider(),
+    $arcGisServerRestUrl = $('#modal-addLayer-arcGisServerRest-url').bind('change paste keyup', function() {
+      var value = $(this).val();
 
-        if (value.toLowerCase().indexOf('mapserver') === (value.length - 9) || value.toLowerCase().indexOf('featureserver') === (value.length - 13)) {
-          $.ajax({
-            dataType: 'json',
-            success: function(response) {
-              $arcGisServerRestlayers.find('option').remove();
-              $.each(response.layers, function(i, layer) {
-                $arcGisServerRestlayers.append($('<option>', {
-                  value: layer.id
-                }).text(layer.id + ': ' + layer.name));
-              });
-            },
-            url: value + '?f=json&callback=?'
-          });
-        }
-      }),
-      $layerAttribution = $('#layerAttribution'),
-      $layerDescription = $('#layerDescription'),
-      $layerName = $('#modal-addLayer-layerName'),
-      $modal = $('#modal-addLayer').modal().on('hidden.bs.modal', function() {
-        // TODO: Clean up and reset form(s).
-        // TODO: Pan content div up to 0.
-      }).on('show.bs.modal shown.bs.modal', function() {
-        $layerName.focus();
-      }),
-      $search = $('#modal-addLayer-search').typeahead([{
-        header: '<h3 class="modal-addLayer-search-type">ArcGIS Online</h3>',
-        limit: 10,
-        prefetch: 'data/arcgisonline-search.json',
-        valueKey: 'n'
-      },{
-        header: '<h3 class="modal-addLayer-search-type">ArcGIS Server</h3>',
-        limit: 10,
-        prefetch: 'data/arcgisserver-search.json',
-        valueKey: 'n'
-      },{
-        header: '<h3 class="modal-addLayer-search-type">CartoDB</h3>',
-        limit: 10,
-        prefetch: 'data/cartodb-search.json',
-        valueKey: 'n'
-      },{
-        header: '<h3 class="modal-addLayer-search-type">GitHub</h3>',
-        limit: 10,
-        prefetch: 'data/github-search.json',
-        valueKey: 'n'
-      },{
-        header: '<h3 class="modal-addLayer-search-type">MapBox Hosting</h3>',
-        limit: 10,
-        prefetch: 'data/tilestream-search.json',
-        valueKey: 'n'
-      }]),
-      abcs = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'];
+      if (value.toLowerCase().indexOf('mapserver') === (value.length - 9) || value.toLowerCase().indexOf('featureserver') === (value.length - 13)) {
+        $.ajax({
+          dataType: 'json',
+          success: function(response) {
+            $arcGisServerRestlayers.find('option').remove();
+            $.each(response.layers, function(i, layer) {
+              $arcGisServerRestlayers.append($('<option>', {
+                value: layer.id
+              }).text(layer.id + ': ' + layer.name));
+            });
+          },
+          url: value + '?f=json&callback=?'
+        });
+      }
+    }),
+    $layerAttribution = $('#layerAttribution'),
+    $layerDescription = $('#layerDescription'),
+    $layerName = $('#modal-addLayer-layerName'),
+    $modal = $('#modal-addLayer').modal().on('hidden.bs.modal', function() {
+      // TODO: Clean up and reset form(s).
+      // TODO: Pan content div up to 0.
+    }).on('show.bs.modal shown.bs.modal', function() {
+      $layerName.focus();
+    }),
+    $search = $('#modal-addLayer-search').typeahead([{
+      header: '<h3 class="modal-addLayer-search-type">ArcGIS Online</h3>',
+      limit: 10,
+      prefetch: 'data/arcgisonline-search.json',
+      valueKey: 'n'
+    },{
+      header: '<h3 class="modal-addLayer-search-type">ArcGIS Server</h3>',
+      limit: 10,
+      prefetch: 'data/arcgisserver-search.json',
+      valueKey: 'n'
+    },{
+      header: '<h3 class="modal-addLayer-search-type">CartoDB</h3>',
+      limit: 10,
+      prefetch: 'data/cartodb-search.json',
+      valueKey: 'n'
+    },{
+      header: '<h3 class="modal-addLayer-search-type">GitHub</h3>',
+      limit: 10,
+      prefetch: 'data/github-search.json',
+      valueKey: 'n'
+    },{
+      header: '<h3 class="modal-addLayer-search-type">MapBox Hosting</h3>',
+      limit: 10,
+      prefetch: 'data/tilestream-search.json',
+      valueKey: 'n'
+    }]),
+    abcs = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'];
 
   function setHeight() {
     $('#modal-addLayer .tab-content').css({
@@ -208,8 +210,8 @@ NPMap.builder.ui.modal.addLayer = (function() {
       } else {
         var $layers = $('#layers');
 
-        config.attribution = layerAttribution || null,
-        config.description = layerDescription || null,
+        config.attribution = layerAttribution || null;
+        config.description = layerDescription || null;
         config.name = layerName;
 
         NPMap.config.layers.push(config);

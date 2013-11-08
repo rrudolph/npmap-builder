@@ -11,7 +11,9 @@
     <meta name="msapplication-TileColor" content="#222222">
     <meta name="msapplication-TileImage" content="http://www.nps.gov/npmap/windows-8-tile.png">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-    <link href="http://www.nps.gov/npmap/tools/bootstrap/3.0.0/css/nps-bootstrap.min.css" rel="stylesheet">
+    <link href="http://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+    <!--<link href="http://www.nps.gov/npmap/tools/bootstrap/3.0.0/css/nps-bootstrap.min.css" rel="stylesheet">-->
+    <link href="http://localhost:9001/dist/css/nps-bootstrap.min.css" rel="stylesheet">
     <link href="js/libs/bootstrap-editable/css/bootstrap-editable.min.css" rel="stylesheet">
     <link href="js/libs/bootstrap-slider/css/bootstrap-slider.min.css" rel="stylesheet">
     <link href="js/libs/typeahead/typeahead.min.css" rel="stylesheet">
@@ -44,16 +46,16 @@
           <p class="description"><a href="#" data-placement="right" data-title="Enter a description of the map" data-type="textarea">Add a description to help others find your map.</a></p>
         </span>
         <span>
-          <!--<button id="saveMap" class="btn btn-secondary">Save Map</button>-->
-          <button id="button-viewConfig" class="btn btn-default" data-toggle="modal" data-target="#modal-viewConfig">View Config</button>
+          <button id="button-saveMap" class="btn btn-default">Save Map</button>
+          <button id="button-viewConfig" class="btn btn-default" data-toggle="modal" data-target="#modal-viewConfig">View Code</button>
         </span>
       </div>
     </header>
     <section>
       <div class="step">
         <div class="header">
-          <img src="img/step-1.jpg" style="float:left;">
-          <span style="padding-left:5px;">Add & Customize Data</span>
+          <img src="img/step-1.jpg">
+          <h3>Add & Customize Data</h3>
         </div>
         <div class="content">
           <div>
@@ -72,12 +74,12 @@
       </div>
       <div class="step" style="display:none;">
         <div class="header">
-          <img src="img/step-2.jpg" style="float:left;">
-          <span style="padding-left:5px;">Additional Tools & Settings</span>
+          <img src="img/step-2.jpg">
+          <h3>Additional Tools & Settings</h3>
         </div>
         <div class="content">
           <div>
-            <p style="font-size:13px;margin-top:0;">Customize the look-and-feel of the map, then add additional functionality.</p>
+            <p style="font-size:13px;margin-top:0;">Customize the map's behavior and add additional functionality.</p>
           </div>
         </div>
         <div class="footer">
@@ -85,6 +87,10 @@
         </div>
       </div>
       <div class="step" style="display:none;">
+        <div class="header">
+          <img src="img/step-3.jpg">
+          <h3>Export Embed Code</h3>
+        </div>
       </div>
       <div id="map">
         <iframe></iframe>
