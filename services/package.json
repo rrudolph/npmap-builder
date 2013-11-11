@@ -1,0 +1,27 @@
+{
+  "name": "npmap-builder-services",
+  "version": "0.0.1",
+  "keywords": ["express", "nps"],
+  "author": "Nate Irwin <nate_irwin@partner.nps.gov>",
+  "license": "Public Domain",
+  "contributors": [
+    {
+      "name": "Jim McAndrew",
+      "email": "james_mcandrew@partner.nps.gov"
+    },
+    {
+      "name": "Nate Irwin",
+      "email": "nate_irwin@nps.gov"
+    }
+  ],
+  "scripts": {
+    "start": "node app"
+  },
+  "repository": {
+    "type": "git",
+    "url": "http://github.com/nationalparkservice/npmap-builder"
+  },
+  "dependencies": {
+    "express": "3.x"
+  }
+}
