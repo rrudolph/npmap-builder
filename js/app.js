@@ -1,11 +1,14 @@
-var NPMap = NPMap || {};
+var NPMap = {
+  "div": "map"
+};
 
-NPMap.builder = (function() {
+var Builder = (function() {
   var $buttonAddAnotherLayer,
-      $modalAddLayer,
-      $modalConfirm,
-      $modalViewConfig,
-      stepLis;
+    $modalAddLayer,
+    $modalConfirm,
+    $modalExport,
+    $modalViewConfig,
+    stepLis;
 
   /**
    *
@@ -22,7 +25,7 @@ NPMap.builder = (function() {
    *
    */
   function loadModule(module, callback) {
-    module = module.replace('NPMap.builder.', '').replace(/\./g,'/');
+    module = module.replace('Builder.', '').replace(/\./g,'/');
 
     $.ajax({
       dataType: 'html',
@@ -43,8 +46,17 @@ NPMap.builder = (function() {
       if ($modalAddLayer) {
         $modalAddLayer.modal('show');
       } else {
-        loadModule('NPMap.builder.ui.modal.addLayer', function() {
+        loadModule('Builder.ui.modal.addLayer', function() {
           $modalAddLayer = $('#modal-addLayer');
+        });
+      }
+    });
+    $('#button-export').on('click', function() {
+      if ($modalExport) {
+        $modalExport.modal('show');
+      } else {
+        loadModule('Builder.ui.modal.export', function() {
+          $modalExport = $('#modal-export');
         });
       }
     });
@@ -52,7 +64,7 @@ NPMap.builder = (function() {
       if ($modalViewConfig) {
         $modalViewConfig.modal('show');
       } else {
-        loadModule('NPMap.builder.ui.modal.viewConfig', function() {
+        loadModule('Builder.ui.modal.viewConfig', function() {
           $modalViewConfig = $('#modal-viewConfig');
         });
       }
@@ -99,27 +111,11 @@ NPMap.builder = (function() {
        *
        */
       layerRemoveOnClick: function(el) {
-        NPMap.builder.showConfirm('Yes, remove the layer', 'Once the layer is removed, you cannot get it back.', 'Are you sure?', function() {
-          NPMap.builder.removeLayerLi(el);
-          NPMap.builder.removeLayer($(el).parent().prev()[0].innerHTML);
+        Builder.showConfirm('Yes, remove the layer', 'Once the layer is removed, you cannot get it back.', 'Are you sure?', function() {
+          Builder.removeLayerLi(el);
+          Builder.removeLayer($(el).parent().prev()[0].innerHTML);
         });
         return false;
-      },
-      /**
-       *
-       */
-      layerTypeOnChange: function(value) {
-        $.each($('#manual div'), function(i, div) {
-          var $div = $(div);
-
-          if ($div.attr('id')) {
-            if ($div.attr('id') === value) {
-              $div.show();
-            } else {
-              $div.hide();
-            }
-          }
-        });
       }
     },
     /**
@@ -140,7 +136,7 @@ NPMap.builder = (function() {
      *
      */
     removeLayer: function(name) {
-      NPMap.config.layers = $.grep(NPMap.config.layers, function(layer) {
+      NPMap.overlays = $.grep(NPMap.overlays, function(layer) {
         return layer.name !== name;
       });
       this.updateMap();
@@ -156,10 +152,6 @@ NPMap.builder = (function() {
      *
      */
     showConfirm: function(button, content, title, callback) {
-      
-
-
-
       $($modalConfirm.find('.btn-primary')[0]).html(button).on('click', function() {
         $modalConfirm.modal('hide');
         callback();
@@ -172,12 +164,8 @@ NPMap.builder = (function() {
      *
      */
     updateMap: function() {
-      $('iframe').attr('src', 'iframe.html?c=' + encodeURIComponent(JSON.stringify(NPMap.config)));
+      $('iframe').attr('src', 'iframe.html?c=' + encodeURIComponent(JSON.stringify(NPMap)));
     }
   };
 })();
-NPMap.config = {
-  "div": "map"
-};
-
-NPMap.builder.updateMap();
+Builder.updateMap();

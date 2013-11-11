@@ -1,6 +1,12 @@
 #modal-viewConfig-code {
-  height: 362px;
-  max-height: 362px;
-  min-height: 362px;
   resize: none;
 }
+#modal-viewConfig form {
+  bottom: 0;
+  position: absolute;
+  top: 65px;
+  width: 605px;
+}
+  #modal-viewConfig form .form-group, #modal-viewConfig form .form-group textarea {
+    height: 100%;
+  }

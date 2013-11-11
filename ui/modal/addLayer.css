@@ -52,3 +52,6 @@
     margin: 5px 0;
     padding-left: 10px;
   }
+#cartodb, #geojson, #github, #kml, #mapbox {
+  display: none;
+}

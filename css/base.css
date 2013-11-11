@@ -10,6 +10,7 @@ header {
 section {
   bottom: 30px;
   left: 0;
+  min-height: 275px;
   position: absolute;
   top: 154px;
   width: 100%;
@@ -191,7 +192,11 @@ iframe {
 #steps li {
   float: left;
   list-style-type: none;
+  margin-left: 30px;
 }
+  #steps li:first-child {
+    margin-left: 0;
+  }
   #steps li button {
     background-color: transparent;
     border: none;
