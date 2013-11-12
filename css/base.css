@@ -15,6 +15,13 @@ section {
   top: 154px;
   width: 100%;
 }
+  section .content {
+    bottom: 105px;
+    overflow-x: hidden;
+    overflow-y: auto;
+    position: absolute;
+    top: 42px;
+  }
 footer {
   background-color: black;
   border-top: solid 4px #918F7E;
@@ -89,6 +96,7 @@ iframe {
   background: url(../img/next-step-bottom.jpg) no-repeat bottom;
   background-color: #F9F7F1;
   color: #464646;
+  display: none;
   height: 100%;
   left: 0;
   position: absolute;
@@ -240,11 +248,17 @@ iframe {
   display: none;
   font-size: 15px;
   font-weight: bold;
-  margin: -16px -28px;
+  margin: 15px -28px;
   padding: 15px 10px;
   text-align: left;
   width: 266px;
 }
+  #button-addAnotherLayer:first-child {
+    font-size: 20px;
+  }
+  #button-addAnotherLayer:last-child {
+    padding-left: 20px;
+  }
 #button-addAnotherLayer:hover, #button-addAnotherLayer:focus {
   background-color: #f5f1e8;
   background-image: -moz-linear-gradient(bottom,rgba(237,233,218,1) 0%, rgba(226,217,196,1) 100%);
@@ -258,6 +272,9 @@ iframe {
   text-align: left;
   width: 100%;
 }
+  #button-addLayer span {
+    margin-left: 15px;
+  }
 .modal-title img {
   cursor: pointer;
 }

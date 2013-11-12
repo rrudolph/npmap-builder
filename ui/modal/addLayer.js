@@ -9,6 +9,7 @@ Builder.ui.modal.addLayer = (function() {
     $attribution = $('#layerAttribution'),
     $description = $('#layerDescription'),
     $name = $('#layerName'),
+    $type = $('#layerType'),
     abcs = ['A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z'],
     types = {
       arcgisserver: {
@@ -16,7 +17,6 @@ Builder.ui.modal.addLayer = (function() {
         _url: null,
         fields: {
           $layers: $('#arcgisserver-layers'),
-          //$opacity: $('#arcgisserver-opacity').slider(),
           $url: $('#arcgisserver-url').bind('change paste keyup', function() {
             var value = $(this).val();
 
@@ -46,6 +46,8 @@ Builder.ui.modal.addLayer = (function() {
           })
         },
         reset: function() {
+          types.arcgisserver.fields.$layers.parent().hide();
+          types.arcgisserver.fields.$url.val('');
           types.arcgisserver._tiled = false;
           types.arcgisserver._url = null;
         }
@@ -91,10 +93,25 @@ Builder.ui.modal.addLayer = (function() {
   }
 
   $('#modal-addLayer').modal().on('hidden.bs.modal', function() {
-    // TODO: Clean up and reset form(s).
-    // TODO: Pan content div up to 0.
+    $attribution.val(null);
+    $description.val(null);
+    $name.val(null);
+    $type.val('arcgisserver').trigger('change');
+    $('#modal-addLayer .tab-content').css({
+      top: 0
+    });
+    $.each(types, function(type) {
+      types[type].reset();
+    });
+    $.each($('#modal-addLayer .form-group'), function(index, formGroup) {
+      var $formGroup = $(formGroup);
+
+      if ($formGroup.hasClass('has-error')) {
+        $formGroup.removeClass('has-error');
+      }
+    });
   }).on('show.bs.modal shown.bs.modal', function() {
-    $name.focus();
+    $type.focus();
   });
   $('#modal-addLayer .btn-primary').click(function() {
     Builder.ui.modal.addLayer._click();
@@ -132,6 +149,9 @@ Builder.ui.modal.addLayer = (function() {
   $(window).resize(setHeight);
 
   return {
+    /**
+     *
+     */
     _click: function() {
       var
         attribution = $attribution.val() || null,
@@ -152,7 +172,6 @@ Builder.ui.modal.addLayer = (function() {
       if ($('#arcgisserver').is(':visible')) {
         (function() {
           var layers = types.arcgisserver.fields.$layers.val(),
-              //opacity = (100 - parseInt(types.arcgisserver.fields.$opacity.val(), 10)) / 100,
               url = types.arcgisserver.fields.$url.val();
 
           $.each(types.arcgisserver.fields, function(field) {
@@ -252,21 +271,12 @@ Builder.ui.modal.addLayer = (function() {
         })();
       }
 
-      console.log(errors);
-      console.log(config);
-
       if (errors.length) {
         $.each(errors, function(i, $el) {
-          $el.parent().parent().addClass('error');
+          $el.parent().addClass('has-error');
         });
       } else {
-        
-
-
-
-
-
-        //var $layers = $('#layers');
+        var $layers = $('#layers');
 
         config.attribution = attribution;
         config.description = description;
@@ -274,8 +284,7 @@ Builder.ui.modal.addLayer = (function() {
         NPMap.overlays.push(config);
         Builder.updateMap();
         $('#modal-addLayer').modal('hide');
-        
-        /*
+
         if (!$layers.is(':visible')) {
           $layers.prev().hide();
           $('#customize .content').css({
@@ -284,13 +293,8 @@ Builder.ui.modal.addLayer = (function() {
           $layers.show();
         }
 
-        // TODO: Extend this out so it is called every time the modal is hidden.
-        $.each(fields, function(i, field) {
-          $(field).val('');
-        });
         $layers.append($('<li><div class="letter">' + abcs[$layers.children().length] + '</div><div class="details"><span>' + name + '</span><span><img src="img/edit-layer.png" style="cursor:pointer;float:left;"><button style="background-color:transparent;border:none;float:right;" onclick="Builder._handlers.layerRemoveOnClick(this);"><img src="img/remove-layer.png" style="cursor:pointer;float:right;margin-top:3px;"></button></span></div></li>'));
         Builder._refreshLayersUl();
-        */
       }
     },
     /**
