@@ -100,20 +100,25 @@ var Builder = (function() {
     $($('section .step .btn-primary')[1]).on('click', function() {
       goToStep(1, 2);
     });
+    $('#layers').sortable({
+      onDrop: function($item) {
+        $item.removeClass('dragged').removeAttr('style');
+        $('body').removeClass('dragging');
+        // TODO: Re-letter and reorder overlays.
+      }
+    });
     $('#metadata .description a').editable();
     $('#metadata .title a').editable();
     $('[rel=tooltip]').tooltip();
   });
 
   return {
+    //
     _handlers: {
       /**
        *
        */
       layerRemoveOnClick: function(el) {
-        
-
-
         Builder.showConfirm('Yes, remove the layer', 'Once the layer is removed, you cannot get it back.', 'Are you sure?', function() {
           Builder.removeLayerLi(el);
           Builder.removeLayer($(el).parent().prev()[0].innerHTML);

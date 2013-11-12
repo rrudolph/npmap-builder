@@ -44,6 +44,10 @@
     position: absolute;
     width: 201px;
   }
+#modal-addLayer-description {
+  margin-bottom: 0;
+  padding: 15px;
+}
 #modal-addLayer .modal-footer {
   margin-top: 0;
 }
@@ -57,4 +61,7 @@
   }
 #cartodb, #geojson, #github, #kml, #mapbox {
   display: none;
+}
+#layerDescription {
+  resize: vertical;
 }

@@ -15,6 +15,9 @@ section {
   top: 154px;
   width: 100%;
 }
+  section div:first-child {
+    display: block;
+  }
   section .content {
     bottom: 105px;
     overflow-x: hidden;
@@ -277,4 +280,19 @@ iframe {
   }
 .modal-title img {
   cursor: pointer;
+}
+/* jQuery Draggable */
+body.dragging, body.dragging * {
+  cursor: move !important;
+}
+.dragged {
+  position: absolute;
+  opacity: 0.5;
+  z-index: 2000;
+}
+#layers li.placeholder {
+  position: relative;
+}
+#layers li.placeholder:before {
+  position: absolute;
 }

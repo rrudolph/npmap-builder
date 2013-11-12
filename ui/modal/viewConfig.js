@@ -13,7 +13,11 @@ Builder.ui.modal.viewConfig = (function() {
     });
   }
 
+  console.log('ok');
+
   $('#modal-viewConfig').modal().on('show.bs.modal shown.bs.modal', function() {
+    console.log('hello');
+
     var formatted = '',
         json = JSON.stringify(NPMap.config, null, 2).split('\n');
 

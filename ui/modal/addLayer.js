@@ -26,27 +26,28 @@ Builder.ui.modal.addLayer = (function() {
                 success: function(response) {
                   if (value !== types.arcgisserver._url) {
                     types.arcgisserver.fields.$layers.find('option').remove();
+                    types.arcgisserver.fields.$layers.removeAttr('disabled');
                     $.each(response.layers, function(i, layer) {
                       types.arcgisserver.fields.$layers.append($('<option>', {
                         value: layer.id
                       }).text(layer.id + ': ' + layer.name));
                     });
-                    types.arcgisserver.fields.$layers.parent().show();
-                    types.arcgisserver._tiled = response.singleFusedMapCache;
+                    types.arcgisserver._tiled = response.singleFusedMapCache || false;
                     types.arcgisserver._url = value;
                   }
                 },
                 url: value + '?f=json&callback=?'
               });
             } else {
-              types.arcgisserver.fields.$layers.parent().hide();
               types.arcgisserver.fields.$layers.find('option').remove();
+              types.arcgisserver.fields.$layers.attr('disabled', 'disabled');
               types.arcgisserver._url = null;
             }
           })
         },
         reset: function() {
-          types.arcgisserver.fields.$layers.parent().hide();
+          types.arcgisserver.fields.$layers.find('option').remove();
+          types.arcgisserver.fields.$layers.attr('disabled', 'disabled');
           types.arcgisserver.fields.$url.val('');
           types.arcgisserver._tiled = false;
           types.arcgisserver._url = null;
