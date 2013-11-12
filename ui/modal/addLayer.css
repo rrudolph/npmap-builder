@@ -44,6 +44,9 @@
     position: absolute;
     width: 201px;
   }
+#modal-addLayer .modal-footer {
+  margin-top: 0;
+}
 #modal-addLayer .tab-content {
   overflow: auto;
 }

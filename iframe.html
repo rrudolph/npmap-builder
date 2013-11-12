@@ -23,9 +23,7 @@
     <div id="map"></div>
     <script src="js/libs/json2.min.js"></script>
     <script>
-      var NPMap = {
-        config: JSON.parse(decodeURIComponent(window.location.search.replace('?c=', '')))
-      };
+      var NPMap = JSON.parse(decodeURIComponent(window.location.search.replace('?c=', '')));
 
       (function() {
         var s = document.createElement('script');

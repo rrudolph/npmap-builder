@@ -3,7 +3,8 @@ var NPMap = {
 };
 
 var Builder = (function() {
-  var $buttonAddAnotherLayer,
+  var
+    $buttonAddAnotherLayer,
     $modalAddLayer,
     $modalConfirm,
     $modalExport,
@@ -60,6 +61,9 @@ var Builder = (function() {
         });
       }
     });
+    $('#button-saveMap').on('click', function() {
+
+    });
     $('#button-viewConfig').on('click', function() {
       if ($modalViewConfig) {
         $modalViewConfig.modal('show');
@@ -69,11 +73,7 @@ var Builder = (function() {
         });
       }
     });
-    $('#button-saveMap').on('click', function() {
 
-    });
-
-    // Setup base UI
     $buttonAddAnotherLayer = $('#button-addAnotherLayer');
     $modalConfirm = $('#modal-confirm');
     stepLis = $('#steps li');
@@ -111,6 +111,9 @@ var Builder = (function() {
        *
        */
       layerRemoveOnClick: function(el) {
+        
+
+
         Builder.showConfirm('Yes, remove the layer', 'Once the layer is removed, you cannot get it back.', 'Are you sure?', function() {
           Builder.removeLayerLi(el);
           Builder.removeLayer($(el).parent().prev()[0].innerHTML);
@@ -126,10 +129,10 @@ var Builder = (function() {
 
       if ($ul.children().length === 0) {
         $buttonAddAnotherLayer.hide();
-        $ul.prev().css('padding', '15px 18px').show();
+        $ul.prev().show();
       } else {
         $buttonAddAnotherLayer.show();
-        $ul.prev().css('padding', '0').hide();
+        $ul.prev().hide();
       }
     },
     /**
@@ -157,7 +160,7 @@ var Builder = (function() {
         callback();
       });
       $($modalConfirm.find('.modal-body')[0]).html(content);
-      $($modalConfirm.find('h3')[0]).html(title);
+      $($modalConfirm.find('h4')[0]).html(title);
       $modalConfirm.modal('show');
     },
     /**
