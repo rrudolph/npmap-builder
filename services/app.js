@@ -1,18 +1,20 @@
 var express = require('express'),
 allowXSS = require('./allowXSS'),
+mkdirp = require('mkdirp'),
 fs = require('fs'),
 
 // Set the environment variables
 app = express(),
 dir = __dirname,
+// Required Functions
 createGuid = function() {
   return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
     var r = Math.random()*16|0, v = c === 'x' ? r : (r&0x3|0x8);
     return v.toString(16);
   });
 },
-readFile = function(guid, callback) {
-  fs.readFile(dir + '/' + guid + '.json', 'utf8', function (err,data) {
+readFile = function(guid, userId, callback) {
+  fs.readFile(dir + '/files/' + userId + '/'  + guid + '.json', 'utf8', function (err,data) {
     if (err) {
       callback(err);
     } else {
@@ -21,7 +23,7 @@ readFile = function(guid, callback) {
   });
 },
 returnFile = function(req, res) {
-  readFile(req.params.guid, function (err,data) {
+  readFile(req.params.guid, req.params.userId, function (err,data) {
     if (err) {
       res.status(404);
       res.send('error', { error: err });
@@ -32,18 +34,24 @@ returnFile = function(req, res) {
 },
 writeFile = function(fileContents, callback) {
   var thisFileContents = {
-    userId: fileContents.userId,
+    userId: fileContents.userId || 0,
     guid: fileContents.guid || createGuid(),
     mapName: fileContents.mapName,
     userJson: fileContents.userJson,
     isPublic: fileContents.isPublic,
     isShared: fileContents.isShared
   };
-  fs.writeFile(dir + '/' + thisFileContents.guid, thisFileContents, function(err) {
-    if(err) {
+  mkdirp(dir + '/files/' + thisFileContents.userId, function (dirErr) {
+    if (dirErr) {
       callback();
     } else {
-      callback(thisFileContents);
+      fs.writeFile(dir + '/files/' + thisFileContents.userId + '/' + thisFileContents.guid + '.json', JSON.stringify(thisFileContents, null, 2), function(err) {
+        if(err) {
+          callback();
+        } else {
+          callback(thisFileContents);
+        }
+      });
     }
   });
 },
@@ -70,19 +78,22 @@ readReq = function(req, callback) {
   });
 };
 
+// Set up the server
 app.set('port', process.env.PORT || 3001);
 allowXSS(app);
 
-app.get('/builder/:userId/:guid', function(req, res) {
+// Paths
+app.get('/:userId/:guid', function(req, res) {
   // Just returns the whole file to the user
   returnFile(req, res);
 });
 
-app.post('/builder/:userId', function(req, res) {
+app.post('/', function(req, res) {
   readReq(req, function(fileContents) {
+    fileContents = JSON.parse(fileContents);
     writeFile(fileContents, function(file) {
       if (file && file.guid) {
-        res.send(file.guid);
+        res.send({'guid': file.guid, 'userId' : file.userId});
       } else {
         res.status('500');
         res.send('error', { error:  'No more information'});
@@ -91,8 +102,10 @@ app.post('/builder/:userId', function(req, res) {
   });
 });
 
-app.put('/builder/:userId/:guid', function (req, res) {
+app.put('/:userId/:guid', function (req, res) {
   readReq(req, function(fileContents) {
+    fileContents = JSON.parse(fileContents);
+    fileContents.guid = req.params.guid;
     writeFile(fileContents, function(file) {
       if (file) {
         res.send(file);
@@ -104,10 +117,12 @@ app.put('/builder/:userId/:guid', function (req, res) {
   });
 });
 
-app.delete('/builder/:userId/:guid', function (req, res) {
+app.delete('/:userId/:guid', function (req, res) {
   //TODO: delete the file and if it doesn't exist, return 404
   res.send(req.params.guid);
 });
+
+app.use(express.static(__dirname + '/html'));
 
 app.listen(app.get('port'));
 console.log('Node.js server listening on port ' + app.get('port'));

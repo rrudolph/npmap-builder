@@ -1,0 +1,173 @@
+<HTML>
+  <HEAD>
+    <TITLE>
+      npmap builder test site
+    </TITLE>
+  </HEAD>
+  <BODY>
+    <H1>
+      TEST PAGE
+    </H1>
+    <hr/>
+    <form id="fileupload" name="fileupload" enctype="multipart/form-data" method="post">
+      <h2>Step 1 - uplaod a JSON file in the proper format</h2>
+      <fieldset id="step1">
+        <input type="file" name="fileselect" id="fileselect"></input>
+        <input id="uploadbutton" type="button" value="Post to Server"/>
+      </fieldset>
+    </form>
+    <form id="form2" name="form2">
+      <h2>Step 2 - Read it back</h2>
+      <fieldset id="step2">
+        File Name:
+        <input type="text" name="filename" id="file_guid" style="width: 250px;"></input>
+        User ID:
+        <input type="text" name="file_user" id="file_user" style="width: 25px;"></input>
+        <input id="readbutton" type="button" value="Read File Back"/>
+      </fieldset>
+    </form>
+    <form>
+      <h2>Step 3 - Display The contents</h2>
+      <fieldset id="step3">
+      <textarea id="bigText" style="width: 400px; height:250px;"></textarea>
+      </fieldset>
+    </form>
+    <form>
+      <h2>Step 4 - Change the File Contents</h2>
+      <fieldset id="step4">
+        <input type="file" name="fileselect" id="fileselect2"></input>
+        <input id="uploadbutton2" type="button" value="Post to Server"/>
+      </fieldset>
+    </form>
+    <form>
+      <h2>Step 5 - Read it back</h2>
+      <fieldset id="step2">
+        File Name:
+        <input type="text" name="filename" id="file_guid2" style="width: 250px;"></input>
+        User ID:
+        <input type="text" name="file_user" id="file_user2" style="width: 25px;"></input>
+        <input id="readbutton2" type="button" value="Read Updated File Back"/>
+      </fieldset>
+    </form>
+    <form>
+      <h2>Step 6 - Display The new file contents</h2>
+      <fieldset id="step3">
+      <textarea id="bigText2" style="width: 400px; height:250px;"></textarea>
+      </fieldset>
+    </form>
+    <form>
+      <h2>Step 7 - Delete The File</h2>
+      <fieldset id="step7">
+        <input id="deletebutton" type="button" value="Delete It"/>
+        <h1 style="color:#FF0000;display:none;" id="deleted">DELETED!!</h1>
+      </fieldset>
+    <script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
+    <script src="http://code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
+    <script>
+      $(function() {
+        var file;
+
+        // Set an event listener on the Choose File field.
+        $('#fileselect').bind("change", function(e) {
+          var files = e.target.files || e.dataTransfer.files;
+          // Our file var now holds the selected file
+          file = files[0];
+          });
+
+          $('#uploadbutton').click(function() {
+            var serverUrl = 'http://' + document.URL.split('/')[2];
+            $.ajax({
+              type: "POST",
+              url: serverUrl,
+              data: file,
+              processData: false,
+              contentType: false,
+              success: function(data) {
+              console.log("File available at: " + JSON.stringify(data,null,2));
+              $('#file_guid').val(data.guid);
+              $('#file_user').val(data.userId);
+              },
+              error: function(data) {
+                console.log(data);
+              }
+              });
+              });
+              $('#readbutton').click(function() {
+                var serverUrl = 'http://' + document.URL.split('/')[2] + '/' + $('#file_user').val() + '/' + $('#file_guid').val();
+                console.log(serverUrl);
+
+                $.ajax({
+                  type: "GET",
+                  url: serverUrl,
+                  success: function(data) {
+                    $('#bigText').val(data);
+                  },
+                  error: function(data) {
+                    console.log(data);
+                  }
+                });
+              });
+
+$('#fileselect2').bind("change", function(e) {
+          var files = e.target.files || e.dataTransfer.files;
+          // Our file var now holds the selected file
+          file2 = files[0];
+          });
+
+
+          $('#uploadbutton2').click(function() {
+            var serverUrl = 'http://' + document.URL.split('/')[2] + '/' + $('#file_user').val() + '/' + $('#file_guid').val();
+            $.ajax({
+              type: "PUT",
+              url: serverUrl,
+              data: file2,
+              processData: false,
+              contentType: false,
+              success: function(data) {
+              console.log("File available at: " + JSON.stringify(data));
+              $('#file_guid2').val(data.guid);
+              $('#file_user2').val(data.userId);
+              },
+              error: function(data) {
+                console.log(data);
+              }
+              });
+              })
+
+              $('#readbutton2').click(function() {
+                var serverUrl = 'http://' + document.URL.split('/')[2] + '/' + $('#file_user2').val() + '/' + $('#file_guid2').val();
+                console.log(serverUrl);
+
+                $.ajax({
+                  type: "GET",
+                  url: serverUrl,
+                  success: function(data) {
+                    $('#bigText2').val(data);
+                  },
+                  error: function(data) {
+                    console.log(data);
+                  }
+                });
+              });
+              $('#deletebutton').click(function() {
+                var serverUrl = 'http://' + document.URL.split('/')[2] + '/' + $('#file_user2').val() + '/' + $('#file_guid2').val();
+                console.log(serverUrl);
+
+                $.ajax({
+                  type: "DELETE",
+                  url: serverUrl,
+                  success: function(data) {
+                    $('#deleted').css('display', 'block');
+                  },
+                  error: function(data) {
+                    console.log(data);
+                  }
+                });
+              });
+
+
+
+              });
+            </script>
+          </BODY>
+        </HTMl>
