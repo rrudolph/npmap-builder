@@ -5,7 +5,7 @@ noauth = express.basicAuth(function(user, pass, callback) {
   callback(null /* error */, true);
 }),
 auth = express.basicAuth(function(user, pass, callback) {
-  var result = passwords.validate(user, pass, this);
+  var result = passwords.validate(user, pass);
   callback(null /* error */, result);
 }),
 jsonParse = function(json, callback) {
