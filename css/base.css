@@ -75,7 +75,7 @@ footer ul li a:hover {
   padding-left: 14px;
 }
 footer .tag-line {
-  background: url(../img/experience-your-america.jpg) no-repeat left;
+  background: url(../img/experience-your-america.png) no-repeat left;
   float: right;
   height: 7px;
   margin: 10px 10px 0 0;
@@ -163,7 +163,7 @@ iframe {
 }
 #metadata span:nth-child(1) {
   display: block;
-  padding: 0 155px 0 20px;
+  padding: 0 320px 0 20px;
 }
 #metadata span:nth-child(2) {
   bottom: 14px;
@@ -180,18 +180,19 @@ iframe {
 }
 #metadata .description {
   margin-top: 6px;
+  position: relative;
 }
-#modal-addLayer .modal-body {
-  padding: 0;
+  #metadata .description a {
+    max-width: 100%;
+    overflow: hidden;
+    position: absolute;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+#additional-tools-accordion {
+  margin: 0 -28px;
 }
-#modal-addLayer .nav-tabs {
-  margin-bottom: 0;
-  padding-bottom: 0;
-  padding-left: 15px;
-}
-#modal-addLayer .nav-tabs li {
-  width: 85px;
-}
+
 #steps {
   display: block;
   list-style-position: inside;
@@ -235,8 +236,10 @@ iframe {
   cursor: pointer;
   text-decoration: none;
 }
+.editable-error-block {
+  font-size: 13px;
+}
 /* End Bootstrap Editable overrides */
-
 #button-addAnotherLayer {
   background-color: #f5f1e8;
   background-image: -moz-linear-gradient(bottom,rgba(246,244,236,1) 0%, rgba(240,236,223,1) 100%);
@@ -295,4 +298,9 @@ body.dragging, body.dragging * {
 }
 #layers li.placeholder:before {
   position: absolute;
+}
+/* Bootstrap Overrides */
+.modal {
+  overflow: hidden;
+  overflow-y: hidden;
 }

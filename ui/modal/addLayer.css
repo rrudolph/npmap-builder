@@ -11,6 +11,17 @@
   display: block;
   height: 103px;
 }
+.dd-placeholder {
+  -webkit-box-sizing: border-box;
+     -moz-box-sizing: border-box;
+          box-sizing: border-box;
+  background: #cccccc;
+  cursor: move;
+  display: block;
+  height: 102px;
+  margin: 0;
+  padding: 0;
+}
 #layers li:last-child {
   border-bottom: none;
 }
@@ -44,6 +55,17 @@
     position: absolute;
     width: 201px;
   }
+#modal-addLayer .modal-body {
+  padding: 0;
+}
+#modal-addLayer .nav-tabs {
+  margin-bottom: 0;
+  padding-bottom: 0;
+  padding-left: 15px;
+}
+#modal-addLayer .nav-tabs li {
+  width: 85px;
+}
 #modal-addLayer-description {
   margin-bottom: 0;
   padding: 15px;

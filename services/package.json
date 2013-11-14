@@ -1,19 +1,18 @@
 {
   "name": "npmap-builder-services",
   "version": "0.0.1",
-  "keywords": ["express", "nps"],
-  "author": "Nate Irwin <nate_irwin@partner.nps.gov>",
+  "keywords": ["express", "nps", "npmap", "builder"],
+  "author": "Jim McAndrew <james_mcandrew@partner.nps.gov>",
   "license": "Public Domain",
-  "contributors": [
-    {
-      "name": "Jim McAndrew",
-      "email": "james_mcandrew@partner.nps.gov"
-    },
-    {
-      "name": "Nate Irwin",
-      "email": "nate_irwin@nps.gov"
-    }
-  ],
+  "contributors": [{
+    "email": "james_mcandrew@partner.nps.gov",
+    "name": "Jim McAndrew",
+    "url": "http://www.nps.gov/npmap/team/jim-mcandrew.html"
+  },{
+    "email": "nate_irwin@nps.gov",
+    "name": "Nate Irwin",
+    "url": "http://www.nps.gov/npmap/team/nate-irwin.html"
+  }],
   "scripts": {
     "start": "node app"
   },
