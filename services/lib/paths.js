@@ -8,16 +8,34 @@ auth = express.basicAuth(function(user, pass, callback) {
   var result = passwords.validate(user, pass, this);
   callback(null /* error */, result);
 }),
+jsonParse = function(json, callback) {
+  if (json) {
+    try {
+      var jsoned = JSON.parse(json);
+      callback(null, jsoned);
+    } catch(e) {
+      callback (e);
+    }
+  } else {
+    callback({'error': 'invalid json'});
+  }
+},
 functions = {
   create: function(req, res) {
     fileManagement.readReq(req, function(fileContents) {
-      fileContents = JSON.parse(fileContents);
-      fileManagement.writeFile(fileContents, function(file) {
-        if (file && file.guid) {
-          res.send({'guid': file.guid, 'userId' : file.userId});
-        } else {
-          res.status('500');
-          res.send('error', { error:  'No more information'});
+      jsonParse(fileContents, function(err, data) {
+        if (!err) {
+          fileManagement.writeFile(data, function(file) {
+            if (file && file.guid) {
+              res.send({'guid': file.guid, 'userId' : file.userId});
+            } else {
+              err = { 'error': 'Write Error' };
+            }
+          });
+        }
+        if (err) {
+          if (err.message) {err = err.message;}
+          res.send(400, {'error': err} );
         }
       });
     });
@@ -27,21 +45,33 @@ functions = {
   },
   update: function(req, res) {
     fileManagement.readReq(req, function(fileContents) {
-      fileContents = JSON.parse(fileContents);
-      fileContents.guid = req.params.guid;
-      fileManagement.writeFile(fileContents, function(file) {
-        if (file) {
-          res.send(file);
-        } else {
-          req.status('500');
-          res.send('error', { error:  'No more information'});
+      jsonParse(fileContents, function(err, data) {
+        if (!err) {
+          data.guid = req.params.guid;
+          fileManagement.writeFile(data, function(file) {
+            if (file) {
+              res.send(file);
+            } else {
+              err = { 'error' : 'Write Error' };
+            }
+          });
+        }
+        if (err) {
+          if (err.message) {err = err.message;}
+          res.send('400', { 'error':  err});
         }
       });
     });
   },
   del: function(req, res) {
     //TODO: delete the file and if it doesn't exist, return 404
-    res.send(req.params.guid);
+    fileManagement.deleteFile(req.params.guid, req.params.userId, function(err, data) {
+      if (!err && data === undefined) {
+        res.send(req.params.guid);
+      } else {
+        res.send('400', { 'error':  err});
+      }
+    });
   }
 },
 paths = [{

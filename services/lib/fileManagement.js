@@ -55,6 +55,11 @@ exports = module.exports = {
       }
     });
   },
+  deleteFile: function (guid, userId, callback) {
+    fs.unlink(dir + '/../files/' + userId + '/'  + guid + '.json', function (err,data) {
+      callback(err, data);
+    });
+  },
   readReq: function(req, callback) {
     // When you put or post a file, you need to read the stream in to the app
     // This function takes care of that
