@@ -42,12 +42,12 @@
       </ol>
       <div id="metadata">
         <span>
-          <h1 class="title"><a href="#" data-placement="right" data-title="Enter a Title" data-type="text">Untitled Map</a></h1>
-          <p class="description"><a href="#" data-placement="right" data-title="Enter a Description" data-type="textarea">Add a description to help others find your map.</a></p>
+          <h1 class="title"><a href="#" data-placement="right" data-title="Enter a Title" data-type="text"></a></h1>
+          <p class="description"><a href="#" data-placement="right" data-title="Enter a Description" data-type="textarea"></a></p>
         </span>
         <span>
           <button id="button-saveMap" class="btn btn-default">Save Map</button>
-          <button id="button-viewConfig" class="btn btn-default">View Code</button>
+          <!--<button id="button-viewConfig" class="btn btn-default">View Code</button>-->
         </span>
       </div>
     </header>
@@ -62,8 +62,10 @@
             <p>Add data to your map from a variety of sources.</p>
             <button id="button-addLayer" class="btn btn-subtle">&#9656;<span>Add Data Layer</span></button>
           </div>
-          <ul id="layers">
-          </ul>
+          <div class="dd">
+            <ul id="layers" class="dd-list">
+            </ul>
+          </div>
           <button id="button-addAnotherLayer">
             <span>+</span><span>Add another layer</span>
           </button>
@@ -80,6 +82,32 @@
         <div class="content">
           <div>
             <p>Customize the map's behavior and add additional functionality.</p>
+          </div>
+          <div class="panel-group" id="additional-tools-accordion">
+            <div class="panel panel-default">
+              <div class="panel-heading">
+                <h4 class="panel-title">
+                  <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapseOne">Set Dimensions & Zoom</a>
+                </h4>
+              </div>
+              <div id="collapseOne" class="panel-collapse collapse in">
+                <div class="panel-body">
+                  Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
+                </div>
+              </div>
+            </div>
+            <div class="panel panel-default">
+              <div class="panel-heading">
+                <h4 class="panel-title">
+                  <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo">Add Tools & Modules</a>
+                </h4>
+              </div>
+              <div id="collapseTwo" class="panel-collapse collapse">
+                <div class="panel-body">
+                  Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
+                </div>
+              </div>
+            </div>
           </div>
         </div>
         <div class="footer">
@@ -99,7 +127,7 @@
         </div>
       </div>
       <div id="map">
-        <iframe></iframe>
+        <iframe id="iframe-map"></iframe>
       </div>
     </section>
     <footer>
@@ -127,13 +155,15 @@
         </div>
       </div>
     </div>
+    <div id="mask" class="modal-backdrop in">
+    </div>
   </body>
   <script src="js/libs/json2.min.js"></script>
   <script src="http://code.jquery.com/jquery.js"></script>
   <script src="http://www.nps.gov/npmap/tools/bootstrap/3.0.0/js/nps-bootstrap.min.js"></script>
   <script src="js/libs/bootstrap-editable/js/bootstrap-editable.min.js"></script>
   <script src="js/libs/bootstrap-slider/js/bootstrap-slider.min.js"></script>
-  <script src="js/libs/jquery-sortable/jquery-sortable.min.js"></script>
+  <script src="js/libs/jquery-nestable/jquery-nestable.min.js"></script>
   <script src="js/libs/typeahead/typeahead.min.js"></script>
   <script src="js/app.js"></script>
 </html>

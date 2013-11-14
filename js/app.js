@@ -5,25 +5,34 @@ var NPMap = {
 var Builder = (function() {
   var
     $buttonAddAnotherLayer,
+    $iframe = $('#iframe-map'),
     $modalAddLayer,
     $modalConfirm,
     $modalExport,
     $modalViewConfig,
-    stepLis;
+    $stepSection = $('section .step'),
+    $ul = $('#layers'),
+    descriptionSet = false,
+    descriptionZ = null,
+    stepLis,
+    titleSet = false,
+    titleZ = null;
 
   /**
-   *
+   * Changes the step.
+   * @param {Number} from
+   * @param {Number} to
    */
   function goToStep(from, to) {
-    var $stepSection = $('section .step');
-
     $($stepSection[from]).hide();
     $($stepSection[to]).show();
     $(stepLis[from]).removeClass('active');
     $(stepLis[to]).addClass('active');
   }
   /**
-   *
+   * Loads a UI module.
+   * @param {String} module
+   * @param {Function} callback (Optional)
    */
   function loadModule(module, callback) {
     module = module.replace('Builder.', '').replace(/\./g,'/');
@@ -62,7 +71,7 @@ var Builder = (function() {
       }
     });
     $('#button-saveMap').on('click', function() {
-
+      // TODO: Check for required fields and then save map to service.
     });
     $('#button-viewConfig').on('click', function() {
       if ($modalViewConfig) {
@@ -100,20 +109,124 @@ var Builder = (function() {
     $($('section .step .btn-primary')[1]).on('click', function() {
       goToStep(1, 2);
     });
-    $('#layers').sortable({
-      onDrop: function($item) {
-        $item.removeClass('dragged').removeAttr('style');
-        $('body').removeClass('dragging');
-        // TODO: Re-letter and reorder overlays.
+    $('.dd').nestable({
+      handleClass: 'letter',
+      listNodeName: 'ul'
+    }).on('change', function() {
+      var overlays = [];
+
+      $.each($ul.children(), function(i, li) {
+        var from = parseInt($(li).attr('data-id'), 10);
+
+        if (from !== i) {
+          overlays.splice(i, 0, NPMap.overlays[from]);
+        }
+
+        $(li).attr('data-id', i.toString());
+        li.childNodes[0].innerHTML = Builder._abcs[i];
+      });
+
+      if (overlays.length) {
+        NPMap.overlays = overlays.reverse();
+        Builder.updateMap();
       }
+
+      Builder._refreshLayersUl();
     });
-    $('#metadata .description a').editable();
-    $('#metadata .title a').editable();
+    $('#metadata .description a').editable({
+      animation: false,
+      container: '#metadata span:first-child',
+      emptytext: 'Add a description to give your map context.',
+      validate: function(value) {
+        if ($.trim(value) === '') {
+          return 'Please enter a description for your map.';
+        }
+      }
+    }).on('hidden', function() {
+      var next = $(this).next();
+
+      if (!descriptionSet) {
+        $('#mask').remove();
+        next.css({
+          'z-index': descriptionZ
+        });
+        $(next.find('button')[1]).css({
+          display: 'block'
+        });
+        descriptionSet = true;
+      }
+    }).on('shown', function() {
+      var next = $(this).parent().next();
+
+      if (!descriptionSet) {
+        descriptionZ = next.css('z-index');
+        next.css({
+          'z-index': 1031
+        });
+        $(next.find('button')[1]).css({
+          display: 'none'
+        });
+      }
+
+      next.find('textarea').css({
+        'resize': 'none'
+      });
+    });
+    $('#metadata .title a').editable({
+      animation: false,
+      emptytext: 'Untitled Map',
+      validate: function(value) {
+        if ($.trim(value) === '') {
+          return 'Please enter a title for your map.';
+        }
+      }
+    }).on('hidden', function() {
+      var description = $('#metadata .description a').html(),
+          next = $(this).next();
+
+      if (!description || description === 'Add a description to give your map context.') {
+        $('#metadata .description a').editable('toggle');
+      }
+
+      if (!titleSet) {
+        next.css({
+          'z-index': titleZ
+        });
+        $(next.find('button')[1]).css({
+          display: 'block'
+        });
+        titleSet = true;
+      }
+    }).on('shown', function() {
+      var next = $(this).next();
+
+      if (!titleSet) {
+        titleZ = next.css('z-index');
+        next.css({
+          'z-index': 1031
+        });
+        $(next.find('button')[1]).css({
+          display: 'none'
+        });
+      }
+
+      next.find('.editable-clear-x').remove();
+      next.find('input').css({
+        'padding-right': '10px'
+      });
+    });
     $('[rel=tooltip]').tooltip();
+    $('#additional-tools-accordion').collapse();
+
+    setTimeout(function() {
+      $('#metadata .title a').editable('toggle');
+    }, 200);
   });
 
   return {
-    //
+    // PRIVATE: ABCs for the layer labels.
+    _abcs: ['A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z'],
+    // PRIVATE: HTML element handlers.
     _handlers: {
       /**
        *
@@ -130,14 +243,14 @@ var Builder = (function() {
      *
      */
     _refreshLayersUl: function() {
-      var $ul = $('#layers');
+      var previous = $ul.parent().prev();
 
       if ($ul.children().length === 0) {
         $buttonAddAnotherLayer.hide();
-        $ul.prev().show();
+        previous.show();
       } else {
         $buttonAddAnotherLayer.show();
-        $ul.prev().hide();
+        previous.hide();
       }
     },
     /**
@@ -172,7 +285,22 @@ var Builder = (function() {
      *
      */
     updateMap: function() {
-      $('iframe').attr('src', 'iframe.html?c=' + encodeURIComponent(JSON.stringify(NPMap)));
+      var npmap = document.getElementById('iframe-map').contentWindow.NPMap;
+
+      if (npmap) {
+        var map = npmap.config.L;
+
+        // TODO: This isn't hooked up in NPMap.js yet.
+        NPMap.hooks = {
+          init: function(callback) {
+            map.setCenter(map.getCenter());
+            map.setZoom(map.getZoom());
+            callback();
+          }
+        };
+      }
+
+      $iframe.attr('src', 'iframe.html?c=' + encodeURIComponent(JSON.stringify(NPMap)));
     }
   };
 })();
