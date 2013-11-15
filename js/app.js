@@ -12,6 +12,7 @@ var Builder = (function() {
     $modalViewConfig,
     $stepSection = $('section .step'),
     $ul = $('#layers'),
+    accordionHeightSet = false,
     descriptionSet = false,
     descriptionZ = null,
     stepLis,
@@ -28,6 +29,11 @@ var Builder = (function() {
     $($stepSection[to]).show();
     $(stepLis[from]).removeClass('active');
     $(stepLis[to]).addClass('active');
+
+    if (to === 1 && !accordionHeightSet) {
+      setAccordionHeight('#accordion-step-2');
+      accordionHeightSet = true;
+    }
   }
   /**
    * Loads a UI module.
@@ -50,6 +56,24 @@ var Builder = (function() {
       url: module + '.html'
     });
   }
+  /**
+   * Sets a height for each of an accordion's child panels.
+   * @param {String} selector
+   */
+  function setAccordionHeight(selector) {
+    var $accordion = $(selector),
+      outerHeight = $accordion.outerHeight();
+
+    if (outerHeight) {
+      var panels = $accordion.find('.panel'),
+        headerHeight = panels.length * 37;
+
+      $.each(panels, function(i, panel) {
+        var $child = $(panel).find('.panel-collapse');
+        $($child.children()[0]).height(outerHeight - headerHeight - 30 - 5);
+      });
+    }
+  }
 
   $(document).ready(function() {
     $('#button-addAnotherLayer, #button-addLayer').on('click', function() {
@@ -71,7 +95,7 @@ var Builder = (function() {
       }
     });
     $('#button-saveMap').on('click', function() {
-      // TODO: Check for required fields and then save map to service.
+      // TODO: Check for required fields and then save map to service. http://npmap_builder:321redliub_pampn@162.243.77.34/builder/
     });
     $('#button-viewConfig').on('click', function() {
       if ($modalViewConfig) {
@@ -216,8 +240,17 @@ var Builder = (function() {
       });
     });
     $('[rel=tooltip]').tooltip();
-    $('#additional-tools-accordion').collapse();
-
+    $('#accordion-step-2').on('shown.bs.collapse', function() {
+      setAccordionHeight('#accordion-step-2');
+    });
+    $('#set-zoom').slider({
+      max: 19,
+      min: 0,
+      value: [0, 19]
+    });
+    $(window).resize(function() {
+      setAccordionHeight('#accordion-step-2');
+    });
     setTimeout(function() {
       $('#metadata .title a').editable('toggle');
     }, 200);

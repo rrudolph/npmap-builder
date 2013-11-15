@@ -79,33 +79,38 @@
           <img src="img/step-2.jpg">
           <h3>Additional Tools & Settings</h3>
         </div>
-        <div class="content">
+        <div class="content" style="overflow:hidden;width:100%;">
           <div>
-            <p>Customize the map's behavior and add additional functionality.</p>
+            <p>Customize your map's behavior and add additional functionality.</p>
           </div>
-          <div class="panel-group" id="additional-tools-accordion">
+          <div class="panel-group" id="accordion-step-2" style="bottom:0;position:absolute;top:70px;width:100%;">
             <div class="panel panel-default">
-              <div class="panel-heading">
+              <div class="panel-heading" style="padding:10px 28px;">
                 <h4 class="panel-title">
-                  <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapseOne">Set Dimensions & Zoom</a>
+                  <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion-step-2" href="#set-dimensions-and-zoom">Set Dimensions & Zoom</a>
+                  <span class="glyphicon glyphicon-chevron-right"></span>
                 </h4>
               </div>
-              <div id="collapseOne" class="panel-collapse collapse in">
-                <div class="panel-body">
-                  Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
+              <div id="set-dimensions-and-zoom" class="panel-collapse collapse in">
+                <div class="panel-body" style="padding:15px 28px;">
+                  <h5 style="font-weight:bold;">Set Min and Max Zoom Levels</h5>
+                  <p style="margin-bottom:20px;">Use the slider to set the minimum and maximum zoom levels for the map. Use the center handle to set the initial zoom level.</p>
+                  <input type="text" id="set-zoom" class="form-control" required></input>
+                  <div class="bottom" style="border-top:dotted 1px #908e7d;padding-top:20px;">
+                    <button class="btn btn-default">Reset to Defaults</button>
+                  </div>
                 </div>
               </div>
             </div>
             <div class="panel panel-default">
-              <div class="panel-heading">
+              <div class="panel-heading" style="padding:10px 28px;">
                 <h4 class="panel-title">
-                  <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo">Add Tools & Modules</a>
+                  <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion-step-2" href="#add-tools-and-modules">Add Tools & Modules</a>
+                  <span class="glyphicon glyphicon-chevron-down"></span>
                 </h4>
               </div>
-              <div id="collapseTwo" class="panel-collapse collapse">
-                <div class="panel-body">
-                  Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
-                </div>
+              <div id="add-tools-and-modules" class="panel-collapse collapse">
+                <div class="panel-body" style="padding:15px 28px;">Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.</div>
               </div>
             </div>
           </div>
@@ -120,7 +125,7 @@
           <h3>Export Embed Code</h3>
         </div>
         <div class="content">
-          <p>Take your map with you. You can embed it in your nps.gov website or anywhere else on the web.</p>
+          <p>Take your map with you. You can embed it in your nps.gov web page or anywhere else on the web.</p>
         </div>
         <div class="footer">
           <button id="button-export" class="btn btn-primary">Export Embed Code</button>
@@ -160,9 +165,10 @@
   </body>
   <script src="js/libs/json2.min.js"></script>
   <script src="http://code.jquery.com/jquery.js"></script>
-  <script src="http://www.nps.gov/npmap/tools/bootstrap/3.0.0/js/nps-bootstrap.min.js"></script>
+  <!--<script src="http://www.nps.gov/npmap/tools/bootstrap/3.0.0/js/nps-bootstrap.min.js"></script>-->
+  <script src="http://localhost:9001/dist/js/nps-bootstrap.min.js"></script>
   <script src="js/libs/bootstrap-editable/js/bootstrap-editable.min.js"></script>
-  <script src="js/libs/bootstrap-slider/js/bootstrap-slider.min.js"></script>
+  <script src="js/libs/bootstrap-slider/js/bootstrap-slider.js"></script>
   <script src="js/libs/jquery-nestable/jquery-nestable.min.js"></script>
   <script src="js/libs/typeahead/typeahead.min.js"></script>
   <script src="js/app.js"></script>

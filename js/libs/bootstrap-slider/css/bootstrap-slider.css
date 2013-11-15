@@ -72,7 +72,7 @@
   white-space: nowrap;
 }
 .slider-handle {
-  background-image: url('../../../img/slider-arrow.png');
+  background-image: url('../img/slider-arrow.png');
   border: 0px solid transparent;
   height: 24px;
   position: absolute;
