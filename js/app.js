@@ -1,5 +1,5 @@
 var NPMap = {
-  "div": "map"
+  'div': 'map'
 };
 
 var Builder = (function() {
@@ -96,6 +96,27 @@ var Builder = (function() {
     });
     $('#button-saveMap').on('click', function() {
       // TODO: Check for required fields and then save map to service. http://npmap_builder:321redliub_pampn@162.243.77.34/builder/
+      var newNPMap = {'userJson' : $.extend(true, {}, NPMap)};
+      newNPMap.mapName = $('.title a').text();
+      newNPMap.isPublic = true;
+      newNPMap.isShared = true;
+      newNPMap.userJson.description = $('.description a').text();
+      //console.log(newNPMap);
+      var serverUrl = 'http://npmap_builder:321redliub_pampn@162.243.77.34/builder';
+      $.ajax({
+        type: 'POST',
+        xhrFields: { withCredentials: true }, 
+        url: serverUrl,
+        data: JSON.stringify(newNPMap),
+        processData: false,
+        contentType: false,
+        success: function(data) {
+          console.log('success:', data);
+        },
+        error: function(data) {
+          console.log('error', data);
+        }
+      });
     });
     $('#button-viewConfig').on('click', function() {
       if ($modalViewConfig) {
