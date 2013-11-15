@@ -75,7 +75,7 @@
           });
 
           $('#uploadbutton').click(function() {
-            var serverUrl = 'http://' + document.URL.split('/')[2];
+            var serverUrl = 'http://user:pass@' + document.URL.split('/')[2]+ '/' + document.URL.split('/')[3];
             $.ajax({
               type: "POST",
               url: serverUrl,
@@ -93,7 +93,7 @@
               });
               });
               $('#readbutton').click(function() {
-                var serverUrl = 'http://' + document.URL.split('/')[2] + '/' + $('#file_user').val() + '/' + $('#file_guid').val();
+                var serverUrl = 'http://' + document.URL.split('/')[2] + '/' + document.URL.split('/')[3] + '/' + $('#file_user').val() + '/' + $('#file_guid').val();
                 console.log(serverUrl);
 
                 $.ajax({
@@ -116,7 +116,7 @@ $('#fileselect2').bind("change", function(e) {
 
 
           $('#uploadbutton2').click(function() {
-            var serverUrl = 'http://' + document.URL.split('/')[2] + '/' + $('#file_user').val() + '/' + $('#file_guid').val();
+            var serverUrl = 'http://' + document.URL.split('/')[2] + '/' + document.URL.split('/')[3]  + '/' + $('#file_user').val() + '/' + $('#file_guid').val();
             $.ajax({
               type: "PUT",
               url: serverUrl,
@@ -135,7 +135,7 @@ $('#fileselect2').bind("change", function(e) {
               })
 
               $('#readbutton2').click(function() {
-                var serverUrl = 'http://' + document.URL.split('/')[2] + '/' + $('#file_user2').val() + '/' + $('#file_guid2').val();
+                var serverUrl = 'http://' + document.URL.split('/')[2] + '/' + document.URL.split('/')[3]  + '/' + $('#file_user2').val() + '/' + $('#file_guid2').val();
                 console.log(serverUrl);
 
                 $.ajax({
@@ -150,7 +150,7 @@ $('#fileselect2').bind("change", function(e) {
                 });
               });
               $('#deletebutton').click(function() {
-                var serverUrl = 'http://' + document.URL.split('/')[2] + '/' + $('#file_user2').val() + '/' + $('#file_guid2').val();
+                var serverUrl = 'http://' + document.URL.split('/')[2] + '/' + document.URL.split('/')[3] + '/' + $('#file_user2').val() + '/' + $('#file_guid2').val();
                 console.log(serverUrl);
 
                 $.ajax({
