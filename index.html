@@ -14,7 +14,7 @@
     <!--<link href="http://www.nps.gov/npmap/tools/bootstrap/3.0.0/css/nps-bootstrap.min.css" rel="stylesheet">-->
     <link href="http://localhost:9001/dist/css/nps-bootstrap.min.css" rel="stylesheet">
     <link href="js/libs/bootstrap-editable/css/bootstrap-editable.min.css" rel="stylesheet">
-    <link href="js/libs/bootstrap-slider/css/bootstrap-slider.min.css" rel="stylesheet">
+    <link href="js/libs/bootstrap-slider/css/bootstrap-slider.css" rel="stylesheet">
     <link href="js/libs/typeahead/typeahead.min.css" rel="stylesheet">
     <link href="css/base.css" rel="stylesheet" media="screen">
     <link rel="alternate" type="application/atom+xml" href="http://www.nps.gov/npmap/blog/atom.xml" title="NPMap blog posts">
@@ -36,8 +36,8 @@
         </a>
       </span>
       <ol id="steps">
-        <li class="active"><button>1. Add & Customize Data</button></li>
-        <li><button>2. Additional Tools & Settings</button></li>
+        <li class="active"><button>1. Settings & Tools</button></li>
+        <li><button>2. Add & Customize Data</button></li>
         <li><button>3. Export Embed Code</button></li>
       </ol>
       <div id="metadata">
@@ -47,6 +47,7 @@
         </span>
         <span>
           <button id="button-saveMap" class="btn btn-default">Save Map</button>
+          <button id="button-settings" class="btn btn-default">Settings</button>
           <!--<button id="button-viewConfig" class="btn btn-default">View Code</button>-->
         </span>
       </div>
@@ -55,49 +56,33 @@
       <div class="step">
         <div class="header">
           <img src="img/step-1.jpg">
-          <h3>Add & Customize Data</h3>
-        </div>
-        <div class="content">
-          <div>
-            <p>Add data to your map from a variety of sources.</p>
-            <button id="button-addLayer" class="btn btn-subtle">&#9656;<span>Add Data Layer</span></button>
-          </div>
-          <div class="dd">
-            <ul id="layers" class="dd-list">
-            </ul>
-          </div>
-          <button id="button-addAnotherLayer">
-            <span>+</span><span>Add another layer</span>
-          </button>
-        </div>
-        <div class="footer">
-          <button class="btn btn-primary">Next: <span>Additional Tools</span></button>
-        </div>
-      </div>
-      <div class="step">
-        <div class="header">
-          <img src="img/step-2.jpg">
-          <h3>Additional Tools & Settings</h3>
+          <h3>Settings & Tools</h3>
         </div>
         <div class="content" style="overflow:hidden;width:100%;">
           <div>
             <p>Customize your map's behavior and add additional functionality.</p>
           </div>
-          <div class="panel-group" id="accordion-step-2" style="bottom:0;position:absolute;top:70px;width:100%;">
+          <div class="panel-group" id="accordion-step-1" style="bottom:0;position:absolute;top:70px;width:100%;">
             <div class="panel panel-default">
               <div class="panel-heading" style="padding:10px 28px;">
                 <h4 class="panel-title">
-                  <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion-step-2" href="#set-dimensions-and-zoom">Set Dimensions & Zoom</a>
+                  <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion-step-1" href="#set-dimensions-and-zoom">Set Dimensions & Zoom</a>
                   <span class="glyphicon glyphicon-chevron-right"></span>
                 </h4>
               </div>
               <div id="set-dimensions-and-zoom" class="panel-collapse collapse in">
                 <div class="panel-body" style="padding:15px 28px;">
                   <h5 style="font-weight:bold;">Set Min and Max Zoom Levels</h5>
-                  <p style="margin-bottom:20px;">Use the slider to set the minimum and maximum zoom levels for the map. Use the center handle to set the initial zoom level.</p>
+                  <p style="margin-bottom:20px;">Use the slider to set the minimum and maximum zoom levels for the map.</p>
                   <input type="text" id="set-zoom" class="form-control" required></input>
                   <div class="bottom" style="border-top:dotted 1px #908e7d;padding-top:20px;">
-                    <button class="btn btn-default">Reset to Defaults</button>
+                    <p class="help-block">Initial Center: <span class="lat"></span>, <span class="lng"></span><br>Initial Zoom: <span class="zoom"></span></p>
+                    <button class="btn btn-default btn-block">Set Center & Zoom from Map</button>
+                    <!--
+                    <div class="checkbox">
+                      <label><input type="checkbox" value="">Restrict the bounds to the current viewport</label>
+                    </>
+                    -->
                   </div>
                 </div>
               </div>
@@ -105,7 +90,7 @@
             <div class="panel panel-default">
               <div class="panel-heading" style="padding:10px 28px;">
                 <h4 class="panel-title">
-                  <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion-step-2" href="#add-tools-and-modules">Add Tools & Modules</a>
+                  <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion-step-1" href="#add-tools-and-modules">Add Tools</a>
                   <span class="glyphicon glyphicon-chevron-down"></span>
                 </h4>
               </div>
@@ -114,6 +99,29 @@
               </div>
             </div>
           </div>
+        </div>
+        <div class="footer">
+          <button class="btn btn-primary">Next: <span>Add & Customize Data</span></button>
+        </div>
+      </div>
+      <div class="step">
+        <div class="header">
+          <img src="img/step-2.jpg">
+          <h3>Add & Customize Data</h3>
+        </div>
+        <div class="content">
+          <div>
+            <p>Add data to your map from a variety of sources.</p>
+            <button id="button-addLayer" class="btn btn-subtle">&#9656;<span>Add Overlays</span></button>
+            <button id="button-addBaseMaps" class="btn btn-subtle">&#9656;<span>Add Base Maps</span></button>
+          </div>
+          <div class="dd">
+            <ul id="layers" class="dd-list">
+            </ul>
+          </div>
+          <button id="button-addAnotherLayer">
+            <span>+</span><span>Add another layer</span>
+          </button>
         </div>
         <div class="footer">
           <button class="btn btn-primary">Next: <span>Export Embed Code</span></button>

@@ -1,3 +1,5 @@
+/* globals Modernizr */
+
 /* =========================================================
  * bootstrap-slider.js v2.0.0
  * http://www.eyecon.ro/bootstrap-slider
@@ -29,9 +31,10 @@
       '<div class="slider">' +
         '<div class="slider-track">' +
           '<div class="slider-selection"></div>' +
-          '<div class="slider-handle"></div>' +
+          '<div class="slider-handle value"></div>' +
+          '<div class="slider-handle min"></div>' +
           '<div class="slider-handle center"></div>' +
-          '<div class="slider-handle"></div>' +
+          '<div class="slider-handle max"></div>' +
         '</div>' +
         '<div class="tooltip"><div class="tooltip-arrow"></div><div class="tooltip-inner"></div></div>' +
       '</div>'
@@ -68,6 +71,7 @@
         break;
     }
 
+    this.center = this.element.data('slider-center') || options.center;
     this.max = this.element.data('slider-max') || options.max;
     this.min = this.element.data('slider-min') || options.min;
     this.step = this.element.data('slider-step') || options.step;
@@ -85,16 +89,28 @@
     }
 
     this.selectionElStyle = this.selectionEl[0].style;
-    this.handle1 = this.picker.find('.slider-handle:first');
-    this.handle1Stype = this.handle1[0].style;
-    this.handle2 = this.picker.find('.slider-handle:last');
-    this.handle2Stype = this.handle2[0].style;
+    this.handleCenter = this.picker.find('.slider-handle.center');
+    this.handleCenterStype = this.handleCenter[0].style;
+    this.handleMin = this.picker.find('.slider-handle.min');
+    this.handleMinStype = this.handleMin[0].style;
+    this.handleMax = this.picker.find('.slider-handle.max');
+    this.handleMaxStype = this.handleMax[0].style;
+    this.handleSingle = this.picker.find('.slider-handle.value');
+    this.handleSingleMaxStype = this.handleSingle[0].style;
 
     if (this.range) {
+      this.handleSingle.addClass('hide');
+
+      if (!this.center) {
+        this.handleCenter.addClass('hide');
+      }
+
       this.value[0] = Math.max(this.min, Math.min(this.max, this.value[0]));
       this.value[1] = Math.max(this.min, Math.min(this.max, this.value[1]));
     } else {
-      this.handle2.addClass('hide');
+      this.handleCenter.addClass('hide');
+      this.handleMin.addClass('hide');
+      this.handleMax.addClass('hide');
       this.value = [Math.max(this.min, Math.min(this.max, this.value))];
 
       if (this.selection === 'after') {
@@ -144,6 +160,7 @@
     over: false,
     calculateValue: function() {
       var val;
+
       if (this.range) {
         val = [
           (this.min + Math.round((this.diff * this.percentage[0]/100)/this.step)*this.step),
@@ -178,8 +195,8 @@
       this.over = false;
     },
     layout: function(){
-      this.handle1Stype[this.stylePos] = this.percentage[0] + '%';
-      this.handle2Stype[this.stylePos] = this.percentage[1] + '%';
+      this.handleMinStype[this.stylePos] = this.percentage[0] + '%';
+      this.handleMaxStype[this.stylePos] = this.percentage[1] + '%';
 
       if (this.orientation === 'vertical') {
         this.selectionElStyle.top = Math.min(this.percentage[0], this.percentage[1]) + '%';
@@ -289,11 +306,13 @@
       }
 
       this.inDrag = false;
-      if (this.over == false) {
+
+      if (this.over === false) {
         this.hideTooltip();
       }
-      this.element;
+
       var val = this.calculateValue();
+
       this.element
         .trigger({
           type: 'slideStop',
@@ -360,7 +379,7 @@
     tooltip: 'show',
     value: 5,
     formatter: function(value) {
-      return value + '%';
+      return value;
     }
   };
   $.fn.slider.Constructor = Slider;
