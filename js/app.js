@@ -102,10 +102,12 @@ var Builder = (function() {
       newNPMap.isShared = true;
       newNPMap.userJson.description = $('.description a').text();
       //console.log(newNPMap);
-      var serverUrl = 'http://npmap_builder:321redliub_pampn@162.243.77.34/builder';
+      var serverUrl = 'http://162.243.77.34/builder';
       $.ajax({
+        beforeSend: function (xhr) {
+          xhr.setRequestHeader ('Authorization', 'Basic ' + btoa('npmap_builder:321redliub_pampn'));
+        },
         type: 'POST',
-        xhrFields: { withCredentials: true }, 
         url: serverUrl,
         data: JSON.stringify(newNPMap),
         processData: false,
