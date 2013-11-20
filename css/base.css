@@ -124,6 +124,9 @@ iframe {
   .step .content {
     padding: 16px 28px;
   }
+    .step .content legend {
+      font-size: 18px;
+    }
   .step .footer {
     bottom: 0;
     height: 105px;

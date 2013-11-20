@@ -1,3 +1,7 @@
+// TODO: Add default baseLayer here. This should be done separate of NPMap.js.
+
+
+
 var NPMap = {
     "div": "map"
   },
@@ -260,6 +264,7 @@ var Builder = (function() {
       // Use map object to get center and zoom, then update spans and map and refresh.
     });
     $('#set-zoom').slider({
+      center: 4,
       max: 19,
       min: 0,
       value: [0, 19]
