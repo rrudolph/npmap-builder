@@ -22,13 +22,13 @@ var Builder = (function() {
     titleSet = false,
     titleZ = null;
 
-   * Gets the Leaflet map object from the map iframe.
+   /* Gets the Leaflet map object from the map iframe.
    * @return {Object}
    */
   function getLeafletMap() {
     return document.getElementById('iframe-map').contentWindow.NPMap.config.L;
   }
-   * Changes the step.
+   /* Changes the step.
    * @param {Number} from
    * @param {Number} to
    */
@@ -161,6 +161,7 @@ var Builder = (function() {
         contentType: false,
         success: function(data) {
           console.log('success:', data);
+          $('#button-saveMap').attr("disabled", "disabled");
         },
         error: function(data) {
           console.log('error', data);
