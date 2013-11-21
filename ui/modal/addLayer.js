@@ -73,10 +73,14 @@ Builder.ui.modal.addLayer = (function() {
       },
       github: {
         fields: {
-
+          $path: $('#github-path'),
+          $repo: $('#github-repo'),
+          $user: $('#github-user')
         },
         reset: function() {
-          
+          types.github.fields.$path.val('');
+          types.github.fields.$repo.val('');
+          types.github.fields.$user.val('');
         }
       },
       kml: {
@@ -95,27 +99,31 @@ Builder.ui.modal.addLayer = (function() {
     });
   }
 
-  $('#modal-addLayer').modal().on('hidden.bs.modal', function() {
-    $attribution.val(null);
-    $description.val(null);
-    $name.val(null);
-    $type.val('arcgisserver').trigger('change');
-    $('#modal-addLayer .tab-content').css({
-      top: 0
-    });
-    $.each(types, function(type) {
-      types[type].reset();
-    });
-    $.each($('#modal-addLayer .form-group'), function(index, formGroup) {
-      var $formGroup = $(formGroup);
+  $('#modal-addLayer').modal({
+    backdrop: 'static'
+  })
+    .on('hidden.bs.modal', function() {
+      $attribution.val(null);
+      $description.val(null);
+      $name.val(null);
+      $type.val('arcgisserver').trigger('change');
+      $('#modal-addLayer .tab-content').css({
+        top: 0
+      });
+      $.each(types, function(type) {
+        types[type].reset();
+      });
+      $.each($('#modal-addLayer .form-group'), function(index, formGroup) {
+        var $formGroup = $(formGroup);
 
-      if ($formGroup.hasClass('has-error')) {
-        $formGroup.removeClass('has-error');
-      }
+        if ($formGroup.hasClass('has-error')) {
+          $formGroup.removeClass('has-error');
+        }
+      });
+    })
+    .on('shown.bs.modal', function() {
+      $type.focus();
     });
-  }).on('show.bs.modal shown.bs.modal', function() {
-    $type.focus();
-  });
   $('#modal-addLayer .btn-primary').click(function() {
     Builder.ui.modal.addLayer._click();
   });
@@ -149,6 +157,7 @@ Builder.ui.modal.addLayer = (function() {
     animation: false
   });
   setHeight();
+  $type.focus();
   $(window).resize(setHeight);
 
   return {
@@ -192,11 +201,11 @@ Builder.ui.modal.addLayer = (function() {
           }
 
           config = {
-            "layers": layers,
-            "opacity": 1,
-            "tiled": types.arcgisserver._tiled,
-            "type": "arcgisserver",
-            "url": url
+            layers: layers,
+            opacity: 1,
+            tiled: types.arcgisserver._tiled,
+            type: 'arcgisserver',
+            url: url
           };
         })();
       } else if ($('#cartodb').is(':visible')) {
@@ -218,9 +227,9 @@ Builder.ui.modal.addLayer = (function() {
           }
 
           config = {
-            "table": table,
-            "type": "cartodb",
-            "user": user
+            table: table,
+            type: 'cartodb',
+            user: user
           };
         })();
       } else if ($('#geojson').is(':visible')) {
@@ -235,11 +244,39 @@ Builder.ui.modal.addLayer = (function() {
           }
 
           config = {
-            "type": "geojson",
-            "url": url
+            type: 'geojson',
+            url: url
           };
         })();
       } else if ($('#github').is(':visible')) {
+        (function() {
+          var path = types.github.fields.$path.val(),
+              repo = types.github.fields.$repo.val(),
+              user = types.github.fields.$user.val();
+
+          $.each(types.github.fields, function(field) {
+            fields.push(field);
+          });
+
+          if (!path) {
+            errors.push(types.github.fields.$path);
+          }
+
+          if (!repo) {
+            errors.push(types.github.fields.$repo);
+          }
+
+          if (!user) {
+            errors.push(types.github.fields.$user);
+          }
+
+          config = {
+            path: path,
+            repo: repo,
+            type: 'github',
+            user: user
+          };
+        })();
       } else if ($('#kml').is(':visible')) {
         (function() {
           var $url = $('#kml-url'),
@@ -252,8 +289,8 @@ Builder.ui.modal.addLayer = (function() {
           }
 
           config = {
-            "type": "kml",
-            "url": url
+            'type': 'kml',
+            'url': url
           };
         })();
       } else if ($('#mapbox').is(':visible')) {
@@ -268,8 +305,8 @@ Builder.ui.modal.addLayer = (function() {
           }
 
           config = {
-            "id": id,
-            "type": "mapbox"
+            'id': id,
+            'type': 'mapbox'
           };
         })();
       }

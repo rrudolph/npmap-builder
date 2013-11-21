@@ -22,9 +22,6 @@
 #modal-editBaseMaps .well .row {
   margin-bottom: 10px;
 }
-  #modal-editBaseMaps .well .row img {
-    cursor: pointer;
-  }
 #modal-editBaseMaps .well .row:last-child {
   margin-bottom: 0;
 }

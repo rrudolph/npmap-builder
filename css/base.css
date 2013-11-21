@@ -243,7 +243,7 @@ iframe {
   font-size: 13px;
 }
 /* End Bootstrap Editable overrides */
-#button-addAnotherLayer {
+#button-addAnotherLayer, #button-editBaseMapsAgain {
   background-color: #f5f1e8;
   background-image: -moz-linear-gradient(bottom,rgba(246,244,236,1) 0%, rgba(240,236,223,1) 100%);
   background-image: -o-linear-gradient(bottom,rgba(246,244,236,1) 0%, rgba(240,236,223,1) 100%);
@@ -258,17 +258,17 @@ iframe {
   font-size: 15px;
   font-weight: bold;
   margin: 15px -28px;
-  padding: 14px 10px;
+  padding: 8px 10px;
   text-align: left;
   width: 266px;
 }
-  #button-addAnotherLayer span:first-child {
+  #button-addAnotherLayer span:first-child, #button-editBaseMapsAgain span:first-child {
     font-size: 20px;
   }
-  #button-addAnotherLayer span:last-child {
+  #button-addAnotherLayer span:last-child, #button-editBaseMapsAgain span:last-child {
     padding-left: 20px;
   }
-#button-addAnotherLayer:hover, #button-addAnotherLayer:focus {
+#button-addAnotherLayer:hover, #button-addAnotherLayer:focus, #button-editBaseMapsAgain:hover, #button-editBaseMapsAgain:hover {
   background-color: #f5f1e8;
   background-image: -moz-linear-gradient(bottom,rgba(237,233,218,1) 0%, rgba(226,217,196,1) 100%);
   background-image: -o-linear-gradient(bottom,rgba(237,233,218,1) 0%, rgba(226,217,196,1) 100%);
@@ -276,6 +276,13 @@ iframe {
   background-image: linear-gradient(bottom,rgba(237,233,218,1) 0%, rgba(226,217,196,1) 100%);
   background-position: 0 0;
   color: #5e7630;
+}
+#button-addAnotherLayer {
+  border-bottom: none;
+  margin-bottom: 0;
+}
+#button-editBaseMapsAgain {
+  margin-top: 0;
 }
 #button-addLayer, #button-editBaseMaps {
   text-align: left;

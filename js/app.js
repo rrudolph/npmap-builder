@@ -1,12 +1,11 @@
-// TODO: Add default baseLayer here. This should be done separate of NPMap.js.
-
-
-
 var NPMap = {
-  'div': 'map'
+  baseLayers: ['nps-lightStreets'],
+  div: 'map',
+  homeControl: true
 };
 var Builder = (function() {
   var $buttonAddAnotherLayer,
+    $buttonEditBaseMapsAgain,
     $iframe = $('#iframe-map'),
     $modalAddLayer,
     $modalEditBaseMaps,
@@ -15,19 +14,20 @@ var Builder = (function() {
     $modalViewConfig,
     $stepSection = $('section .step'),
     $ul = $('#layers'),
-    //accordionHeightSet = false,
     descriptionSet = false,
     descriptionZ = null,
     stepLis,
     titleSet = false,
     titleZ = null;
 
+  /**
    * Gets the Leaflet map object from the map iframe.
    * @return {Object}
    */
   function getLeafletMap() {
     return document.getElementById('iframe-map').contentWindow.NPMap.config.L;
   }
+  /**
    * Changes the step.
    * @param {Number} from
    * @param {Number} to
@@ -37,13 +37,6 @@ var Builder = (function() {
     $($stepSection[to]).show();
     $(stepLis[from]).removeClass('active');
     $(stepLis[to]).addClass('active');
-
-    /*
-    if (to === 1 && !accordionHeightSet) {
-      setAccordionHeight('#accordion-step-2');
-      accordionHeightSet = true;
-    }
-    */
   }
   /**
    * Loads a UI module.
@@ -88,6 +81,7 @@ var Builder = (function() {
 
   $(document).ready(function() {
     $buttonAddAnotherLayer = $('#button-addAnotherLayer');
+    $buttonEditBaseMapsAgain = $('#button-editBaseMapsAgain');
     $modalConfirm = $('#modal-confirm');
     stepLis = $('#steps li');
 
@@ -122,7 +116,7 @@ var Builder = (function() {
         });
       }
     });
-    $('#button-editBaseMaps').on('click', function() {
+    $('#button-editBaseMaps, #button-editBaseMapsAgain').on('click', function() {
       if ($modalEditBaseMaps) {
         $modalEditBaseMaps.modal('show');
       } else {
@@ -141,13 +135,11 @@ var Builder = (function() {
       }
     });
     $('#button-saveMap').on('click', function() {
-      // TODO: Check for required fields and then save map to service. http://npmap_builder:321redliub_pampn@162.243.77.34/builder/
       var newNPMap = {'userJson' : $.extend(true, {}, NPMap)};
       newNPMap.mapName = $('.title a').text();
       newNPMap.isPublic = true;
       newNPMap.isShared = true;
       newNPMap.userJson.description = $('.description a').text();
-      //console.log(newNPMap);
       var serverUrl = 'http://162.243.77.34/builder';
       $.ajax({
         beforeSend: function (xhr) {
@@ -313,7 +305,7 @@ var Builder = (function() {
     $('#accordion-step-1').on('shown.bs.collapse', function() {
       setAccordionHeight('#accordion-step-1');
     });
-    $('#set-center-and-zoom .btn-block').on('click', function() {
+    $($('#set-center-and-zoom .btn-block')[0]).on('click', function() {
       var map = getLeafletMap(),
         center = map.getCenter();
 
@@ -323,6 +315,26 @@ var Builder = (function() {
       };
       NPMap.zoom = map.getZoom();
       Builder._updateInitialCenterAndZoom();
+      Builder.updateMap();
+    });
+    $('#set-center-and-zoom .bounds-clear a').on('click', function() {
+      delete NPMap.maxBounds;
+      $('#set-center-and-zoom .bounds').html('No');
+      $('#set-center-and-zoom .bounds-clear').hide();
+      Builder.updateMap();
+    });
+    $($('#set-center-and-zoom .btn-block')[1]).on('click', function() {
+      var bounds = getLeafletMap().getBounds(),
+        northEast = bounds.getNorthEast(),
+        southWest = bounds.getSouthWest();
+
+      NPMap.maxBounds = [
+        [southWest.lat, southWest.lng],
+        [northEast.lat, northEast.lng]
+      ];
+
+      $('#set-center-and-zoom .bounds').html('Yes');
+      $('#set-center-and-zoom .bounds-clear').show();
       Builder.updateMap();
     });
     $('#set-zoom').slider({
@@ -369,9 +381,11 @@ var Builder = (function() {
 
       if ($ul.children().length === 0) {
         $buttonAddAnotherLayer.hide();
+        $buttonEditBaseMapsAgain.hide();
         previous.show();
       } else {
         $buttonAddAnotherLayer.show();
+        $buttonEditBaseMapsAgain.show();
         previous.hide();
       }
     },
@@ -415,6 +429,7 @@ var Builder = (function() {
      *
      */
     updateMap: function(callback) {
+      /*
       var npmap = document.getElementById('iframe-map').contentWindow.NPMap;
 
       if (npmap) {
@@ -429,6 +444,7 @@ var Builder = (function() {
           }
         };
       }
+      */
 
       $iframe.attr('src', 'iframe.html?c=' + encodeURIComponent(JSON.stringify(NPMap)));
       var interval = setInterval(function() {

@@ -3,10 +3,10 @@
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-        <h4 id="modal-addLayer-title" class="modal-title">Add Data Layer&nbsp;<img src="img/help.png" rel="tooltip" title="You can add ArcGIS Server, CartoDB, GeoJSON, KML, and MapBox Hosting layers to your map. The NPMap Catalog includes results from the National Park Service ArcGIS Server (from both ArcGIS Online and public-facing ArcGIS Server instances), CartoDB, GitHub, and MapBox Hosting accounts." data-placement="bottom"></h4>
+        <h4 id="modal-addLayer-title" class="modal-title">Add Overlay&nbsp;<img src="img/help.png" rel="tooltip" title="You can add ArcGIS Server, CartoDB, GeoJSON, KML, and MapBox Hosting overlays to your map. The NPMap Catalog includes results from the National Park Service ArcGIS Server (from both ArcGIS Online and public-facing ArcGIS Server instances), CartoDB, GitHub, and MapBox Hosting accounts." data-placement="bottom"></h4>
       </div>
       <div class="modal-body">
-        <p id="modal-addLayer-description">You can add a layer to your map either by typing in the layer metadata or searching the NPMap Catalog for datasets to add. Hover over the help icon above for more information.</p>
+        <p id="modal-addLayer-description">You can add an overlay to your map either by typing in information about the overlay or searching the NPMap Catalog for datasets to add. Hover over the help icon above for more information.</p>
         <ul class="nav nav-tabs">
           <li class="active"><a href="#manual" data-toggle="tab">Manual</a></li>
           <li><a href="#search" data-toggle="tab">Search</a></li>
@@ -34,7 +34,7 @@
                 <textarea id="layerDescription" rows="3"  class="form-control"></textarea>
               </div>
               <div class="form-group">
-                <label for="layerAttribution">Attribution (optional)</label>
+                <label for="layerAttribution">Attribution (optional) (some html allowed)</label>
                 <input id="layerAttribution" type="text" class="form-control"></input>
               </div>
               <div id="arcgisserver">
@@ -45,7 +45,7 @@
                 <div class="form-group">
                   <label for="arcgisserver-layers">Layers</label>
                   <select id="arcgisserver-layers" multiple="multiple" class="form-control" disabled="disabled" required></select>
-                  <span class="help-block">All of the service's sublayers will appear here after you fill in the "URL" field above. You must choose at least one. You can choose multiple sublayers by holding down the "Control" key ("⌘" on Mac OS X) and clicking on the sublayers you want to add.</span>
+                  <span class="help-block">All of the service's layers will appear here after you fill in the "URL" field above. You must choose at least one. You can choose multiple layers by holding down the "Control" key ("⌘" on Mac OS X) and clicking on the layers you want to add.</span>
                 </div>
               </div>
               <div id="cartodb">
@@ -65,6 +65,18 @@
                 </div>
               </div>
               <div id="github">
+                <div class="form-group">
+                  <label for="github-user">User Name</label>
+                  <input id="github-user" type="text" class="form-control" required></input>
+                </div>
+                <div class="form-group">
+                  <label for="github-repo">Repository</label>
+                  <input id="github-repo" type="text" class="form-control" required></input>
+                </div>
+                <div class="form-group">
+                  <label for="github-path">Path</label>
+                  <input id="github-path" type="text" class="form-control" required></input>
+                </div>
               </div>
               <div id="kml">
                 <div class="form-group">
@@ -82,14 +94,14 @@
           </div>
           <div id="search" class="tab-pane">
             <form role="form">
-              <label for="modal-addLayer-search">Start typing below to search for a layer.</label>
+              <label for="modal-addLayer-search">Start typing below to search for an overlay.</label>
               <input id="modal-addLayer-search" type="text" class="form-control"></input>
             </form>
           </div>
         </div>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
         <button type="button" class="btn btn-primary">Add to Map</button>
       </div>
     </div>

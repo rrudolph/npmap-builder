@@ -11,8 +11,7 @@
     <meta name="msapplication-TileColor" content="#222222">
     <meta name="msapplication-TileImage" content="http://www.nps.gov/npmap/windows-8-tile.png">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-    <!--<link href="http://www.nps.gov/npmap/tools/bootstrap/3.0.0/css/nps-bootstrap.min.css" rel="stylesheet">-->
-    <link href="http://192.168.33.10:9001/dist/css/nps-bootstrap.min.css" rel="stylesheet">
+    <link href="http://www.nps.gov/npmap/bootstrap/dist/css/nps-bootstrap.min.css" rel="stylesheet">
     <link href="js/libs/bootstrap-editable/css/bootstrap-editable.min.css" rel="stylesheet">
     <link href="js/libs/bootstrap-slider/css/bootstrap-slider.min.css" rel="stylesheet">
     <link href="js/libs/typeahead/typeahead.min.css" rel="stylesheet">
@@ -75,12 +74,24 @@
                   <h5 style="font-weight:bold;">Set Min and Max Zoom Levels</h5>
                   <p style="margin-bottom:20px;">Use the slider to restrict the map to a range of zoom levels.</p>
                   <input type="text" id="set-zoom" class="form-control" required></input>
-                  <p class="help-block" style="margin:10px 0 0 0;">Initial Center: <span class="lat"></span>, <span class="lng"></span><br>Initial Zoom: <span class="zoom"></span></p>
-                  <div class="checkbox">
-                    <label><input type="checkbox">Restrict the bounds to the current viewport</label>
-                  </div>
+                  <p class="help-block" style="margin:10px 0 0 0;">Initial Center: <span class="lat"></span>, <span class="lng"></span><br>Initial Zoom: <span class="zoom"></span><br>Bounds Restricted: <span class="bounds">No</span><span class="bounds-clear" style="display:none;"> (<a style="cursor:pointer;">Clear</a>)</span></p>
                   <div class="bottom" style="border-top:dotted 1px #908e7d;margin-top:14px;padding-top:20px;">
                     <button class="btn btn-default btn-block">Set Center & Zoom from Map</button>
+                    <button class="btn btn-default btn-block">Set Bounds from Map</button>
+                    <!--
+                    <div class="btn-group dropup">
+                      <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                        Set from Map <span class="caret" style="margin:0 0 3px 8px;"></span>
+                      </button>
+                      <ul class="dropdown-menu" role="menu">
+                        <li><a href="#">Initial Center</a></li>
+                        <li><a href="#">Initial Zoom</a></li>
+                        <li><a href="#">Min Zoom</a></li>
+                        <li><a href="#">Max Zoom</a></li>
+                        <li><a href="#">Initial Center & Zoom</a></li>
+                      </ul>
+                    </div>
+                    -->
                   </div>
                 </div>
               </div>
@@ -188,6 +199,9 @@
           <button id="button-addAnotherLayer">
             <span>+</span><span>Add another layer</span>
           </button>
+          <button id="button-editBaseMapsAgain">
+            <span>&#9656;</span><span>Edit base maps</span>
+          </button>
         </div>
         <div class="footer">
           <button class="btn btn-primary">Next: <span>Export Embed Code</span></button>
@@ -239,8 +253,7 @@
   </body>
   <script src="js/libs/json2.min.js"></script>
   <script src="http://code.jquery.com/jquery.js"></script>
-  <!--<script src="http://www.nps.gov/npmap/tools/bootstrap/3.0.0/js/nps-bootstrap.min.js"></script>-->
-  <script src="http://192.168.33.10:9001/dist/js/nps-bootstrap.min.js"></script>
+  <script src="http://www.nps.gov/npmap/bootstrap/dist/js/nps-bootstrap.min.js"></script>
   <script src="js/libs/bootstrap-editable/js/bootstrap-editable.min.js"></script>
   <script src="js/libs/bootstrap-slider/js/bootstrap-slider.min.js"></script>
   <script src="js/libs/jquery-nestable/jquery-nestable.min.js"></script>
