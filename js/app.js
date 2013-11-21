@@ -153,6 +153,7 @@ var Builder = (function() {
         contentType: false,
         success: function(data) {
           console.log('success:', data);
+          $('#button-saveMap').attr("disabled", "disabled");
         },
         error: function(data) {
           console.log('error', data);
