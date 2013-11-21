@@ -1,13 +1,13 @@
-#modal-addBaseMaps .modal-body {
+#modal-editBaseMaps .modal-body {
   overflow: auto;
 }
-#modal-addBaseMaps .modal-footer {
+#modal-editBaseMaps .modal-footer {
   margin-top: 0;
 }
-#modal-addBaseMaps .well:last-child {
+#modal-editBaseMaps .well:last-child {
   margin-bottom: 0;
 }
-#modal-addBaseMaps .well .row p {
+#modal-editBaseMaps .well .row p {
   background-color: #000;
   color: #fff;
   margin-right: 20px;
@@ -15,32 +15,32 @@
   position: absolute;
   margin-bottom: 0;
 }
-#modal-addBaseMaps .well h5 {
+#modal-editBaseMaps .well h5 {
   font-size: 20px;
   margin-top: 0;
 }
-#modal-addBaseMaps .well .row {
+#modal-editBaseMaps .well .row {
   margin-bottom: 10px;
 }
-  #modal-addBaseMaps .well .row img {
+  #modal-editBaseMaps .well .row img {
     cursor: pointer;
   }
-#modal-addBaseMaps .well .row:last-child {
+#modal-editBaseMaps .well .row:last-child {
   margin-bottom: 0;
 }
-#modal-addBaseMaps .well .row .thumbnail .add {
+#modal-editBaseMaps .well .row .thumbnail .add {
   background-color: green;
   height: 25px;
   position: absolute;
   width: 25px;
 }
-#modal-addBaseMaps .well .row .thumbnail .default {
+#modal-editBaseMaps .well .row .thumbnail .default {
   background-color: blue;
   height: 25px;
   margin-left: 25px;
   position: absolute;
   width: 25px;
 }
-#modal-addBaseMaps .well .row div:nth-child(n+4) {
+#modal-editBaseMaps .well .row div:nth-child(n+4) {
   margin-top: 20px;
 }

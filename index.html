@@ -13,7 +13,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
     <link href="http://www.nps.gov/npmap/bootstrap/dist/css/nps-bootstrap.min.css" rel="stylesheet">
     <link href="js/libs/bootstrap-editable/css/bootstrap-editable.min.css" rel="stylesheet">
-    <link href="js/libs/bootstrap-slider/css/bootstrap-slider.css" rel="stylesheet">
+    <link href="js/libs/bootstrap-slider/css/bootstrap-slider.min.css" rel="stylesheet">
     <link href="js/libs/typeahead/typeahead.min.css" rel="stylesheet">
     <link href="css/base.css" rel="stylesheet" media="screen">
     <link rel="alternate" type="application/atom+xml" href="http://www.nps.gov/npmap/blog/atom.xml" title="NPMap blog posts">
@@ -65,23 +65,21 @@
             <div class="panel panel-default">
               <div class="panel-heading" style="padding:10px 28px;">
                 <h4 class="panel-title">
-                  <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion-step-1" href="#set-dimensions-and-zoom">Set Dimensions & Zoom</a>
+                  <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion-step-1" href="#set-center-and-zoom">Set Center & Zoom</a>
                   <span class="glyphicon glyphicon-chevron-right"></span>
                 </h4>
               </div>
-              <div id="set-dimensions-and-zoom" class="panel-collapse collapse in">
+              <div id="set-center-and-zoom" class="panel-collapse collapse in">
                 <div class="panel-body" style="padding:15px 28px;">
                   <h5 style="font-weight:bold;">Set Min and Max Zoom Levels</h5>
-                  <p style="margin-bottom:20px;">Use the slider to set the minimum and maximum zoom levels for the map.</p>
+                  <p style="margin-bottom:20px;">Use the slider to restrict the map to a range of zoom levels.</p>
                   <input type="text" id="set-zoom" class="form-control" required></input>
-                  <div class="bottom" style="border-top:dotted 1px #908e7d;padding-top:20px;">
-                    <p class="help-block">Initial Center: <span class="lat"></span>, <span class="lng"></span><br>Initial Zoom: <span class="zoom"></span></p>
+                  <p class="help-block" style="margin:10px 0 0 0;">Initial Center: <span class="lat"></span>, <span class="lng"></span><br>Initial Zoom: <span class="zoom"></span></p>
+                  <div class="checkbox">
+                    <label><input type="checkbox">Restrict the bounds to the current viewport</label>
+                  </div>
+                  <div class="bottom" style="border-top:dotted 1px #908e7d;margin-top:14px;padding-top:20px;">
                     <button class="btn btn-default btn-block">Set Center & Zoom from Map</button>
-                    <!--
-                    <div class="checkbox">
-                      <label><input type="checkbox" value="">Restrict the bounds to the current viewport</label>
-                    </>
-                    -->
                   </div>
                 </div>
               </div>
@@ -95,8 +93,11 @@
               </div>
               <div id="add-functionality" class="panel-collapse collapse">
                 <div class="panel-body" style="padding:15px 28px;">
-                  <form>
+                  <form style="margin-bottom:15px;">
                     <legend>Behavior</legend>
+                    <div class="checkbox">
+                      <label><input type="checkbox" value="dragging" checked="checked">Draggable</label>
+                    </div>
                     <div class="checkbox">
                       <label><input type="checkbox" value="doubleClickZoom" checked="checked">Double click zoom</label>
                     </div>
@@ -104,33 +105,48 @@
                       <label><input type="checkbox" value="scrollWheelZoom" checked="checked">Scroll wheel zoom</label>
                     </div>
                     <div class="checkbox">
+                      <label><input type="checkbox" value="boxZoom" checked="checked">Box zoom</label>
+                    </div>
+                    <div class="checkbox">
                       <label><input type="checkbox" value="touchZoom" checked="checked">Touch zoom</label>
                     </div>
                   </form>
                   <form>
                     <legend>Controls</legend>
+                    <!-- Not quite ready because the map is in an iframe. Need to add enter and exit fullscreen events and resize iframe
                     <div class="checkbox">
-                      <label><input type="checkbox" value="fullscreen">Fullscreen</label>
+                      <label><input type="checkbox" value="fullscreenControl">Fullscreen</label>
+                    </div>
+                    -->
+                    <!--
+                    <div class="checkbox">
+                      <label><input type="checkbox" value="geocoder">Geocoder</label>
+                    </div>
+                    -->
+                    <div class="checkbox">
+                      <label><input type="checkbox" value="homeControl" checked="checked">Home</label>
                     </div>
                     <div class="checkbox">
-                      <label><input type="checkbox" value="home" checked="checked">Home</label>
+                      <label><input type="checkbox" value="overviewControl">Overview</label>
                     </div>
-                    <div class="checkbox">
-                      <label><input type="checkbox" value="overview">Overview</label>
-                    </div>
+                    <!--
                     <div class="checkbox">
                       <label><input type="checkbox" value="print">Print</label>
                     </div>
+                    -->
                     <div class="checkbox">
-                      <label><input type="checkbox" value="scale">Scale</label>
+                      <label><input type="checkbox" value="scaleControl">Scale</label>
                     </div>
+                    <!--
                     <div class="checkbox">
                       <label><input type="checkbox" value="share">Share</label>
                     </div>
+                    -->
                     <div class="checkbox">
-                      <label><input type="checkbox" value="smallZoomControl" checked="checked">Zoom Buttons</label>
+                      <label><input type="checkbox" value="smallzoomControl" checked="checked">Zoom Buttons</label>
                     </div>
                   </form>
+                  <!--
                   <form>
                     <legend>Modules</legend>
                     <div class="checkbox">
@@ -143,6 +159,7 @@
                       <label><input type="checkbox" value="route">Route</label>
                     </div>
                   </form>
+                  -->
                 </div>
               </div>
             </div>
@@ -160,8 +177,8 @@
         <div class="content">
           <div>
             <p>Add data to your map from a variety of sources.</p>
-            <button id="button-addLayer" class="btn btn-subtle">&#9656;<span>Add Overlays</span></button>
-            <button id="button-addBaseMaps" class="btn btn-subtle">&#9656;<span>Add Base Maps</span></button>
+            <button id="button-editBaseMaps" class="btn btn-subtle">&#9656;<span>Edit Base Maps</span></button>
+            <button id="button-addLayer" class="btn btn-subtle">&#9656;<span>Add an Overlay</span></button>
           </div>
           <div class="dd">
             <ul id="layers" class="dd-list">
@@ -223,7 +240,7 @@
   <script src="http://code.jquery.com/jquery.js"></script>
   <script src="http://www.nps.gov/npmap/bootstrap/dist/js/nps-bootstrap.min.js"></script>
   <script src="js/libs/bootstrap-editable/js/bootstrap-editable.min.js"></script>
-  <script src="js/libs/bootstrap-slider/js/bootstrap-slider.js"></script>
+  <script src="js/libs/bootstrap-slider/js/bootstrap-slider.min.js"></script>
   <script src="js/libs/jquery-nestable/jquery-nestable.min.js"></script>
   <script src="js/libs/typeahead/typeahead.min.js"></script>
   <script src="js/app.js"></script>

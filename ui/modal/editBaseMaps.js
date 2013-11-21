@@ -1,13 +1,16 @@
-/* globals $, Builder */
+/* globals $, Builder, NPMap */
 
-$('head').append($('<link rel="stylesheet">').attr('href', 'ui/modal/addBaseMaps.css'));
+$('head').append($('<link rel="stylesheet">').attr('href', 'ui/modal/editBaseMaps.css'));
 
 Builder.ui = Builder.ui || {};
 Builder.ui.modal = Builder.ui.modal || {};
-Builder.ui.modal.addBaseMaps = (function() {
+Builder.ui.modal.editBaseMaps = (function() {
   var baseMaps = document.getElementById('iframe-map').contentWindow.L.npmap.preset.baselayers,
       html = '';
 
+  function changeDefault(button) {
+
+  }
   function getProvider(provider) {
     switch (provider) {
     case 'esri':
@@ -23,8 +26,17 @@ Builder.ui.modal.addBaseMaps = (function() {
     }
   }
   function setHeight() {
-    $('#modal-addBaseMaps .modal-body').css({
+    $('#modal-editBaseMaps .modal-body').css({
       height: $(document).height() - 200
+    });
+  }
+  function update() {
+    $.each($('#modal-editBaseMaps div'), function(i, div) {
+      var id = div.id;
+
+      if ($.inArray(id, NPMap.baseLayers) !== -1) {
+        console.log(id);
+      }
     });
   }
 
@@ -37,14 +49,16 @@ Builder.ui.modal.addBaseMaps = (function() {
 
       for (var map in maps) {
         if (map !== 'grayLabels' && map !== 'oceans') {
+          var id = provider + '-' + map;
+
           html += '' +
-            '<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">' +
+            '<div id="' + id + '" class="col-xs-4 col-sm-4 col-md-4 col-lg-4">' +
               '<div class="thumbnail">' +
-                '<p>' + maps[map].name.replace(providerPretty + ' ', '') + '</p>' +
-                '<img src="../../img/base-maps/' + provider + '-' + map + '.png" alt="...">' +
+                '<p>' + maps[map].name.replace(provider.toUpperCase() + ' ', '').replace(providerPretty + ' ', '') + '</p>' +
+                '<img src="../../img/base-maps/' + id + '.png" alt="...">' +
                 '<div class="caption" style="text-align:center;">' +
-                  '<button type="button" class="btn btn-default" data-toggle="button">Add</button>&nbsp;' +
-                  '<button type="button" class="btn btn-default" data-toggle="button">Default</button>' +
+                  '<button id="add-' + id + '" type="button" class="btn btn-default" data-toggle="button">Add</button>&nbsp;' +
+                  '<button id="default-' + id + '" type="button" class="btn btn-default" data-toggle="button">Default</button>' +
                 '</div>' +
               '</div>' +
             '</div>';
@@ -55,14 +69,13 @@ Builder.ui.modal.addBaseMaps = (function() {
     }
   }
 
-  $('#modal-addBaseMaps .modal-body').append(html);
-  $('#modal-addBaseMaps').modal().on('show.bs.modal shown.bs.modal', function() {
-
-  });
+  $('#modal-editBaseMaps .modal-body').append(html);
+  $('#modal-editBaseMaps').modal().on('shown.bs.modal', update);
   $('[rel=tooltip]').tooltip({
     animation: false
   });
   setHeight();
+  update();
   $(window).resize(setHeight);
 
   return {};

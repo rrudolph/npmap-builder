@@ -224,15 +224,10 @@
       this.size = this.picker[0][this.sizePos];
       percentage = this.getPercentage(ev);
 
-      console.log(percentage);
-      console.log(ev);
-
       if (this.range) {
         var diff1 = Math.abs(this.percentage[0] - percentage),
           diff2 = Math.abs(this.percentage[1] - percentage);
 
-        console.log(diff1);
-        console.log(diff2);
         this.dragged = (diff1 < diff2) ? 0 : 1;
       } else {
         this.dragged = 0;

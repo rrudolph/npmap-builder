@@ -3,13 +3,11 @@ var NPMap = {
   div: 'map',
   homeControl: true
 };
-
 var Builder = (function() {
-  var
-    $buttonAddAnotherLayer,
+  var $buttonAddAnotherLayer,
     $iframe = $('#iframe-map'),
-    $modalAddBaseMaps,
     $modalAddLayer,
+    $modalEditBaseMaps,
     $modalConfirm,
     $modalExport,
     $modalViewConfig,
@@ -22,9 +20,10 @@ var Builder = (function() {
     titleZ = null;
 
   /**
-   *
+   * Gets the Leaflet map object from the map iframe.
+   * @return {Object}
    */
-  function getMap() {
+  function getLeafletMap() {
     return document.getElementById('iframe-map').contentWindow.NPMap.config.L;
   }
   /**
@@ -73,12 +72,39 @@ var Builder = (function() {
 
       $.each(panels, function(i, panel) {
         var $child = $(panel).find('.panel-collapse');
+
         $($child.children()[0]).height(outerHeight - headerHeight - 30 - 5);
       });
     }
   }
 
   $(document).ready(function() {
+    $buttonAddAnotherLayer = $('#button-addAnotherLayer');
+    $modalConfirm = $('#modal-confirm');
+    stepLis = $('#steps li');
+
+    $.each($('#add-functionality form'), function(i, form) {
+      $.each($(form).find('input'), function(j, input) {
+        $(input).on('change', function() {
+          var checked = $(this).prop('checked'),
+            value = this.value;
+
+          if (value === 'overviewControl') {
+            if (checked) {
+              NPMap[value] = {
+                layer: NPMap.baseLayers[0]
+              };
+            } else {
+              NPMap[value] = false;
+            }
+          } else {
+            NPMap[value] = checked;
+          }
+
+          Builder.updateMap();
+        });
+      });
+    });
     $('#button-addAnotherLayer, #button-addLayer').on('click', function() {
       if ($modalAddLayer) {
         $modalAddLayer.modal('show');
@@ -88,12 +114,12 @@ var Builder = (function() {
         });
       }
     });
-    $('#button-addBaseMaps').on('click', function() {
-      if ($modalAddBaseMaps) {
-        $modalAddBaseMaps.modal('show');
+    $('#button-editBaseMaps').on('click', function() {
+      if ($modalEditBaseMaps) {
+        $modalEditBaseMaps.modal('show');
       } else {
-        loadModule('Builder.ui.modal.addBaseMaps', function() {
-          $modalAddBaseMaps = $('#modal-addBaseMaps');
+        loadModule('Builder.ui.modal.editBaseMaps', function() {
+          $modalEditBaseMaps = $('#modal-editBaseMaps');
         });
       }
     });
@@ -117,7 +143,7 @@ var Builder = (function() {
       var serverUrl = 'http://npmap_builder:321redliub_pampn@162.243.77.34/builder';
       $.ajax({
         type: 'POST',
-        xhrFields: { withCredentials: true }, 
+        xhrFields: { withCredentials: true },
         url: serverUrl,
         data: JSON.stringify(newNPMap),
         processData: false,
@@ -139,11 +165,12 @@ var Builder = (function() {
         });
       }
     });
-
-    $buttonAddAnotherLayer = $('#button-addAnotherLayer');
-    $modalConfirm = $('#modal-confirm');
-    stepLis = $('#steps li');
-
+    $($('section .step .btn-primary')[0]).on('click', function() {
+      goToStep(0, 1);
+    });
+    $($('section .step .btn-primary')[1]).on('click', function() {
+      goToStep(1, 2);
+    });
     $.each(stepLis, function(i, li) {
       $(li.childNodes[0]).on('click', function() {
         var currentIndex = -1;
@@ -160,36 +187,31 @@ var Builder = (function() {
         }
       });
     });
-    $($('section .step .btn-primary')[0]).on('click', function() {
-      goToStep(0, 1);
-    });
-    $($('section .step .btn-primary')[1]).on('click', function() {
-      goToStep(1, 2);
-    });
     $('.dd').nestable({
       handleClass: 'letter',
       listNodeName: 'ul'
-    }).on('change', function() {
-      var overlays = [];
+    })
+      .on('change', function() {
+        var overlays = [];
 
-      $.each($ul.children(), function(i, li) {
-        var from = parseInt($(li).attr('data-id'), 10);
+        $.each($ul.children(), function(i, li) {
+          var from = parseInt($(li).attr('data-id'), 10);
 
-        if (from !== i) {
-          overlays.splice(i, 0, NPMap.overlays[from]);
+          if (from !== i) {
+            overlays.splice(i, 0, NPMap.overlays[from]);
+          }
+
+          $(li).attr('data-id', i.toString());
+          li.childNodes[0].innerHTML = Builder._abcs[i];
+        });
+
+        if (overlays.length) {
+          NPMap.overlays = overlays.reverse();
+          Builder.updateMap();
         }
 
-        $(li).attr('data-id', i.toString());
-        li.childNodes[0].innerHTML = Builder._abcs[i];
+        Builder._refreshLayersUl();
       });
-
-      if (overlays.length) {
-        NPMap.overlays = overlays.reverse();
-        Builder.updateMap();
-      }
-
-      Builder._refreshLayersUl();
-    });
     $('#metadata .description a').editable({
       animation: false,
       container: '#metadata span:first-child',
@@ -199,36 +221,38 @@ var Builder = (function() {
           return 'Please enter a description for your map.';
         }
       }
-    }).on('hidden', function() {
-      var next = $(this).next();
+    })
+      .on('hidden', function() {
+        var next = $(this).next();
 
-      if (!descriptionSet) {
-        $('#mask').remove();
-        next.css({
-          'z-index': descriptionZ
-        });
-        $(next.find('button')[1]).css({
-          display: 'block'
-        });
-        descriptionSet = true;
-      }
-    }).on('shown', function() {
-      var next = $(this).parent().next();
+        if (!descriptionSet) {
+          $('#mask').remove();
+          next.css({
+            'z-index': descriptionZ
+          });
+          $(next.find('button')[1]).css({
+            display: 'block'
+          });
+          descriptionSet = true;
+        }
+      })
+      .on('shown', function() {
+        var next = $(this).parent().next();
 
-      if (!descriptionSet) {
-        descriptionZ = next.css('z-index');
-        next.css({
-          'z-index': 1031
-        });
-        $(next.find('button')[1]).css({
-          display: 'none'
-        });
-      }
+        if (!descriptionSet) {
+          descriptionZ = next.css('z-index');
+          next.css({
+            'z-index': 1031
+          });
+          $(next.find('button')[1]).css({
+            display: 'none'
+          });
+        }
 
-      next.find('textarea').css({
-        'resize': 'none'
+        next.find('textarea').css({
+          'resize': 'none'
+        });
       });
-    });
     $('#metadata .title a').editable({
       animation: false,
       emptytext: 'Untitled Map',
@@ -237,47 +261,49 @@ var Builder = (function() {
           return 'Please enter a title for your map.';
         }
       }
-    }).on('hidden', function() {
-      var description = $('#metadata .description a').html(),
-          next = $(this).next();
+    })
+      .on('hidden', function() {
+        var description = $('#metadata .description a').html(),
+            next = $(this).next();
 
-      if (!description || description === 'Add a description to give your map context.') {
-        $('#metadata .description a').editable('toggle');
-      }
+        if (!description || description === 'Add a description to give your map context.') {
+          $('#metadata .description a').editable('toggle');
+        }
 
-      if (!titleSet) {
-        next.css({
-          'z-index': titleZ
-        });
-        $(next.find('button')[1]).css({
-          display: 'block'
-        });
-        titleSet = true;
-      }
-    }).on('shown', function() {
-      var next = $(this).next();
+        if (!titleSet) {
+          next.css({
+            'z-index': titleZ
+          });
+          $(next.find('button')[1]).css({
+            display: 'block'
+          });
+          titleSet = true;
+        }
+      })
+      .on('shown', function() {
+        var next = $(this).next();
 
-      if (!titleSet) {
-        titleZ = next.css('z-index');
-        next.css({
-          'z-index': 1031
-        });
-        $(next.find('button')[1]).css({
-          display: 'none'
-        });
-      }
+        if (!titleSet) {
+          titleZ = next.css('z-index');
+          next.css({
+            'z-index': 1031
+          });
+          $(next.find('button')[1]).css({
+            display: 'none'
+          });
+        }
 
-      next.find('.editable-clear-x').remove();
-      next.find('input').css({
-        'padding-right': '10px'
+        next.find('.editable-clear-x').remove();
+        next.find('input').css({
+          'padding-right': '10px'
+        });
       });
-    });
     $('[rel=tooltip]').tooltip();
     $('#accordion-step-1').on('shown.bs.collapse', function() {
       setAccordionHeight('#accordion-step-1');
     });
-    $('#set-dimensions-and-zoom .btn-block').on('click', function() {
-      var map = getMap(),
+    $('#set-center-and-zoom .btn-block').on('click', function() {
+      var map = getLeafletMap(),
         center = map.getCenter();
 
       NPMap.center = {
@@ -285,22 +311,24 @@ var Builder = (function() {
         lng: center.lng
       };
       NPMap.zoom = map.getZoom();
+      Builder._updateInitialCenterAndZoom();
       Builder.updateMap();
     });
     $('#set-zoom').slider({
-      center: 4,
+      //center: 4,
       max: 19,
       min: 0,
       value: [0, 19]
-    }).on('slideStop', function(e) {
-      NPMap.maxZoom = e.value[1];
-      NPMap.minZoom = e.value[0];
-      Builder.updateMap();
-    });
-    setAccordionHeight('#accordion-step-1');
+    })
+      .on('slideStop', function(e) {
+        NPMap.maxZoom = e.value[1];
+        NPMap.minZoom = e.value[0];
+        Builder.updateMap();
+      });
     $(window).resize(function() {
       setAccordionHeight('#accordion-step-1');
     });
+    setAccordionHeight('#accordion-step-1');
     setTimeout(function() {
       $('#metadata .title a').editable('toggle');
     }, 200);
@@ -335,6 +363,14 @@ var Builder = (function() {
         $buttonAddAnotherLayer.show();
         previous.hide();
       }
+    },
+    /**
+     *
+     */
+    _updateInitialCenterAndZoom: function() {
+      $('#set-center-and-zoom .lat').html(NPMap.center.lat.toFixed(2));
+      $('#set-center-and-zoom .lng').html(NPMap.center.lng.toFixed(2));
+      $('#set-center-and-zoom .zoom').html(NPMap.zoom);
     },
     /**
      *
@@ -389,7 +425,6 @@ var Builder = (function() {
 
         if (npmap && npmap.config && npmap.config.center) {
           clearInterval(interval);
-          config = npmap.config;
 
           if (callback) {
             callback(npmap.config);
@@ -406,7 +441,5 @@ Builder.updateMap(function(config) {
     lng: config.center.lng
   };
   NPMap.zoom = config.zoom;
-  $('#set-dimensions-and-zoom .lat').html(NPMap.center.lat);
-  $('#set-dimensions-and-zoom .lng').html(NPMap.center.lng);
-  $('#set-dimensions-and-zoom .zoom').html(NPMap.zoom);
+  Builder._updateInitialCenterAndZoom();
 });

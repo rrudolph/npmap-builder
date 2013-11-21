@@ -1,21 +1,17 @@
-<h1 class="page-title">Contributing</h1>
+# Contributing
 
-Discovered a bug or have an idea for how the NPMap Builder might be improved? Can you write code, documentation, or Or maybe you are a coder, documenter, or ______ and you want to help improve the Builder.
+Discovered a bug? Have an idea for how the NPMap Builder might be improved? Or maybe you are a coder or writer who wants to help improve the project?
 
-Thanks!
+Thanks. Your help, and interest, is greatly appreciated!
 
-If this is the first time you have submitted feedback, please take a minute to look at the guidelines below. Following them will ensure that your bug reports/enhancement requests can be easily turned into actionable tasks that maintainers of the Builder can act on.
+Before moving forward, however, please take a few minutes to look over the guidelines below. Following them will ensure your contributions -- in whatever form they come in -- can be easily turned into actionable tasks for the NPMap team.
 
-## Reporting issues
+## Reporting Issues
 
-A bug is a _demonstrable problem_. Please read the following guidance before reporting an issue:
+An issue is a _demonstrable problem_. Please read the following guidance before reporting a bug:
 
 1. Use the search to see if the issue has already been reported. If it already exists, do not open a new issue - simply comment on the existing one.
-2. Isolate the problem and ensure that the issue is in NPMap itself and not in your code.
-3. Create a [reduced test case](http://css-tricks.com/6263-reduced-test-cases/).
-4. If possible, provide a link to a live example. You can use [jsFiddle](http://jsfiddle.net) to host examples.
-
-Please try to be as detailed as possible in your report. What is your environment? What steps will reproduce the issue? What browser(s) can you reproduce the problem in? All these details will make it easier for NPMap contributors to assess and fix any potential issues.
+2. Please try to be as detailed as possible in your report. What browser(s) can you reproduce the problem in? What detailed steps will reproduce the issue? All of this information will make it easier for a member of the NPMap team to assess and fix issues.
 
 Here's an example of a good bug report:
 
@@ -27,29 +23,27 @@ Here's an example of a good bug report:
 > 2. Second step
 > 3. Etc.
 >
-> `<url>` (a link to the reduced test case)
->
-> Any other information you want to share that is relevant to the issue being reported. This might include the file or module name and the line numbers of the code that is causing the bug. You may also want to include potential solutions.
+> Any other information you want to share that is relevant to the issue being reported. This might include a screenshot or the contents of an error message.
 
-A good bug report should be clear and to the point, and should provide enough information for an NPMap contributor to assess and/or fix the bug without coming back to you for more information.
+A good bug report should be clear and to the point, and should provide enough information for a member of the NPMap team to assess and/or fix the bug without coming back to you for more information.
 
-Ready to submit an issue? [Here you go](https://github.com/nationalparkservice/npmap/issues/).
+Ready to submit an issue? [Here you go](https://github.com/nationalparkservice/npmap-builder/issues/).
 
-## Pull requests
+## Pull Requests
 
-We encourage you to submit pull requests! These requests should remain focused in scope and should not contain commits that are unrelated to the feature you are adding or bug you are fixing.
+We encourage you to submit pull requests! These requests should remain focused in scope and should not contain commits that are unrelated to the bug you are fixing or the feature you are adding.
 
-If your contribution involves a significant amount of work or substantial changes to any part of the library, please open an issue to discuss it first.
+If your contribution involves a significant amount of work or substantial changes to any part of the Builder, please open an issue to discuss it first.
 
-Please follow this process. It's the best way to get your work included in the project:
+Please follow this process. It's the best way to quickly get your work merged into the project:
 
 1. [Fork](http://help.github.com/fork-a-repo/) the project.
-2. Clone your fork (`git clone https://github.com/<your-username>/npmap.git`).
-3. Add an `upstream` remote (`git remote add upstream https://github.com/nationalparkservice/npmap.git`).
+2. Clone your fork (`git clone https://github.com/<your-username>/npmap-builder.git`).
+3. Add an `upstream` remote (`git remote add upstream https://github.com/nationalparkservice/npmap-builder.git`).
 4. Get the latest changes from upstream (`git pull upstream <dev-branch>`).
 5. Create a new topic branch to contain your feature, change, or fix (`git checkout -b <topic-branch-name>`).
-6. Make sure that your changes adhere to the [coding conventions](http://www.nps.gov/npmap/library/api/coding-conventions.html) used throughout the project - indentation, commenting, etc.
+6. Make sure that your changes adhere to the coding conventions used throughout the project - indentation, commenting, etc.
 7. Commit your changes in logical chunks. Use git's [interactive rebase](https://help.github.com/articles/interactive-rebase) feature to tidy up your commits before making them public. Please adhere to these [git commit message guidelines](http://tbaggery.com/2008/04/19/a-note-about-git-commit-messages.html) or your pull request may not be merged into the main project.
 8. Locally merge (or rebase) the upstream branch into your topic branch.
 9. Push your topic branch up to your fork (`git push origin <topic-branch-name>`).
-10. [Open a Pull Request](http://help.github.com/send-pull-requests/) with a clear title and description. Please mention which browsers you tested in.
+10. [Open a Pull Request](http://help.github.com/send-pull-requests/) with a clear title and description. Please mention which browsers you tested the changes in.

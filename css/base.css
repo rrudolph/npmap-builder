@@ -277,15 +277,15 @@ iframe {
   background-position: 0 0;
   color: #5e7630;
 }
-#button-addLayer, #button-addBaseMaps {
+#button-addLayer, #button-editBaseMaps {
   text-align: left;
   width: 100%;
 }
-  #button-addLayer span, #button-addBaseMaps span {
+  #button-addLayer span, #button-editBaseMaps span {
     margin-left: 15px;
   }
-#button-addBaseMaps {
-  margin-top: 5px;
+#button-editBaseMaps {
+  margin-bottom: 5px;
 }
 .modal-title img {
   cursor: pointer;
