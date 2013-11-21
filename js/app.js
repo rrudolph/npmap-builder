@@ -1,7 +1,9 @@
+// TODO: Add default baseLayer here. This should be done separate of NPMap.js.
+
+
+
 var NPMap = {
-  baseLayers: ['nps-lightStreets'],
-  div: 'map',
-  homeControl: true
+  'div': 'map'
 };
 var Builder = (function() {
   var $buttonAddAnotherLayer,
@@ -13,20 +15,19 @@ var Builder = (function() {
     $modalViewConfig,
     $stepSection = $('section .step'),
     $ul = $('#layers'),
+    //accordionHeightSet = false,
     descriptionSet = false,
     descriptionZ = null,
     stepLis,
     titleSet = false,
     titleZ = null;
 
-  /**
    * Gets the Leaflet map object from the map iframe.
    * @return {Object}
    */
   function getLeafletMap() {
     return document.getElementById('iframe-map').contentWindow.NPMap.config.L;
   }
-  /**
    * Changes the step.
    * @param {Number} from
    * @param {Number} to
@@ -36,6 +37,13 @@ var Builder = (function() {
     $($stepSection[to]).show();
     $(stepLis[from]).removeClass('active');
     $(stepLis[to]).addClass('active');
+
+    /*
+    if (to === 1 && !accordionHeightSet) {
+      setAccordionHeight('#accordion-step-2');
+      accordionHeightSet = true;
+    }
+    */
   }
   /**
    * Loads a UI module.
@@ -140,8 +148,11 @@ var Builder = (function() {
       newNPMap.isShared = true;
       newNPMap.userJson.description = $('.description a').text();
       //console.log(newNPMap);
-      var serverUrl = 'http://npmap_builder:321redliub_pampn@162.243.77.34/builder';
+      var serverUrl = 'http://162.243.77.34/builder';
       $.ajax({
+        beforeSend: function (xhr) {
+          xhr.setRequestHeader ('Authorization', 'Basic ' + btoa('npmap_builder:321redliub_pampn'));
+        },
         type: 'POST',
         xhrFields: { withCredentials: true },
         url: serverUrl,
