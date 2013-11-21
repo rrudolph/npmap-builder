@@ -124,6 +124,9 @@ iframe {
   .step .content {
     padding: 16px 28px;
   }
+    .step .content legend {
+      font-size: 18px;
+    }
   .step .footer {
     bottom: 0;
     height: 105px;
@@ -189,7 +192,7 @@ iframe {
     text-overflow: ellipsis;
     white-space: nowrap;
   }
-#accordion-step-2 {
+#accordion-step-1 {
   margin: 0 -28px;
 }
 
@@ -274,13 +277,16 @@ iframe {
   background-position: 0 0;
   color: #5e7630;
 }
-#button-addLayer {
+#button-addLayer, #button-addBaseMaps {
   text-align: left;
   width: 100%;
 }
-  #button-addLayer span {
+  #button-addLayer span, #button-addBaseMaps span {
     margin-left: 15px;
   }
+#button-addBaseMaps {
+  margin-top: 5px;
+}
 .modal-title img {
   cursor: pointer;
 }

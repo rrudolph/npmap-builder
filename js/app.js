@@ -1,24 +1,32 @@
 var NPMap = {
-  'div': 'map'
+  baseLayers: ['nps-lightStreets'],
+  div: 'map',
+  homeControl: true
 };
 
 var Builder = (function() {
   var
     $buttonAddAnotherLayer,
     $iframe = $('#iframe-map'),
+    $modalAddBaseMaps,
     $modalAddLayer,
     $modalConfirm,
     $modalExport,
     $modalViewConfig,
     $stepSection = $('section .step'),
     $ul = $('#layers'),
-    accordionHeightSet = false,
     descriptionSet = false,
     descriptionZ = null,
     stepLis,
     titleSet = false,
     titleZ = null;
 
+  /**
+   *
+   */
+  function getMap() {
+    return document.getElementById('iframe-map').contentWindow.NPMap.config.L;
+  }
   /**
    * Changes the step.
    * @param {Number} from
@@ -29,11 +37,6 @@ var Builder = (function() {
     $($stepSection[to]).show();
     $(stepLis[from]).removeClass('active');
     $(stepLis[to]).addClass('active');
-
-    if (to === 1 && !accordionHeightSet) {
-      setAccordionHeight('#accordion-step-2');
-      accordionHeightSet = true;
-    }
   }
   /**
    * Loads a UI module.
@@ -82,6 +85,15 @@ var Builder = (function() {
       } else {
         loadModule('Builder.ui.modal.addLayer', function() {
           $modalAddLayer = $('#modal-addLayer');
+        });
+      }
+    });
+    $('#button-addBaseMaps').on('click', function() {
+      if ($modalAddBaseMaps) {
+        $modalAddBaseMaps.modal('show');
+      } else {
+        loadModule('Builder.ui.modal.addBaseMaps', function() {
+          $modalAddBaseMaps = $('#modal-addBaseMaps');
         });
       }
     });
@@ -263,16 +275,33 @@ var Builder = (function() {
       });
     });
     $('[rel=tooltip]').tooltip();
-    $('#accordion-step-2').on('shown.bs.collapse', function() {
-      setAccordionHeight('#accordion-step-2');
+    $('#accordion-step-1').on('shown.bs.collapse', function() {
+      setAccordionHeight('#accordion-step-1');
+    });
+    $('#set-dimensions-and-zoom .btn-block').on('click', function() {
+      var map = getMap(),
+        center = map.getCenter();
+
+      NPMap.center = {
+        lat: center.lat,
+        lng: center.lng
+      };
+      NPMap.zoom = map.getZoom();
+      Builder.updateMap();
     });
     $('#set-zoom').slider({
+      center: 4,
       max: 19,
       min: 0,
       value: [0, 19]
+    }).on('slideStop', function(e) {
+      NPMap.maxZoom = e.value[1];
+      NPMap.minZoom = e.value[0];
+      Builder.updateMap();
     });
+    setAccordionHeight('#accordion-step-1');
     $(window).resize(function() {
-      setAccordionHeight('#accordion-step-2');
+      setAccordionHeight('#accordion-step-1');
     });
     setTimeout(function() {
       $('#metadata .title a').editable('toggle');
@@ -340,7 +369,7 @@ var Builder = (function() {
     /**
      *
      */
-    updateMap: function() {
+    updateMap: function(callback) {
       var npmap = document.getElementById('iframe-map').contentWindow.NPMap;
 
       if (npmap) {
@@ -357,7 +386,29 @@ var Builder = (function() {
       }
 
       $iframe.attr('src', 'iframe.html?c=' + encodeURIComponent(JSON.stringify(NPMap)));
+      var interval = setInterval(function() {
+        var npmap = document.getElementById('iframe-map').contentWindow.NPMap;
+
+        if (npmap && npmap.config && npmap.config.center) {
+          clearInterval(interval);
+          config = npmap.config;
+
+          if (callback) {
+            callback(npmap.config);
+          }
+        }
+      }, 100);
     }
   };
 })();
-Builder.updateMap();
+Builder.updateMap(function(config) {
+  // TODO: Grab details if this map is being loaded and populate necessary fields.
+  NPMap.center = {
+    lat: config.center.lat,
+    lng: config.center.lng
+  };
+  NPMap.zoom = config.zoom;
+  $('#set-dimensions-and-zoom .lat').html(NPMap.center.lat);
+  $('#set-dimensions-and-zoom .lng').html(NPMap.center.lng);
+  $('#set-dimensions-and-zoom .zoom').html(NPMap.zoom);
+});

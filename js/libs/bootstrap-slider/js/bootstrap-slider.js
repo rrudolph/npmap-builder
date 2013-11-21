@@ -1,3 +1,5 @@
+/* globals Modernizr */
+
 /* =========================================================
  * bootstrap-slider.js v2.0.0
  * http://www.eyecon.ro/bootstrap-slider
@@ -25,19 +27,19 @@
     }
 
     this.element = $(element);
+    this.id = this.element.data('slider-id') || options.id;
     this.picker = $('' +
       '<div class="slider">' +
         '<div class="slider-track">' +
           '<div class="slider-selection"></div>' +
-          '<div class="slider-handle"></div>' +
+          '<div class="slider-handle value"></div>' +
+          '<div class="slider-handle min"></div>' +
           '<div class="slider-handle center"></div>' +
-          '<div class="slider-handle"></div>' +
+          '<div class="slider-handle max"></div>' +
         '</div>' +
         '<div class="tooltip"><div class="tooltip-arrow"></div><div class="tooltip-inner"></div></div>' +
-      '</div>'
-    ).insertBefore(this.element).append(this.element);
-
-    this.id = this.element.data('slider-id') || options.id;
+      '</div>' +
+    '').insertBefore(this.element).append(this.element);
 
     if (this.id) {
       this.picker[0].id = this.id;
@@ -49,25 +51,26 @@
     this.tooltipInner = this.tooltip.find('div.tooltip-inner');
 
     switch (this.orientation) {
-      case 'vertical':
-        this.mousePos = 'pageY';
-        this.picker.addClass('slider-vertical');
-        this.sizePos = 'offsetHeight';
-        this.stylePos = 'top';
-        this.tooltip.addClass('right')[0].style.left = '100%';
-        break;
-      default:
-        this.mousePos = 'pageX';
-        this.orientation = 'horizontal';
-        this.picker
-          .addClass('slider-horizontal')
-          .css('width', '100%');
-        this.sizePos = 'offsetWidth';
-        this.stylePos = 'left';
-        this.tooltip.addClass('top')[0].style.top = -this.tooltip.outerHeight() - 53 + 'px';
-        break;
+    case 'vertical':
+      this.mousePos = 'pageY';
+      this.picker.addClass('slider-vertical');
+      this.sizePos = 'offsetHeight';
+      this.stylePos = 'top';
+      this.tooltip.addClass('right')[0].style.left = '100%';
+      break;
+    default:
+      this.mousePos = 'pageX';
+      this.orientation = 'horizontal';
+      this.picker
+        .addClass('slider-horizontal')
+        .css('width', '100%');
+      this.sizePos = 'offsetWidth';
+      this.stylePos = 'left';
+      this.tooltip.addClass('top')[0].style.top = -this.tooltip.outerHeight() - 38 + 'px';
+      break;
     }
 
+    this.center = this.element.data('slider-center') || options.center;
     this.max = this.element.data('slider-max') || options.max;
     this.min = this.element.data('slider-min') || options.min;
     this.step = this.element.data('slider-step') || options.step;
@@ -85,16 +88,28 @@
     }
 
     this.selectionElStyle = this.selectionEl[0].style;
-    this.handle1 = this.picker.find('.slider-handle:first');
-    this.handle1Stype = this.handle1[0].style;
-    this.handle2 = this.picker.find('.slider-handle:last');
-    this.handle2Stype = this.handle2[0].style;
+    this.handleCenter = this.picker.find('.slider-handle.center');
+    this.handleCenterStype = this.handleCenter[0].style;
+    this.handleMin = this.picker.find('.slider-handle.min');
+    this.handleMinStype = this.handleMin[0].style;
+    this.handleMax = this.picker.find('.slider-handle.max');
+    this.handleMaxStype = this.handleMax[0].style;
+    this.handleSingle = this.picker.find('.slider-handle.value');
+    this.handleSingleMaxStype = this.handleSingle[0].style;
 
     if (this.range) {
+      this.handleSingle.addClass('hide');
+
+      if (typeof this.center === 'undefined') {
+        this.handleCenter.addClass('hide');
+      }
+
       this.value[0] = Math.max(this.min, Math.min(this.max, this.value[0]));
       this.value[1] = Math.max(this.min, Math.min(this.max, this.value[1]));
     } else {
-      this.handle2.addClass('hide');
+      this.handleCenter.addClass('hide');
+      this.handleMin.addClass('hide');
+      this.handleMax.addClass('hide');
       this.value = [Math.max(this.min, Math.min(this.max, this.value))];
 
       if (this.selection === 'after') {
@@ -112,10 +127,7 @@
       (this.value[1] - this.min) * 100 / this.diff,
       this.step * 100 / this.diff
     ];
-    //this.size = this.picker[0][this.sizePos];
     this.size = $(this.picker[0]).width();
-    //this.size = $(this.picker[0]).find('.slider-selection').outerWidth();
-
     this.layout();
 
     if (this.touchCapable) {
@@ -144,6 +156,7 @@
     over: false,
     calculateValue: function() {
       var val;
+
       if (this.range) {
         val = [
           (this.min + Math.round((this.diff * this.percentage[0]/100)/this.step)*this.step),
@@ -178,8 +191,8 @@
       this.over = false;
     },
     layout: function(){
-      this.handle1Stype[this.stylePos] = this.percentage[0] + '%';
-      this.handle2Stype[this.stylePos] = this.percentage[1] + '%';
+      this.handleMinStype[this.stylePos] = this.percentage[0] + '%';
+      this.handleMaxStype[this.stylePos] = this.percentage[1] + '%';
 
       if (this.orientation === 'vertical') {
         this.selectionElStyle.top = Math.min(this.percentage[0], this.percentage[1]) + '%';
@@ -201,18 +214,25 @@
       }
     },
     mousedown: function(ev) {
+      var percentage, val;
+
       if (this.touchCapable && ev.type === 'touchstart') {
         ev = ev.originalEvent;
       }
 
       this.offset = this.picker.offset();
       this.size = this.picker[0][this.sizePos];
+      percentage = this.getPercentage(ev);
 
-      var percentage = this.getPercentage(ev);
+      console.log(percentage);
+      console.log(ev);
 
       if (this.range) {
-        var diff1 = Math.abs(this.percentage[0] - percentage);
-        var diff2 = Math.abs(this.percentage[1] - percentage);
+        var diff1 = Math.abs(this.percentage[0] - percentage),
+          diff2 = Math.abs(this.percentage[1] - percentage);
+
+        console.log(diff1);
+        console.log(diff2);
         this.dragged = (diff1 < diff2) ? 0 : 1;
       } else {
         this.dragged = 0;
@@ -234,24 +254,27 @@
       }
 
       this.inDrag = true;
-      var val = this.calculateValue();
-      this.element.trigger({
+      val = this.calculateValue();
+      this.element
+        .trigger({
           type: 'slideStart',
           value: val
         }).trigger({
           type: 'slide',
           value: val
         });
-
       this.setValue(val);
       return false;
     },
     mousemove: function(ev) {
+      var percentage, val;
+
       if (this.touchCapable && ev.type === 'touchmove') {
         ev = ev.originalEvent;
       }
 
-      var percentage = this.getPercentage(ev);
+      percentage = this.getPercentage(ev);
+
       if (this.range) {
         if (this.dragged === 0 && this.percentage[1] < percentage) {
           this.percentage[0] = this.percentage[1];
@@ -263,7 +286,7 @@
       }
       this.percentage[this.dragged] = percentage;
       this.layout();
-      var val = this.calculateValue();
+      val = this.calculateValue();
       this.element
         .trigger({
           type: 'slide',
@@ -276,6 +299,8 @@
       return false;
     },
     mouseup: function() {
+      var val;
+
       if (this.touchCapable) {
         $(document).off({
           touchmove: this.mousemove,
@@ -289,11 +314,12 @@
       }
 
       this.inDrag = false;
-      if (this.over == false) {
+
+      if (this.over === false) {
         this.hideTooltip();
       }
-      this.element;
-      var val = this.calculateValue();
+
+      val = this.calculateValue();
       this.element
         .trigger({
           type: 'slideStop',
@@ -312,8 +338,8 @@
         this.value[0] = Math.max(this.min, Math.min(this.max, this.value[0]));
         this.value[1] = Math.max(this.min, Math.min(this.max, this.value[1]));
       } else {
-        this.value = [ Math.max(this.min, Math.min(this.max, this.value))];
         this.handle2.addClass('hide');
+        this.value = [Math.max(this.min, Math.min(this.max, this.value))];
 
         if (this.selection === 'after') {
           this.value[1] = this.max;
@@ -321,11 +347,12 @@
           this.value[1] = this.min;
         }
       }
+
       this.diff = this.max - this.min;
       this.percentage = [
-        (this.value[0]-this.min)*100/this.diff,
-        (this.value[1]-this.min)*100/this.diff,
-        this.step*100/this.diff
+        (this.value[0] - this.min) * 100 / this.diff,
+        (this.value[1] - this.min) * 100 / this.diff,
+        this.step * 100 / this.diff
       ];
       this.layout();
     },
@@ -360,7 +387,7 @@
     tooltip: 'show',
     value: 5,
     formatter: function(value) {
-      return value + '%';
+      return value;
     }
   };
   $.fn.slider.Constructor = Slider;

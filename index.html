@@ -11,10 +11,9 @@
     <meta name="msapplication-TileColor" content="#222222">
     <meta name="msapplication-TileImage" content="http://www.nps.gov/npmap/windows-8-tile.png">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-    <!--<link href="http://www.nps.gov/npmap/tools/bootstrap/3.0.0/css/nps-bootstrap.min.css" rel="stylesheet">-->
-    <link href="http://192.168.33.10:9001/dist/css/nps-bootstrap.min.css" rel="stylesheet">
+    <link href="http://www.nps.gov/npmap/bootstrap/dist/css/nps-bootstrap.min.css" rel="stylesheet">
     <link href="js/libs/bootstrap-editable/css/bootstrap-editable.min.css" rel="stylesheet">
-    <link href="js/libs/bootstrap-slider/css/bootstrap-slider.min.css" rel="stylesheet">
+    <link href="js/libs/bootstrap-slider/css/bootstrap-slider.css" rel="stylesheet">
     <link href="js/libs/typeahead/typeahead.min.css" rel="stylesheet">
     <link href="css/base.css" rel="stylesheet" media="screen">
     <link rel="alternate" type="application/atom+xml" href="http://www.nps.gov/npmap/blog/atom.xml" title="NPMap blog posts">
@@ -36,8 +35,8 @@
         </a>
       </span>
       <ol id="steps">
-        <li class="active"><button>1. Add & Customize Data</button></li>
-        <li><button>2. Additional Tools & Settings</button></li>
+        <li class="active"><button>1. Settings & Functionality</button></li>
+        <li><button>2. Add & Customize Data</button></li>
         <li><button>3. Export Embed Code</button></li>
       </ol>
       <div id="metadata">
@@ -47,6 +46,7 @@
         </span>
         <span>
           <button id="button-saveMap" class="btn btn-default">Save Map</button>
+          <button id="button-settings" class="btn btn-default">Settings</button>
           <!--<button id="button-viewConfig" class="btn btn-default">View Code</button>-->
         </span>
       </div>
@@ -55,12 +55,113 @@
       <div class="step">
         <div class="header">
           <img src="img/step-1.jpg">
+          <h3>Settings & Functionality</h3>
+        </div>
+        <div class="content" style="overflow:hidden;width:100%;">
+          <div>
+            <p>Customize your map's behavior and add additional functionality.</p>
+          </div>
+          <div class="panel-group" id="accordion-step-1" style="bottom:0;position:absolute;top:70px;width:100%;">
+            <div class="panel panel-default">
+              <div class="panel-heading" style="padding:10px 28px;">
+                <h4 class="panel-title">
+                  <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion-step-1" href="#set-dimensions-and-zoom">Set Dimensions & Zoom</a>
+                  <span class="glyphicon glyphicon-chevron-right"></span>
+                </h4>
+              </div>
+              <div id="set-dimensions-and-zoom" class="panel-collapse collapse in">
+                <div class="panel-body" style="padding:15px 28px;">
+                  <h5 style="font-weight:bold;">Set Min and Max Zoom Levels</h5>
+                  <p style="margin-bottom:20px;">Use the slider to set the minimum and maximum zoom levels for the map.</p>
+                  <input type="text" id="set-zoom" class="form-control" required></input>
+                  <div class="bottom" style="border-top:dotted 1px #908e7d;padding-top:20px;">
+                    <p class="help-block">Initial Center: <span class="lat"></span>, <span class="lng"></span><br>Initial Zoom: <span class="zoom"></span></p>
+                    <button class="btn btn-default btn-block">Set Center & Zoom from Map</button>
+                    <!--
+                    <div class="checkbox">
+                      <label><input type="checkbox" value="">Restrict the bounds to the current viewport</label>
+                    </>
+                    -->
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="panel panel-default">
+              <div class="panel-heading" style="padding:10px 28px;">
+                <h4 class="panel-title">
+                  <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion-step-1" href="#add-functionality">Add Functionality</a>
+                  <span class="glyphicon glyphicon-chevron-down"></span>
+                </h4>
+              </div>
+              <div id="add-functionality" class="panel-collapse collapse">
+                <div class="panel-body" style="padding:15px 28px;">
+                  <form>
+                    <legend>Behavior</legend>
+                    <div class="checkbox">
+                      <label><input type="checkbox" value="doubleClickZoom" checked="checked">Double click zoom</label>
+                    </div>
+                    <div class="checkbox">
+                      <label><input type="checkbox" value="scrollWheelZoom" checked="checked">Scroll wheel zoom</label>
+                    </div>
+                    <div class="checkbox">
+                      <label><input type="checkbox" value="touchZoom" checked="checked">Touch zoom</label>
+                    </div>
+                  </form>
+                  <form>
+                    <legend>Controls</legend>
+                    <div class="checkbox">
+                      <label><input type="checkbox" value="fullscreen">Fullscreen</label>
+                    </div>
+                    <div class="checkbox">
+                      <label><input type="checkbox" value="home" checked="checked">Home</label>
+                    </div>
+                    <div class="checkbox">
+                      <label><input type="checkbox" value="overview">Overview</label>
+                    </div>
+                    <div class="checkbox">
+                      <label><input type="checkbox" value="print">Print</label>
+                    </div>
+                    <div class="checkbox">
+                      <label><input type="checkbox" value="scale">Scale</label>
+                    </div>
+                    <div class="checkbox">
+                      <label><input type="checkbox" value="share">Share</label>
+                    </div>
+                    <div class="checkbox">
+                      <label><input type="checkbox" value="smallZoomControl" checked="checked">Zoom Buttons</label>
+                    </div>
+                  </form>
+                  <form>
+                    <legend>Modules</legend>
+                    <div class="checkbox">
+                      <label><input type="checkbox" value="edit">Edit</label>
+                    </div>
+                    <div class="checkbox">
+                      <label><input type="checkbox" value="itinerary">Itinerary</label>
+                    </div>
+                    <div class="checkbox">
+                      <label><input type="checkbox" value="route">Route</label>
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="footer">
+          <button class="btn btn-primary">Next: <span>Add & Customize Data</span></button>
+        </div>
+      </div>
+      <div class="step">
+        <div class="header">
+          <img src="img/step-2.jpg">
           <h3>Add & Customize Data</h3>
         </div>
         <div class="content">
           <div>
             <p>Add data to your map from a variety of sources.</p>
-            <button id="button-addLayer" class="btn btn-subtle">&#9656;<span>Add Data Layer</span></button>
+            <button id="button-addLayer" class="btn btn-subtle">&#9656;<span>Add Overlays</span></button>
+            <button id="button-addBaseMaps" class="btn btn-subtle">&#9656;<span>Add Base Maps</span></button>
           </div>
           <div class="dd">
             <ul id="layers" class="dd-list">
@@ -69,51 +170,6 @@
           <button id="button-addAnotherLayer">
             <span>+</span><span>Add another layer</span>
           </button>
-        </div>
-        <div class="footer">
-          <button class="btn btn-primary">Next: <span>Additional Tools</span></button>
-        </div>
-      </div>
-      <div class="step">
-        <div class="header">
-          <img src="img/step-2.jpg">
-          <h3>Additional Tools & Settings</h3>
-        </div>
-        <div class="content" style="overflow:hidden;width:100%;">
-          <div>
-            <p>Customize your map's behavior and add additional functionality.</p>
-          </div>
-          <div class="panel-group" id="accordion-step-2" style="bottom:0;position:absolute;top:70px;width:100%;">
-            <div class="panel panel-default">
-              <div class="panel-heading" style="padding:10px 28px;">
-                <h4 class="panel-title">
-                  <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion-step-2" href="#set-dimensions-and-zoom">Set Dimensions & Zoom</a>
-                  <span class="glyphicon glyphicon-chevron-right"></span>
-                </h4>
-              </div>
-              <div id="set-dimensions-and-zoom" class="panel-collapse collapse in">
-                <div class="panel-body" style="padding:15px 28px;">
-                  <h5 style="font-weight:bold;">Set Min and Max Zoom Levels</h5>
-                  <p style="margin-bottom:20px;">Use the slider to set the minimum and maximum zoom levels for the map. Use the center handle to set the initial zoom level.</p>
-                  <input type="text" id="set-zoom" class="form-control" required></input>
-                  <div class="bottom" style="border-top:dotted 1px #908e7d;padding-top:20px;">
-                    <button class="btn btn-default">Reset to Defaults</button>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="panel panel-default">
-              <div class="panel-heading" style="padding:10px 28px;">
-                <h4 class="panel-title">
-                  <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion-step-2" href="#add-tools-and-modules">Add Tools & Modules</a>
-                  <span class="glyphicon glyphicon-chevron-down"></span>
-                </h4>
-              </div>
-              <div id="add-tools-and-modules" class="panel-collapse collapse">
-                <div class="panel-body" style="padding:15px 28px;">Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.</div>
-              </div>
-            </div>
-          </div>
         </div>
         <div class="footer">
           <button class="btn btn-primary">Next: <span>Export Embed Code</span></button>
@@ -165,8 +221,7 @@
   </body>
   <script src="js/libs/json2.min.js"></script>
   <script src="http://code.jquery.com/jquery.js"></script>
-  <!--<script src="http://www.nps.gov/npmap/tools/bootstrap/3.0.0/js/nps-bootstrap.min.js"></script>-->
-  <script src="http://192.168.33.10:9001/dist/js/nps-bootstrap.min.js"></script>
+  <script src="http://www.nps.gov/npmap/bootstrap/dist/js/nps-bootstrap.min.js"></script>
   <script src="js/libs/bootstrap-editable/js/bootstrap-editable.min.js"></script>
   <script src="js/libs/bootstrap-slider/js/bootstrap-slider.js"></script>
   <script src="js/libs/jquery-nestable/jquery-nestable.min.js"></script>
