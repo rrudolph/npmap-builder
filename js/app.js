@@ -1,7 +1,9 @@
+// TODO: Add default baseLayer here. This should be done separate of NPMap.js.
+
+
+
 var NPMap = {
-  baseLayers: ['nps-lightStreets'],
-  div: 'map',
-  homeControl: true
+  'div': 'map'
 };
 
 var Builder = (function() {
@@ -15,18 +17,13 @@ var Builder = (function() {
     $modalViewConfig,
     $stepSection = $('section .step'),
     $ul = $('#layers'),
+    //accordionHeightSet = false,
     descriptionSet = false,
     descriptionZ = null,
     stepLis,
     titleSet = false,
     titleZ = null;
 
-  /**
-   *
-   */
-  function getMap() {
-    return document.getElementById('iframe-map').contentWindow.NPMap.config.L;
-  }
   /**
    * Changes the step.
    * @param {Number} from
@@ -37,6 +34,13 @@ var Builder = (function() {
     $($stepSection[to]).show();
     $(stepLis[from]).removeClass('active');
     $(stepLis[to]).addClass('active');
+
+    /*
+    if (to === 1 && !accordionHeightSet) {
+      setAccordionHeight('#accordion-step-2');
+      accordionHeightSet = true;
+    }
+    */
   }
   /**
    * Loads a UI module.
@@ -279,15 +283,7 @@ var Builder = (function() {
       setAccordionHeight('#accordion-step-1');
     });
     $('#set-dimensions-and-zoom .btn-block').on('click', function() {
-      var map = getMap(),
-        center = map.getCenter();
-
-      NPMap.center = {
-        lat: center.lat,
-        lng: center.lng
-      };
-      NPMap.zoom = map.getZoom();
-      Builder.updateMap();
+      // Use map object to get center and zoom, then update spans and map and refresh.
     });
     $('#set-zoom').slider({
       center: 4,
